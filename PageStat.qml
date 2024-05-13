@@ -10,7 +10,7 @@ C.Page {
 
     header: SubMenu {
         id: subMenu
-        items: ["STATUS", "EFFECTS", "SPECIAL", "COLLECTIONS"]
+        model: ["STATUS", "EFFECTS", "SPECIAL", "COLLECTIONS"]
         horizontalOffset: -230
     }
 

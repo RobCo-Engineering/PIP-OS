@@ -8,7 +8,7 @@ Page {
 
     header: SubMenu {
         id: subMenu
-        items: ["MAIN", "SIDE", "DAILY", "EVENT"]
+        model: ["MAIN", "SIDE", "DAILY", "EVENT"]
         horizontalOffset: 78
     }
 

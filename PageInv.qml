@@ -8,7 +8,7 @@ Page {
 
     header: SubMenu {
         id: subMenu
-        items: ["NEW", "WEAPONS", "ARMOR", "APPAREL", "FOOD/DRINK", "AID", "MISC", "HOLO", "NOTES", "JUNK", "MODS", "AMMO"]
+        model: ["NEW", "WEAPONS", "ARMOR", "APPAREL", "FOOD/DRINK", "AID", "MISC", "HOLO", "NOTES", "JUNK", "MODS", "AMMO"]
         horizontalOffset: -76
     }
 

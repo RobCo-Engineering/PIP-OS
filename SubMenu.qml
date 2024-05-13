@@ -3,7 +3,6 @@ import QtQuick 2.15
 ListView {
     id: list
 
-    property list<string> items: []
     property int horizontalOffset: 0
 
     signal goNext()
@@ -19,8 +18,6 @@ ListView {
 
     function goToStart() { currentIndex = 0 }
 
-
-    model: items
     orientation: ListView.Horizontal
     spacing: 20
     height:60
