@@ -16,7 +16,7 @@ protected:
 
 signals:
     void statPressed();
-    void invPressed();
+    void itemPressed();
     void dataPressed();
     void mapPressed();
     void radioPressed();

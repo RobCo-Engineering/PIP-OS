@@ -20,20 +20,21 @@ qt_add_qml_module(appPipOS
     VERSION 1.0
     RESOURCE_PREFIX /RobCo
     QML_FILES
-        BootSequence.qml
-        ItemStat.qml
         Main.qml
         MainLayout.qml
-        NavButton.qml
+        MainNavigation.qml
+        MainFooter.qml
+        BootSequence.qml
+        SubMenu.qml
         PageData.qml
-        PageInv.qml
+        PageItem.qml
         PageMap.qml
         PageRadio.qml
         PageStat.qml
-        ProgressBar.qml
-        SubMenu.qml
         TabInventory.qml
         TabStatus.qml
+        components/ItemStat.qml
+        components/ProgressBar.qml
         settings/DwellerSettings.qml
         settings/InterfaceSettings.qml
     SOURCES
@@ -62,6 +63,8 @@ qt_add_resources(appPipOS "images"
         images/defence.svg
         images/initiating.svg
         images/weapon.svg
+
+        images/ripped_ref.png
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

@@ -24,52 +24,40 @@ Item {
         anchors.fill: parent
         color: "black"
 
-        TabBar {
-            id: tabs
+        MainNavigation {
+            id: mainNav
             anchors {
                 top: parent.top
                 left: parent.left
                 right: parent.right
-                topMargin: -5
-                leftMargin: 65
-                rightMargin: 65
             }
-            height: 34
-
-            currentIndex: 0
-
-            NavButton { text: "STAT" }
-            NavButton { text: "INV" }
-            NavButton { text: "DATA" }
-            // NavButton { text: "MAP" }
-            NavButton { text: "RADIO" }
+            activeTab: "STAT"
         }
-
 
         Loader {
             id: page
             source: "qrc:/RobCo/PipOS/PageStat.qml"
             anchors {
-                top: tabs.bottom
+                top: mainNav.bottom
                 left: parent.left
                 right: parent.right
                 bottom: parent.bottom
             }
         }
 
-        // Image {
-        //     id: ref
-        //     // visible: false
-        //     width: 800
-        //     height: 600
-        //     anchors.bottom: main.bottom
-        //     anchors.horizontalCenter: main.horizontalCenter
-        //     source: "/images/ripped_ref.png"
-        //     // anchors.horizontalCenterOffset: -8
-        //     z: 1
-        //     opacity: 0.2
-        //     fillMode: Image.PreserveAspectFit
-        // }
+        Image {
+            id: ref
+            visible: false
+            width: 800
+            height: 600
+            anchors.bottom: main.bottom
+            anchors.horizontalCenter: main.horizontalCenter
+            source: "/images/ripped_ref.png"
+            // anchors.horizontalCenterOffset: -8
+            z: 1
+            opacity: 0.2
+            fillMode: Image.PreserveAspectFit
+        }
     }
 
 
@@ -112,11 +100,26 @@ Item {
 
     Connections {
         target: inputHandler
-        function onStatPressed() { page.source = "qrc:/RobCo/PipOS/PageStat.qml" }
-        function onInvPressed() { page.source = "qrc:/RobCo/PipOS/PageInv.qml" }
-        function onDataPressed() { page.source = "qrc:/RobCo/PipOS/PageData.qml" }
-        function onMapPressed() { page.source = "qrc:/RobCo/PipOS/PageMap.qml" }
-        function onRadioPressed() { page.source = "qrc:/RobCo/PipOS/PageRadio.qml" }
+        function onStatPressed() {
+            mainNav.activeTab = "STAT"
+            page.source = "qrc:/RobCo/PipOS/PageStat.qml"
+        }
+        function onItemPressed() {
+            mainNav.activeTab = "ITEM"
+            page.source = "qrc:/RobCo/PipOS/PageItem.qml"
+        }
+        function onDataPressed() {
+            mainNav.activeTab = "DATA"
+            page.source = "qrc:/RobCo/PipOS/PageData.qml"
+        }
+        function onMapPressed() {
+            mainNav.activeTab = "MAP"
+            page.source = "qrc:/RobCo/PipOS/PageMap.qml"
+        }
+        function onRadioPressed() {
+            mainNav.activeTab = "RADIO"
+            page.source = "qrc:/RobCo/PipOS/PageRadio.qml"
+        }
     }
 
     states: [

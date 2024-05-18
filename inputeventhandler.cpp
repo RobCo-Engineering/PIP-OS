@@ -17,7 +17,7 @@ bool InputEventHandler::eventFilter(QObject *obj, QEvent *event)
         break;
 
     case Qt::Key_2:
-        emit this->invPressed();
+        emit this->itemPressed();
         break;
 
     case Qt::Key_3:

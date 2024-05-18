@@ -20,7 +20,7 @@ ListView {
 
     orientation: ListView.Horizontal
     spacing: 20
-    height:60
+    height: 42
 
     highlightRangeMode: ListView.StrictlyEnforceRange
     preferredHighlightBegin: (width / 2) - (currentItem.width / 2) + horizontalOffset
@@ -30,11 +30,11 @@ ListView {
         text: modelData
         color: "white"
         font.family: "Roboto Condensed"
-        height: 60
+        height: list.height
         verticalAlignment: Text.AlignBottom
         width: implicitWidth
         font.pixelSize: 32
-        opacity: 1.0 - ((index - list.currentIndex) > 0 ? (index - list.currentIndex) : (list.currentIndex - index)) * 0.32
+        opacity: 1.0 - ((index - list.currentIndex) > 0 ? (index - list.currentIndex) : (list.currentIndex - index)) * 0.34
     }
 
     // Debug selected item

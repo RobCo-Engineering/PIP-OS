@@ -3,31 +3,14 @@ import QtQuick.Layouts
 import QtQuick.Controls as C
 
 C.Page {
-    id: root
     property alias subMenuIndex: subMenu.currentIndex
 
     background: Rectangle { color: "black" }
 
     header: SubMenu {
         id: subMenu
-        model: ["STATUS", "EFFECTS", "SPECIAL", "COLLECTIONS"]
-        horizontalOffset: -228
-    }
-
-    StackLayout {
-        anchors.fill: parent
-        currentIndex: subMenu.currentIndex
-
-        TabStatus { }
-        Item {
-
-        }
-        Item {
-            Text { color: "white"; text: "Special"}
-        }
-        Item {
-            Text { color: "white"; text: "Collections"}
-        }
+        model: ["NEW", "WEAPONS", "ARMOR", "APPAREL", "FOOD/DRINK", "AID", "MISC", "HOLO", "NOTES", "JUNK", "MODS", "AMMO"]
+        horizontalOffset: -80
     }
 
     footer: Rectangle {
@@ -52,39 +35,8 @@ C.Page {
                     horizontalAlignment: Text.AlignLeft
                     font.pixelSize: 28
                     font.family: "Roboto Condensed Bold"
-                    text: "HP  %1/%2".arg(Dweller.currentHealth).arg(Dweller.maxHealth)
+                    text: "217/300"
                     color: "white"
-                }
-            }
-
-            Rectangle {
-                Layout.fillWidth: true
-                height: parent.height
-                color: "#333"
-
-                Text {
-                    id: levelText
-                    anchors.fill: parent
-                    anchors.margins: 10
-                    verticalAlignment: Text.AlignVCenter
-                    horizontalAlignment: Text.AlignLeft
-                    font.pixelSize: 28
-                    font.family: "Roboto Condensed Bold"
-                    text: "LEVEL %1".arg(Dweller.level)
-                    color: "white"
-                }
-
-                ProgressBar {
-                    anchors {
-                        top: parent.top
-                        topMargin: 10
-                        right: parent.right
-                        rightMargin: 10
-                        bottom: parent.bottom
-                        bottomMargin: 10
-                    }
-                    width: parent.width - levelText.implicitWidth - 30
-                    progress: Dweller.levelProgress
                 }
             }
 
@@ -97,10 +49,27 @@ C.Page {
                     anchors.fill: parent
                     anchors.margins: 10
                     verticalAlignment: Text.AlignVCenter
-                    horizontalAlignment: Text.AlignRight
+                    horizontalAlignment: Text.AlignLeft
                     font.pixelSize: 28
                     font.family: "Roboto Condensed Bold"
-                    text: "AP  %1/%2".arg(Dweller.currentAP).arg(Dweller.maxAP)
+                    text: "± %1".arg(6565)
+                    color: "white"
+                }
+            }
+
+            Rectangle {
+                Layout.fillWidth: true
+                height: parent.height
+                color: "#333"
+
+                Text {
+                    anchors.fill: parent
+                    anchors.margins: 10
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignLeft
+                    font.pixelSize: 28
+                    font.family: "Roboto Condensed Bold"
+                    text: "-"
                     color: "white"
                 }
             }
@@ -109,7 +78,7 @@ C.Page {
 
     Connections {
         target: inputHandler
-        function onStatPressed() {
+        function onItemPressed() {
             subMenu.goToNext()
         }
     }

@@ -5,7 +5,7 @@ Page {
     background: Rectangle { color: "black" }
 
     footer: Rectangle {
-        color: "grey"
+        color: "#333"
         height: 40
     }
 }
