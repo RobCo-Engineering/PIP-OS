@@ -7,7 +7,7 @@
 
 #include "bootscreen.h"
 #include "inputeventhandler.h"
-
+#include "inventory.h"
 
 int main(int argc, char *argv[])
 {
@@ -35,6 +35,10 @@ int main(int argc, char *argv[])
     InputEventHandler* inputHandler = new InputEventHandler();
     app.installEventFilter(inputHandler);
     context->setContextProperty("inputHandler", inputHandler);
+
+    // Load the inventory from JSON
+    Inventory *inventory = new Inventory();
+    inventory->LoadFromFile();
 
     const QUrl url(QStringLiteral("qrc:/RobCo/PipOS/Main.qml"));
     QObject::connect(
