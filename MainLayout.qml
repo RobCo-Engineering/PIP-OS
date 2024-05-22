@@ -16,9 +16,10 @@ Item {
         "RADIO": "qrc:/RobCo/PipOS/PageRadio.qml",
     }
 
-    // TODO: This doesn't run on linuxfb
     layer.enabled: true
     layer.effect: screenOverlay
+
+    // TODO: Move main layout and boot sequence to loaders so that they're not both always running
 
     BootSequence {
         id: boot
@@ -66,16 +67,8 @@ Item {
             z: 1
             opacity: 0.2
             fillMode: Image.PreserveAspectFit
-        }
+        }        
 
-        // When the main screen is loaded, we can flicker, for effect
-        NumberAnimation on opacity {
-            id: flashIn
-            from: 0
-            to: 1
-            easing.type: Easing.OutInElastic
-            duration: 1500
-        }
         onVisibleChanged: flashIn.start()
     }
 
@@ -95,7 +88,14 @@ Item {
             blur: 0.05
             autoPaddingEnabled: false
 
-            // brightness: 0.05
+            // When the main screen is loaded, we can flicker, for effect
+            NumberAnimation on brightness {
+                id: flashIn
+                from: -1
+                to: 0
+                easing.type: Easing.OutInElastic
+                duration: 1500
+            }
         }
     }
 
