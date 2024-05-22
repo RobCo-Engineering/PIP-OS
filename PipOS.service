@@ -1,0 +1,14 @@
+[Unit]
+Description=RobCo PipOS
+
+[Service]
+Environment="LD_LIBRARY_PATH=/usr/local/qt6/lib"
+Environment="QT_QPA_EGLFS_HIDECURSOR=1"
+Type=simple
+User=pipboy
+ExecStart=/home/pipboy/appPipOS -platform eglfs -nomouse
+ExecStop=/bin/bash -c 'pkill appPipOS'
+Restart=always
+
+[Install]
+WantedBy=default.target
