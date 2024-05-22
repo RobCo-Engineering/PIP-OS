@@ -6,7 +6,7 @@ Item {
     id: root
 
     ProgressBar {
-        progress: Dweller.healthHead
+        progress: dweller.healthHead
         width: 40
         height: 10
         anchors{
@@ -17,7 +17,7 @@ Item {
     }
 
     ProgressBar {
-        progress: Dweller.healthBody
+        progress: dweller.healthBody
         width: 40
         height: 10
         anchors{
@@ -28,7 +28,7 @@ Item {
     }
 
     ProgressBar {
-        progress: Dweller.healthLeftArm
+        progress: dweller.healthLeftArm
         width: 40
         height: 10
         anchors{
@@ -40,7 +40,7 @@ Item {
     }
 
     ProgressBar {
-        progress: Dweller.healthRightArm
+        progress: dweller.healthRightArm
         width: 40
         height: 10
         anchors{
@@ -52,7 +52,7 @@ Item {
     }
 
     ProgressBar {
-        progress: Dweller.healthLeftLeg
+        progress: dweller.healthLeftLeg
         width: 40
         height: 10
         anchors{
@@ -64,7 +64,7 @@ Item {
     }
 
     ProgressBar {
-        progress: Dweller.healthRightLeg
+        progress: dweller.healthRightLeg
         width: 40
         height: 10
         anchors{

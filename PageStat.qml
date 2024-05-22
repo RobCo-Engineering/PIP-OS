@@ -52,7 +52,7 @@ C.Page {
                     horizontalAlignment: Text.AlignLeft
                     font.pixelSize: 28
                     font.family: "Roboto Condensed Bold"
-                    text: "HP  %1/%2".arg(Dweller.currentHealth).arg(Dweller.maxHealth)
+                    text: "HP  %1/%2".arg(dweller.currentHealth).arg(dweller.maxHealth)
                     color: "white"
                 }
             }
@@ -70,7 +70,7 @@ C.Page {
                     horizontalAlignment: Text.AlignLeft
                     font.pixelSize: 28
                     font.family: "Roboto Condensed Bold"
-                    text: "LEVEL %1".arg(Dweller.level)
+                    text: "LEVEL %1".arg(dweller.level)
                     color: "white"
                 }
 
@@ -84,7 +84,7 @@ C.Page {
                         bottomMargin: 10
                     }
                     width: parent.width - levelText.implicitWidth - 30
-                    progress: Dweller.levelProgress
+                    progress: dweller.levelProgress
                 }
             }
 
@@ -100,7 +100,7 @@ C.Page {
                     horizontalAlignment: Text.AlignRight
                     font.pixelSize: 28
                     font.family: "Roboto Condensed Bold"
-                    text: "AP  %1/%2".arg(Dweller.currentAP).arg(Dweller.maxAP)
+                    text: "AP  %1/%2".arg(dweller.currentAP).arg(dweller.maxAP)
                     color: "white"
                 }
             }

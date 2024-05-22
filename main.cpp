@@ -7,7 +7,9 @@
 
 #include "bootscreen.h"
 #include "inputeventhandler.h"
+#include "dweller.h"
 #include "inventory.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -35,6 +37,10 @@ int main(int argc, char *argv[])
     InputEventHandler* inputHandler = new InputEventHandler();
     app.installEventFilter(inputHandler);
     context->setContextProperty("inputHandler", inputHandler);
+
+    // Dweller
+    Dweller* dweller = new Dweller();
+    context->setContextProperty("dweller", dweller);
 
     // Load the inventory from JSON
     Inventory *inventory = new Inventory();
