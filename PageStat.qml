@@ -6,28 +6,21 @@ C.Page {
     id: root
     property alias subMenuIndex: subMenu.currentIndex
 
+    property variant tabNames: ["STATUS", "EFFECTS", "SPECIAL", "COLLECTIONS"]
+
     background: Rectangle { color: "black" }
 
     header: SubMenu {
         id: subMenu
-        model: ["STATUS", "EFFECTS", "SPECIAL", "COLLECTIONS"]
+        model: tabNames
         horizontalOffset: -228
     }
 
-    StackLayout {
+    state: tabNames[subMenu.currentIndex]
+
+    Loader {
+        id: tab
         anchors.fill: parent
-        currentIndex: subMenu.currentIndex
-
-        TabStatus { }
-        Item {
-
-        }
-        Item {
-            Text { color: "white"; text: "Special"}
-        }
-        Item {
-            Text { color: "white"; text: "Collections"}
-        }
     }
 
     footer: Rectangle {
@@ -106,6 +99,37 @@ C.Page {
             }
         }
     }
+
+    states: [
+        State {
+            name: "STATUS"
+            PropertyChanges {
+                target: tab
+                source: "qrc:/RobCo/PipOS/TabStatus.qml"
+            }
+        },
+        State {
+            name: "EFFECTS"
+            PropertyChanges {
+                target: tab
+                source: "qrc:/RobCo/PipOS/TabEffects.qml"
+            }
+        },
+        State {
+            name: "SPECIAL"
+            PropertyChanges {
+                target: tab
+                source: "qrc:/RobCo/PipOS/TabSpecial.qml"
+            }
+        },
+        State {
+            name: "COLLECTIONS"
+            PropertyChanges {
+                target: tab
+                source: "qrc:/RobCo/PipOS/TabCollections.qml"
+            }
+        }
+    ]
 
     Connections {
         target: inputHandler
