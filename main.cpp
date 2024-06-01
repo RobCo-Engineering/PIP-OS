@@ -12,7 +12,6 @@
 #include "bootscreen.h"
 #include "inputeventhandler.h"
 #include "dweller.h"
-#include "inventory.h"
 #include "inventorymodel.h"
 
 QJsonArray loadJsonArray(const QString &filePath)
@@ -63,6 +62,10 @@ int main(int argc, char *argv[])
     // Input handler
     InputEventHandler* inputHandler = new InputEventHandler();
     app.installEventFilter(inputHandler);
+
+    // Start thread for listening to external hardware events?
+    // inputHandler->
+
     context->setContextProperty("inputHandler", inputHandler);
 
     // Dweller
