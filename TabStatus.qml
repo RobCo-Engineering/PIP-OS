@@ -75,20 +75,30 @@ Item {
         }
     }
 
-    AnimatedSprite {
+    AnimatedImage {
         id: vaultboy
         anchors {
             horizontalCenter: root.horizontalCenter
             verticalCenter: root.verticalCenter
             verticalCenterOffset: -55
-        }
-        source: "/images/status_normal.png"
-        frameRate: 7.5
-        interpolate: false
-        frameWidth: 120
-        frameHeight: 250
-        frameCount: 8
+         }
+         source: "/images/status_ok.gif"
     }
+
+    // AnimatedSprite {
+    //     id: vaultboy
+    //     anchors {
+    //         horizontalCenter: root.horizontalCenter
+    //         verticalCenter: root.verticalCenter
+    //         verticalCenterOffset: -55
+    //     }
+    //     source: "/images/status_normal.png"
+    //     frameRate: 4
+    //     interpolate: false
+    //     frameWidth: 120
+    //     frameHeight: 250
+    //     frameCount: 8
+    // }
 
     Row {
         anchors {
