@@ -1,5 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Layouts
+import QtMultimedia
+import Qt.labs.folderlistmodel 2.7
 
 Rectangle {
     id: radio
@@ -8,6 +10,12 @@ Rectangle {
     state: list.currentItem.stat
 
     property int activeStation: -1
+
+    FolderListModel {
+        id: sourceFolder
+        nameFilters: ["*.wav"]
+        folder: "file:///C:/Users/rikku/AppData/Roaming/RobCo"
+    }
 
     Rectangle {
         id: listMain
@@ -23,11 +31,11 @@ Rectangle {
         ListView {
             id: list
             anchors.fill: parent
-            model: ["Appalachia Radio", "Classical Radio", "Pirate Radio"]
+            model: sourceFolder
             spacing: 10
             delegate: RowLayout {
                 id: item
-                property variant stat: modelData
+                property variant stat: fileName.replace(/\.[^/.]+$/, "")
                 property int thisIndex: index
 
                 width: ListView.view.width
@@ -70,15 +78,28 @@ Rectangle {
         width: 220
     }
 
+    MediaPlayer {
+        id: playRadio
+        source: ""
+        audioOutput: AudioOutput {}
+
+    }
+
     Connections {
         target: inputHandler
         function onScrollUp() { list.incrementCurrentIndex() }
         function onScrollDown() { list.decrementCurrentIndex() }
         function onScrollPress() {
             if (list.currentIndex === activeStation) {
+                // Turn off the radio if the already playing station is clicked
                 activeStation = -1
+                playRadio.source = ""
+                playRadio.stop()
             } else {
+                // Play the selected station
                 activeStation = list.currentIndex
+                playRadio.source = sourceFolder.get(list.currentIndex, 'filePath')
+                playRadio.play()
             }
         }
     }
