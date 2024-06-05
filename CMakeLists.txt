@@ -26,18 +26,20 @@ qt_add_qml_module(appPipOS
         MainFooter.qml
         BootSequence.qml
         SubMenu.qml
-        PageData.qml
+
+        PageStat.qml
         PageItem.qml
+        PageData.qml
         PageMap.qml
         PageRadio.qml
-        PageStat.qml
-        
+
         TabCollections.qml
         TabEffects.qml
         TabInventory.qml
+        TabRadio.qml
         TabSpecial.qml
         TabStatus.qml
-        
+
         ItemStat.qml
         HealthBar.qml
         settings/DwellerSettings.qml
@@ -73,6 +75,8 @@ qt_add_resources(appPipOS "images"
         images/weapon.svg
         images/hydration.svg
         images/status_normal.png
+        images/status_ok.gif
+        images/radio_axis.svg
 
         images/Strength.gif
         images/Perception.gif
