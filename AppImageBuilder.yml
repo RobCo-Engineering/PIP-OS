@@ -1,0 +1,88 @@
+# appimage-builder recipe see https://appimage-builder.readthedocs.io for details
+version: 1
+script:
+  - rm -rf AppDir  | true
+  - mkdir -p AppDir/usr/share/icons
+  - touch AppDir/usr/share/icons/icon.png
+  - /opt/Qt-arm64-6.7.1/bin/qt-cmake ../PipOS -DCMAKE_BUILD_TYPE=Release
+  - make install DESTDIR=AppDir
+  - mkdir -p AppDir/opt/Qt-arm64-6.7.1/qml
+  - cp -r /opt/Qt-arm64-6.7.1/qml/Qt AppDir/opt/Qt-arm64-6.7.1/qml/
+  - cp -r /opt/Qt-arm64-6.7.1/qml/QtCore AppDir/opt/Qt-arm64-6.7.1/qml/
+  - cp -r /opt/Qt-arm64-6.7.1/qml/QtQml AppDir/opt/Qt-arm64-6.7.1/qml/
+  - cp -r /opt/Qt-arm64-6.7.1/qml/QtQuick AppDir/opt/Qt-arm64-6.7.1/qml/
+  - cp -r /opt/Qt-arm64-6.7.1/qml/QtMultimedia AppDir/opt/Qt-arm64-6.7.1/qml/
+AppDir:
+  path: ./AppDir
+  app_info:
+    id: org.robco-industries.pip-os
+    name: PIP-OS
+    icon: icon.png
+    version: latest
+    exec: usr/local/bin/appPipOS
+    exec_args: $@
+  runtime:
+    env:
+      QT_QPA_PLATFORM: eglfs
+      QML2_IMPORT_PATH: opt/Qt-arm64-6.7.1/qml
+  files:
+    include:
+      - /opt/Qt-arm64-6.7.1/lib/libQt6Core.so.6
+      - /opt/Qt-arm64-6.7.1/lib/libQt6Gui.so.6
+      - /opt/Qt-arm64-6.7.1/lib/libQt6Qml.so.6
+      - /opt/Qt-arm64-6.7.1/lib/libQt6EglFSDeviceIntegration.so.6
+      - /opt/Qt-arm64-6.7.1/lib/libQt6EglFsKmsGbmSupport.so.6
+      - /opt/Qt-arm64-6.7.1/lib/libQt6EglFsKmsSupport.so.6
+      - /opt/Qt-arm64-6.7.1/lib/libQt6LabsFolderListModel.so.6
+      - /opt/Qt-arm64-6.7.1/lib/libQt6LabsSettings.so.6
+      - /opt/Qt-arm64-6.7.1/lib/libQt6Multimedia.so.6
+      - /opt/Qt-arm64-6.7.1/lib/libQt6MultimediaQuick.so.6
+      - /opt/Qt-arm64-6.7.1/lib/libQt6OpenGL.so.6
+      - /opt/Qt-arm64-6.7.1/lib/libQt6QmlCore.so.6
+      - /opt/Qt-arm64-6.7.1/lib/libQt6QmlLocalStorage.so.6
+      - /opt/Qt-arm64-6.7.1/lib/libQt6QmlModels.so.6
+      - /opt/Qt-arm64-6.7.1/lib/libQt6QmlWorkerScript.so.6
+      - /opt/Qt-arm64-6.7.1/lib/libQt6Quick.so.6
+      - /opt/Qt-arm64-6.7.1/lib/libQt6QuickControls2.so.6
+      - /opt/Qt-arm64-6.7.1/lib/libQt6QuickEffects.so.6
+      - /opt/Qt-arm64-6.7.1/lib/libQt6QuickLayouts.so.6
+      - /opt/Qt-arm64-6.7.1/lib/libQt6ShaderTools.so.6
+      - /opt/Qt-arm64-6.7.1/lib/libQt6QuickControls2Basic.so.6
+      - /opt/Qt-arm64-6.7.1/lib/libQt6QuickControls2Impl.so.6
+      - /opt/Qt-arm64-6.7.1/lib/libQt6QuickControls2FusionStyleImpl.so.6
+      - /opt/Qt-arm64-6.7.1/lib/libQt6Svg.so.6
+      - /opt/Qt-arm64-6.7.1/lib/libQt6XcbQpa.so.6
+      - /opt/Qt-arm64-6.7.1/lib/libQt6QuickControls2Fusion.so.6
+      - /opt/Qt-arm64-6.7.1/plugins/egldeviceintegrations/*.so
+      - /opt/Qt-arm64-6.7.1/plugins/imageformats/*.so
+      - /opt/Qt-arm64-6.7.1/plugins/multimedia/*.so
+      - /opt/Qt-arm64-6.7.1/plugins/platforms/*.so
+      - /opt/Qt-arm64-6.7.1/plugins/qmltooling/*.so
+      - /opt/Qt-arm64-6.7.1/plugins/generic/*.so
+      - /opt/Qt-arm64-6.7.1/plugins/platforminputcontexts/*.so
+      - /opt/Qt-arm64-6.7.1/plugins/platformthemes/*.so
+    exclude:
+      - lib/aarch64-linux-gnu/lib*.so*
+      - usr/share/doc/*/README.*
+      - usr/share/doc/*/changelog.*
+      - usr/share/doc/*/NEWS.*
+      - usr/share/doc/*/TODO.*
+  test:
+    fedora-30:
+      image: appimagecrafters/tests-env:fedora-30
+      command: ./AppRun
+    debian-stable:
+      image: appimagecrafters/tests-env:debian-stable
+      command: ./AppRun
+    archlinux-latest:
+      image: appimagecrafters/tests-env:archlinux-latest
+      command: ./AppRun
+    centos-7:
+      image: appimagecrafters/tests-env:centos-7
+      command: ./AppRun
+    ubuntu-xenial:
+      image: appimagecrafters/tests-env:ubuntu-xenial
+      command: ./AppRun
+AppImage:
+  arch: aarch64
+  update-information: guess
