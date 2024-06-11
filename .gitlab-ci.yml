@@ -6,6 +6,7 @@ stages:
 appimage-builder:
   stage: build
   image: carlonluca/qt-dev:6.7.1
+  entrypoint: /bin/bash
   script:
     - mkdir build && cd build
     - appimage-builder --recipe ../AppImageBuilder.yml
