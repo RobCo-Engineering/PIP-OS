@@ -24,9 +24,14 @@ AppDir:
   runtime:
     env:
       QT_QPA_PLATFORM: eglfs
-      QML2_IMPORT_PATH: opt/Qt-arm64-6.7.1/qml
+      QML2_IMPORT_PATH: $APPDIR/opt/Qt-arm64-6.7.1/qml
   files:
     include:
+      - /usr/lib/aarch64-linux-gnu/libxcb-cursor.so.0
+      - /usr/lib/aarch64-linux-gnu/libicui18n.so.70
+      - /usr/lib/aarch64-linux-gnu/libicuuc.so.70
+      - /usr/lib/aarch64-linux-gnu/libb2.so.1
+      - /usr/lib/aarch64-linux-gnu/libicudata.so.70
       - /opt/Qt-arm64-6.7.1/lib/libQt6Core.so.6
       - /opt/Qt-arm64-6.7.1/lib/libQt6Gui.so.6
       - /opt/Qt-arm64-6.7.1/lib/libQt6Qml.so.6
