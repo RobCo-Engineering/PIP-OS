@@ -21,6 +21,7 @@ qt_add_qml_module(appPipOS
     RESOURCE_PREFIX /RobCo
     QML_FILES
         Main.qml
+        MainState.qml
         MainLayout.qml
         MainNavigation.qml
         MainFooter.qml

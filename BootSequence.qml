@@ -5,7 +5,7 @@ Rectangle {
     id: root
     color: "black"
 
-    signal bootComplete()
+    signal complete()
 
     BootScreen {
         id: constants
@@ -99,7 +99,6 @@ Rectangle {
             id: bootVaultBoyTimer
             interval: 2500
             onTriggered: {
-                console.debug("Giving the thumbs up")
                 // TODO: This isn't starting the animation idk why
                 bootVaultBoy.paused = false
                 vaultBoyWait.start()
@@ -122,10 +121,7 @@ Rectangle {
             id: vaultBoyWait
             interval: 4000
             repeat: false
-            onTriggered: {
-                console.debug("Signal boot complete")
-                root.bootComplete()
-            }
+            onTriggered: { root.complete() }
         }
     }
 
@@ -151,7 +147,6 @@ Rectangle {
         target: bootText.transitions[0]
         function onRunningChanged () {
             if (!bootText.transitions[0].running) {
-                console.debug("Showing system text")
                 systemTextTimer.running = true
             }
         }
@@ -162,7 +157,6 @@ Rectangle {
         target: systemText.transitions[0]
         function onRunningChanged () {
             if (!systemText.transitions[0].running) {
-                console.debug("Starting Vault Boy")
                 bootVaultBoy.visible = true
                 bootVaultBoyTimer.start()
                 initiatingText.visible = true

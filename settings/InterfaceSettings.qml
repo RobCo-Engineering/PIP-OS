@@ -4,6 +4,7 @@ import QtCore
 
 Settings {
     category: "Interface"
-    property string color: "#32cd32"
+    property string color: "#00ff66"
     property bool skipBoot: false
+    property bool scanlines: true
 }
