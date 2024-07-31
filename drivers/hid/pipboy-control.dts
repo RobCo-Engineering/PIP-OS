@@ -1,0 +1,148 @@
+/*
+* pipboy-control.dts
+* PipBoy Control Board
+*/
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "brcm,bcm2835";
+	
+	fragment@0 {
+		target = <&gpio>;
+		__overlay__ {
+			i2c_gpio_pins: i2c_gpio_pins {
+				brcm,pins = <10 11>; /* GPIO pins 10 (SDA) and 11 (SCL) */
+				brcm,function = <0 0>; /* Set function to input */
+				brcm,pull = <2 2>; /* Enable pull-up resistors */
+			};
+		};
+	};
+	
+	fragment@1 {
+		target-path = "/";
+		__overlay__ {
+			i2c_gpio: i2c_gpio {
+				compatible = "i2c-gpio";
+				gpios = <
+				&gpio 10 0 /* SDA */
+				&gpio 11 0 /* SCL */
+				>;
+				i2c-gpio,delay-us = <4>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+			};
+		};
+	};
+	
+	fragment@2 {
+		target = <&i2c_gpio>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			
+			mcp23017: gpio@20 {
+				compatible = "microchip,mcp23017";
+				#address-cells = <0>;
+				#gpio-cells = <2>;
+				gpio-controller;
+				reg = <0x20>; /* I2C address of MCP23017 */
+				
+				#interrupt-cells = <2>;
+				interrupt-parent = <&gpio>;
+				interrupts = <26 2>;
+				interrupt-controller;
+				
+				// microchip,irq-active-high;
+				// microchip,irq-mirror;
+				
+				pinctrl-names = "default";
+				pinctrl-0 = <&mcp23017_pins>;
+				
+				gpio-line-names =
+				"SW_ROT_BUT", "SW_STAT", "SW_ITEM", "SW_DATA", "SW_ROT_A", "SW_ROT_B", "-", "STATUS_LED",
+				"GPIO0", "GPIO1", "GPIO2", "GPIO3", "GPIO4", "GPIO5", "GPIO6", "GPIO7";
+			};
+		};
+	};
+	
+	fragment@3 {
+		target = <&mcp23017>;
+		__overlay__ {
+			mcp23017_pins: mcp23017_pins {
+				pinctrl-single,pins = <
+				0x0c 0xFF  /* Enable pull-ups on GPIOA */
+				0x0d 0xFF  /* Enable pull-ups on GPIOB */
+				>;
+			};
+		};
+	};
+	
+	fragment@4 {
+		target-path = "/";
+		__overlay__ {
+			leds {
+				compatible = "gpio-leds";
+				led0 {
+					label = "pipboy-info";
+					gpios = <&mcp23017 7 1>; /* STATUS_LED */
+					linux,default-trigger = "heartbeat";
+				};
+			};
+		};
+	};
+	
+	// fragment@5 {
+	// 	target-path = "/";
+	// 	__overlay__ {
+	// 		rotary_encoder {
+	// 			compatible = "rotary-encoder";
+	// 			gpios = <&mcp23017 4 1 &mcp23017 5 1>; /* GPIOA4, GPIOA5 */
+	// 			rotary-encoder,steps-per-period = <4>;
+	// 			linux,axis = <0x00>; /* X axis, vertical movement */
+	// 		};
+	// 	};
+	// };
+	
+	// fragment@6 {
+	// 	target-path = "/";
+	// 	__overlay__ {
+	// 		gpio_keys {
+	// 			compatible = "gpio-keys";
+	
+	// 			sw_stat {
+	// 				label = "STAT";
+	// 				gpios = <&mcp23017 0 1>; /* SW_STAT */
+	// 				linux,code = <2>;
+	// 				debounce-interval = <5>;
+	// 				gpio-pull-up;
+	// 			};
+	
+	// 			sw_item {
+	// 				label = "ITEM";
+	// 				gpios = <&mcp23017 1 1>; /* SW_ITEM */
+	// 				linux,code = <3>;
+	// 				debounce-interval = <5>;
+	// 				gpio-pull-up;
+	// 			};
+	
+	// 			sw_data {
+	// 				label = "ITEM";
+	// 				gpios = <&mcp23017 2 1>; /* SW_DATA */
+	// 				linux,code = <4>;
+	// 				debounce-interval = <5>;
+	// 				gpio-pull-up;
+	// 			};
+	
+	// 			sw_dial {
+	// 				label = "DIAL_PRESS";
+	// 				gpios = <&mcp23017 3 1>; /* SW_DATA */
+	// 				linux,code = <105>;
+	// 				debounce-interval = <5>;
+	// 				gpio-pull-up;
+	// 			};
+	// 		};
+	// 	};
+	// };
+};
