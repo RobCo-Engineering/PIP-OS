@@ -2,8 +2,16 @@ project(PipOS LANGUAGES CXX)
 
 cmake_minimum_required(VERSION 3.22)
 
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(GPIOD REQUIRED libgpiod)
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    set(IS_LINUX TRUE)
+else()
+    set(IS_LINUX FALSE)
+endif()
+
+if(IS_LINUX)
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(GPIOD REQUIRED libgpiod)
+endif()
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTOMOC ON)
@@ -78,7 +86,9 @@ target_include_directories(
 target_include_directories(PipOSApp PUBLIC src/ inc/public/PipOS)
 
 # Also include libgpiod
-target_include_directories(PipOSApp PRIVATE ${GPIOD_INCLUDE_DIRS})
+if(IS_LINUX)
+    target_include_directories(PipOSApp PRIVATE ${GPIOD_INCLUDE_DIRS})
+endif()
 
 qt_add_qml_module(PipOSApp
     URI PipOSApp
@@ -94,9 +104,11 @@ target_link_libraries(
     PUBLIC
     Qt6::Quick
     Qt6::Gui
-    Qt6::Core
-    ${GPIOD_LIBRARIES}
-    gpiodcxx)
+    Qt6::Core)
+
+if(IS_LINUX)
+    target_link_libraries(PipOSApp PUBLIC ${GPIOD_LIBRARIES} gpiodcxx)
+endif()
 
 qt_add_executable(PipOS  main.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE PipOSApp PipOSAppplugin Qt6::Gui)

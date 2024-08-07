@@ -1,19 +1,22 @@
 #pragma once
 
-#include <gpiod.hpp>
-#include <string>
-#include <unordered_map>
+#include <memory>
 
-class GPIO {
+class GPIO
+{
 public:
-  GPIO(const std::string &chipname = "gpiochip5");
-  ~GPIO();
+    GPIO(const std::string &chipname = "gpiochip5");
+    ~GPIO();
 
-  void pinMode(int pin, bool isOutput);
-  void digitalWrite(int pin, bool value);
-  bool digitalRead(int pin);
+    void pinMode(int pin, bool isOutput);
+    void digitalWrite(int pin, bool value);
+    bool digitalRead(int pin);
+
+    // Delete copy constructor and assignment operator
+    GPIO(const GPIO &) = delete;
+    GPIO &operator=(const GPIO &) = delete;
 
 private:
-  gpiod::chip chip;
-  std::unordered_map<int, gpiod::line> lines;
+    class Impl;
+    std::unique_ptr<Impl> pimpl;
 };
