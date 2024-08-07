@@ -26,21 +26,21 @@ private:
     std::vector<InventoryItem> m_items;
 };
 
-class Inventory : public QAbstractListModel {
-    Q_OBJECT
+// class Inventory : public QAbstractListModel {
+//     Q_OBJECT
 
-public:
-    void addItem(InventoryItem&& item);
+// public:
+//     void addItem(InventoryItem&& item);
 
-    // Required overrides for QAbstractListModel
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+//     // Required overrides for QAbstractListModel
+//     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+//     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-    // Qt::ItemFlags flags(const QModelIndex &index) const override;
+//     // Qt::ItemFlags flags(const QModelIndex &index) const override;
 
-private:
-    QList<InventoryItem> m_items;
-};
+// private:
+//     QList<InventoryItem> m_items;
+// };
 
 } // namespace PipOS
 

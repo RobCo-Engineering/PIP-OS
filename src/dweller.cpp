@@ -2,21 +2,23 @@
 namespace PipOS {
 
 Dweller::Dweller(QObject *parent)
-    : QObject{parent},
-    m_name("Albert"),
-    m_level(1),
-    m_levelProgress(0.0),
-    m_currentAP(10),
-    m_maxAP(10),
-    m_maxHealth(10),
-    m_currentHealth(10),
-    m_healthHead(1.0),
-    m_healthBody(1.0),
-    m_healthLeftArm(1.0),
-    m_healthRightArm(1.0),
-    m_healthLeftLeg(1.0),
-    m_healthRightLeg(1.0)
-{}
+    : QObject{parent}
+    , m_name("Albert")
+    , m_level(1)
+    , m_levelProgress(0.0)
+    , m_currentAP(10)
+    , m_maxAP(10)
+    , m_maxHealth(10)
+    , m_currentHealth(10)
+    , m_healthHead(1.0)
+    , m_healthBody(1.0)
+    , m_healthLeftArm(1.0)
+    , m_healthRightArm(1.0)
+    , m_healthLeftLeg(1.0)
+    , m_healthRightLeg(1.0)
+{
+    m_inventory = std::make_shared<InventoryModel>(new InventoryModel());
+}
 
 int Dweller::level() const
 {
@@ -185,5 +187,14 @@ void Dweller::setHealthRightLeg(float newHealthRightLeg)
         return;
     m_healthRightLeg = newHealthRightLeg;
     emit healthRightLegChanged();
+}
+
+void Dweller::setInventory(InventoryModel *newInventory)
+{
+    if (m_inventory.get() == newInventory)
+        return;
+
+    m_inventory.reset(newInventory);
+    emit inventoryChanged(m_inventory.get());
 }
 } // namespace PipOS

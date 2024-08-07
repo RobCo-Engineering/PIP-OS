@@ -1,4 +1,3 @@
-
 #include <QDirIterator>
 #include <QFile>
 #include <QFontDatabase>
@@ -60,11 +59,6 @@ void App::init()
         QFontDatabase::addApplicationFont(font);
     }
 
-    // QDirIterator it(":", QDirIterator::Subdirectories);
-    // while (it.hasNext()) {
-    //     qDebug() << it.next();
-    // }
-
     using std::make_shared, std::make_unique;
 
     m_settings = make_shared<Settings>();
@@ -81,32 +75,12 @@ void App::init()
     m_mainWindowEngine->addImportPath(guiAppInst->applicationDirPath() + "/qml");
     guiAppInst->addLibraryPath(guiAppInst->applicationDirPath() + "/qml");
 
-    // QQmlApplicationEngine engine;
-
-    // Access root context
-    // QQmlContext *context = m_mainWindowEngine.rootContext();
-
     // Input handler
-    // InputEventHandler *inputHandler = new InputEventHandler();
     guiAppInst->installEventFilter(m_inputHandler.get());
-
-    // Start thread for listening to external hardware events?
-    // inputHandler->
-
-    // context->setContextProperty("inputHandler", inputHandler);
-
-    // Dweller
-    // Dweller* dweller = new Dweller();
-    // context->setContextProperty("dweller", dweller);
-
-    // qmlRegisterSingletonInstance("PipOS", 1, 0, "Dweller", new Dweller());
 
     // Load the inventory from JSON
     QJsonArray jsonArray = loadJsonArray(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)+".inventory.json");
-    InventoryModel *inventory = new InventoryModel();
-    inventory->addItems(jsonArray);
-
-    // context->setContextProperty("inventory", inventory);
+    m_dweller->inventory()->addItems(jsonArray);
 
     // TODO: What does this do actually
     // QObject::connect(
@@ -116,8 +90,6 @@ void App::init()
     //     []() { QCoreApplication::exit(-1); },
     //     Qt::QueuedConnection);
 
-    // m_mainWindowEngine->addImportPath("qrc:/RobCo/PipOSApp/qml/Layout");
-    qDebug() << m_mainWindowEngine->importPathList();
     m_mainWindowEngine->load(QUrl(QStringLiteral("qrc:/qml/PipOSApp/main.qml")));
 }
 

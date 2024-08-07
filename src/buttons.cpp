@@ -1,11 +1,11 @@
 #include "buttons.h"
 #include "pigpio.h"
 #include "pigpiod_if2.h"
-#include <bitset>
 #include <chrono>
 #include <iostream>
-#include <signal.h>
 #include <thread>
+
+typedef unsigned int uint;
 
 // Set bit <n> in <number> either high or low <x>
 inline uint bit_set_to(uint number, uint n, bool x) {

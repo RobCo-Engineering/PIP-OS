@@ -1,7 +1,6 @@
 #ifndef PIPBOY_BUTTON_MODULE_H
 #define PIPBOY_BUTTON_MODULE_H
 
-#include "PipOS/pigpiod_if2.h"
 #include <array>
 
 #define IODIRA 0x00

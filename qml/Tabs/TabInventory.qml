@@ -21,7 +21,7 @@ Rectangle {
         ListView {
             id: list
             anchors.fill: parent
-            model: App.inventory
+            model: App.dweller.inventory
             spacing: 5
             delegate: RowLayout {
                 id: item
