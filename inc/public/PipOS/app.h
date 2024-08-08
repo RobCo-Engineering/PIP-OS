@@ -5,41 +5,46 @@
 #include <QQmlApplicationEngine>
 
 #include "PipOS/dweller.h"
-#include "PipOS/inputeventhandler.h"
+#include "PipOS/hardwareinput.h"
 #include "PipOS/settings.h"
 
 namespace PipOS {
 class App : public QObject {
   Q_OBJECT
-  Q_PROPERTY(QQmlApplicationEngine* mainWindowEngine READ mainWindowEngine WRITE setMainWindowEngine NOTIFY mainWindowEngineChanged)
-  Q_PROPERTY(InputEventHandler *inputHandler READ inputHandler WRITE setInputHandler NOTIFY
-                 inputHandlerChanged)
-  Q_PROPERTY(Settings *settings READ settings WRITE setSettings NOTIFY settingsChanged)
-  Q_PROPERTY(Dweller *dweller READ dweller WRITE setDweller NOTIFY dwellerChanged FINAL)
+  Q_PROPERTY(QQmlApplicationEngine *mainWindowEngine READ mainWindowEngine WRITE
+                 setMainWindowEngine NOTIFY mainWindowEngineChanged)
+  Q_PROPERTY(InputEventHandler *inputHandler READ inputHandler WRITE
+                 setInputHandler NOTIFY inputHandlerChanged)
+  Q_PROPERTY(
+      Settings *settings READ settings WRITE setSettings NOTIFY settingsChanged)
+  Q_PROPERTY(Dweller *dweller READ dweller WRITE setDweller NOTIFY
+                 dwellerChanged FINAL)
 
-  public:
+public:
   explicit App();
 
   void init();
 
-  QQmlApplicationEngine *mainWindowEngine() const { return m_mainWindowEngine.get(); }
+  QQmlApplicationEngine *mainWindowEngine() const {
+    return m_mainWindowEngine.get();
+  }
   Settings *settings() const { return m_settings.get(); }
   InputEventHandler *inputHandler() const { return m_inputHandler.get(); }
   Dweller *dweller() const { return m_dweller.get(); };
 
-  signals:
+signals:
   void mainWindowEngineChanged(QQmlApplicationEngine *mainWindowEngine);
   void settingsChanged(PipOS::Settings *settings);
-  void inputHandlerChanged(PipOS::InputEventHandler *inputHandler);
+  void inputHandlerChanged(InputEventHandler *inputHandler);
   void dwellerChanged(PipOS::Dweller *dweller);
 
-  public slots:
+public slots:
   void setMainWindowEngine(QQmlApplicationEngine *mainWindowEngine);
   void setSettings(Settings *settings);
   void setInputHandler(InputEventHandler *inputHandler);
   void setDweller(Dweller *newDweller);
 
-  private:
+private:
   std::unique_ptr<QQmlApplicationEngine> m_mainWindowEngine;
   std::shared_ptr<Settings> m_settings;
   std::shared_ptr<InputEventHandler> m_inputHandler;
