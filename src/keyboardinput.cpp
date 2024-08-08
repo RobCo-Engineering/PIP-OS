@@ -1,55 +1,52 @@
-#include "keyboardinput.h"
+#include "hardwareinput.h"
 
-namespace PipOS {
-bool KeyboardEventHandler::eventFilter(QObject *obj, QEvent *event)
-{
-    // standard event processing for non key press
-    if (event->type() != QEvent::KeyPress) {
-        return QObject::eventFilter(obj, event);
-    }
+bool KeyboardEventHandler::eventFilter(QObject *obj, QEvent *event) {
+  // standard event processing for non key press
+  if (event->type() != QEvent::KeyPress) {
+    return QObject::eventFilter(obj, event);
+  }
 
-    // Handle key press events
-    QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-    switch (keyEvent->key()) {
+  // Handle key press events
+  QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+  switch (keyEvent->key()) {
 
-    // TODO: Load keymaps from settings
-    case Qt::Key_1:
-        emit this->statPressed();
-        break;
+  // TODO: Load keymaps from settings
+  case Qt::Key_1:
+    emit statPressed();
+    break;
 
-    case Qt::Key_2:
-        emit this->itemPressed();
-        break;
+  case Qt::Key_2:
+    emit itemPressed();
+    break;
 
-    case Qt::Key_3:
-        emit this->dataPressed();
-        break;
+  case Qt::Key_3:
+    emit dataPressed();
+    break;
 
-    case Qt::Key_4:
-        emit this->mapPressed();
-        break;
+  case Qt::Key_4:
+    emit mapPressed();
+    break;
 
-    case Qt::Key_5:
-        emit this->radioPressed();
-        break;
+  case Qt::Key_5:
+    emit radioPressed();
+    break;
 
-    case Qt::Key_Up:
-        emit this->scrollDown();
-        break;
+  case Qt::Key_Up:
+    emit scrollDown();
+    break;
 
-    case Qt::Key_Down:
-        emit this->scrollUp();
-        break;
+  case Qt::Key_Down:
+    emit scrollUp();
+    break;
 
-    case Qt::Key_Left:
-        emit this->scrollPress();
-        break;
+  case Qt::Key_Left:
+    emit scrollPress();
+    break;
 
-    default:
-        return QObject::eventFilter(obj, event);
-    }
+  default:
+    return QObject::eventFilter(obj, event);
+  }
 
-    // qDebug()<<"Key press handled"<<QKeySequence(keyEvent->key()).toString();
-    return true;
+  // qDebug()<<"Key press handled"<<QKeySequence(keyEvent->key()).toString();
+  return true;
 }
-} // namespace PipOS

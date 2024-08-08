@@ -22,7 +22,6 @@ set(SOURCES
     src/bootscreen.cpp
     src/dweller.cpp
     src/settings.cpp
-    src/buttons.cpp
     src/keyboardinput.cpp
     src/hardwareinput.cpp
     src/inventory.cpp
@@ -35,10 +34,7 @@ set(HEADER
     inc/public/PipOS/bootscreen.h
     inc/public/PipOS/settings.h
     inc/public/PipOS/dweller.h
-    inc/public/PipOS/inputeventhandler.h
-    inc/public/PipOS/keyboardinput.h
     inc/public/PipOS/hardwareinput.h
-    inc/public/PipOS/buttons.h
     inc/public/PipOS/inventory.h
     inc/public/PipOS/inventoryitem.h
     inc/public/PipOS/gpio.h
