@@ -12,7 +12,6 @@
 
 #include "PipOS/app.h"
 #include "PipOS/bootscreen.h"
-#include "PipOS/hardwareinput.h"
 #include "PipOS/inventory.h"
 
 QJsonArray loadJsonArray(const QString &filePath) {
@@ -57,7 +56,6 @@ void App::init() {
   using std::make_shared, std::make_unique;
 
   m_settings = make_shared<Settings>();
-  m_inputHandler = make_shared<InputEventHandler>();
   m_dweller = make_shared<Dweller>();
 
   m_mainWindowEngine = make_unique<QQmlApplicationEngine>();
@@ -72,7 +70,7 @@ void App::init() {
   guiAppInst->addLibraryPath(guiAppInst->applicationDirPath() + "/qml");
 
   // Keyboard input handler
-  guiAppInst->installEventFilter(m_inputHandler.get());
+  // guiAppInst->installEventFilter(m_inputHandler.get());
 
   // gpioMonitor = new GPIOMonitor(this);
   // connect(gpioMonitor, &GPIOMonitor::pinStateChanged, this,
@@ -109,14 +107,6 @@ void App::setSettings(Settings *settings) {
 
   m_settings.reset(settings);
   emit settingsChanged(m_settings.get());
-}
-
-void App::setInputHandler(InputEventHandler *inputHandler) {
-  if (m_inputHandler.get() == inputHandler)
-    return;
-
-  m_inputHandler.reset(inputHandler);
-  emit inputHandlerChanged(m_inputHandler.get());
 }
 
 void App::setDweller(Dweller *dweller) {

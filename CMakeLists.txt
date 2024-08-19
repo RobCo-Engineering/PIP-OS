@@ -1,32 +1,18 @@
-project(PipOS LANGUAGES CXX)
-
 cmake_minimum_required(VERSION 3.22)
-
-if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-    set(IS_LINUX TRUE)
-else()
-    set(IS_LINUX FALSE)
-endif()
-
-if(IS_LINUX)
-    find_package(PkgConfig REQUIRED)
-    pkg_check_modules(GPIOD REQUIRED libgpiod)
-endif()
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
+
+project(PipOS LANGUAGES CXX)
 
 set(SOURCES
     src/app.cpp
     src/bootscreen.cpp
     src/dweller.cpp
     src/settings.cpp
-    src/keyboardinput.cpp
-    src/hardwareinput.cpp
     src/inventory.cpp
     src/inventoryitem.cpp
-    src/gpio.cpp
 )
 
 set(HEADER
@@ -34,10 +20,8 @@ set(HEADER
     inc/public/PipOS/bootscreen.h
     inc/public/PipOS/settings.h
     inc/public/PipOS/dweller.h
-    inc/public/PipOS/hardwareinput.h
     inc/public/PipOS/inventory.h
     inc/public/PipOS/inventoryitem.h
-    inc/public/PipOS/gpio.h
 )
 
 set(QML
@@ -82,11 +66,6 @@ target_include_directories(
 # Note making this public is so that *_qmltyperegistrations.cpp can find the needed include
 target_include_directories(PipOSApp PUBLIC src/ inc/public/PipOS)
 
-# Also include libgpiod
-if(IS_LINUX)
-    target_include_directories(PipOSApp PRIVATE ${GPIOD_INCLUDE_DIRS})
-endif()
-
 qt_add_qml_module(PipOSApp
     URI PipOSApp
     OUTPUT_DIRECTORY
@@ -102,10 +81,6 @@ target_link_libraries(
     Qt6::Quick
     Qt6::Gui
     Qt6::Core)
-
-if(IS_LINUX)
-    target_link_libraries(PipOSApp PUBLIC ${GPIOD_LIBRARIES} gpiodcxx)
-endif()
 
 qt_add_executable(PipOS  main.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE PipOSApp PipOSAppplugin Qt6::Gui)

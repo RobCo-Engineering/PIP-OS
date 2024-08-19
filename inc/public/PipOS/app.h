@@ -5,7 +5,6 @@
 #include <QQmlApplicationEngine>
 
 #include "PipOS/dweller.h"
-#include "PipOS/hardwareinput.h"
 #include "PipOS/settings.h"
 
 namespace PipOS {
@@ -29,25 +28,21 @@ public:
     return m_mainWindowEngine.get();
   }
   Settings *settings() const { return m_settings.get(); }
-  InputEventHandler *inputHandler() const { return m_inputHandler.get(); }
   Dweller *dweller() const { return m_dweller.get(); };
 
 signals:
   void mainWindowEngineChanged(QQmlApplicationEngine *mainWindowEngine);
   void settingsChanged(PipOS::Settings *settings);
-  void inputHandlerChanged(InputEventHandler *inputHandler);
   void dwellerChanged(PipOS::Dweller *dweller);
 
 public slots:
   void setMainWindowEngine(QQmlApplicationEngine *mainWindowEngine);
   void setSettings(Settings *settings);
-  void setInputHandler(InputEventHandler *inputHandler);
   void setDweller(Dweller *newDweller);
 
 private:
   std::unique_ptr<QQmlApplicationEngine> m_mainWindowEngine;
   std::shared_ptr<Settings> m_settings;
-  std::shared_ptr<InputEventHandler> m_inputHandler;
   std::shared_ptr<Dweller> m_dweller;
 };
 } // namespace PipOS
