@@ -1,0 +1,52 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+  compatible = "brcm,bcm2835";
+
+  fragment@0 {
+    target-path = "/";
+		__overlay__ {
+      i2c_gpio: i2c_gpio {
+        #address-cells = <1>;
+        #size-cells = <0>;
+        compatible = "i2c-gpio";
+        gpios = <&gpio 10 0 /* SDA */
+                  &gpio 11 0 /* SCL */ >;
+
+        /* i2c-gpio,sda-open-drain; */
+        /* i2c-gpio,scl-open-drain; */
+        /* i2c-gpio,delay-us = <5>; /* ~100 kHz */
+        i2c-gpio,delay-us = <10>;   /* ~50 kHz */
+
+        i2cgpio0: gpio@21 {
+          #gpio-cells = <2>;
+          gpio-controller;
+          compatible = "microchip,mcp23017";
+          reg = <0x20>; /* I2C address of MCP23017 */
+          
+          // interrupt-parent = <&gpio>;
+          // interrupts = <26 2>;
+          // #interrupt-cells = <2>;
+          // interrupt-controller;
+          // microchip,irq-mirror;
+
+          // label = "pipboy_hid";
+
+          // pinctrl-names = "default";
+          // pinctrl-0 = <&gpio21pullups>;
+
+          // gpio21pullups: pinmux {
+          // 	pins = "bit0A", "bit1A", "bit2A", "bit3A", "bit4A", "bit5A",  "bit6A",  "bit7A",
+          // 				"bit0B", "bit1B", "bit2B", "bit3B", "bit4B", "bit5B",  "bit6B",  "bit7B";
+          // 	bias-pull-up; 
+          // };
+
+          gpio-line-names =
+          "SW_ROT_BUT", "SW_STAT", "SW_ITEM", "SW_DATA", "SW_ROT_A", "SW_ROT_B", "-", "STATUS_LED",
+          "GPIO0", "GPIO1", "GPIO2", "GPIO3", "GPIO4", "GPIO5", "GPIO6", "GPIO7";
+        };
+      };
+    };
+  };
+};

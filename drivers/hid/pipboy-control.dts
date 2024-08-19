@@ -49,17 +49,25 @@
 				gpio-controller;
 				reg = <0x20>; /* I2C address of MCP23017 */
 				
-				#interrupt-cells = <2>;
 				interrupt-parent = <&gpio>;
 				interrupts = <26 2>;
+				#interrupt-cells = <2>;
 				interrupt-controller;
-				
+				microchip,irq-mirror;
 				// microchip,irq-active-high;
-				// microchip,irq-mirror;
-				
-				pinctrl-names = "default";
-				pinctrl-0 = <&mcp23017_pins>;
-				
+				// 				status = "okay";
+				// output-high;
+				// label = "brd_pwr_rails";
+					
+				// pinctrl-names = "default";
+				// 	pinctrl-0 = <&gpio21pullups>;
+
+				// gpio21pullups: pinmux {
+				// 	pins = "bit0A", "bit1A", "bit2A", "bit3A", "bit4A", "bit5A",  "bit6A",  "bit7A",
+				// 				"bit0B", "bit1B", "bit2B", "bit3B", "bit4B", "bit5B",  "bit6B",  "bit7B";
+				// 	bias-pull-up; 
+				// };
+
 				gpio-line-names =
 				"SW_ROT_BUT", "SW_STAT", "SW_ITEM", "SW_DATA", "SW_ROT_A", "SW_ROT_B", "-", "STATUS_LED",
 				"GPIO0", "GPIO1", "GPIO2", "GPIO3", "GPIO4", "GPIO5", "GPIO6", "GPIO7";
@@ -67,31 +75,31 @@
 		};
 	};
 	
-	fragment@3 {
-		target = <&mcp23017>;
-		__overlay__ {
-			mcp23017_pins: mcp23017_pins {
-				pinctrl-single,pins = <
-				0x0c 0xFF  /* Enable pull-ups on GPIOA */
-				0x0d 0xFF  /* Enable pull-ups on GPIOB */
-				>;
-			};
-		};
-	};
+	// fragment@3 {
+	// 	target = <&mcp23017>;
+	// 	__overlay__ {
+	// 		mcp23017_pins: mcp23017_pins {
+	// 			pinctrl-single,pins = <
+	// 			0x0c 0xFF  /* Enable pull-ups on GPIOA */
+	// 			0x0d 0xFF  /* Enable pull-ups on GPIOB */
+	// 			>;
+	// 		};
+	// 	};
+	// };
 	
-	fragment@4 {
-		target-path = "/";
-		__overlay__ {
-			leds {
-				compatible = "gpio-leds";
-				led0 {
-					label = "pipboy-info";
-					gpios = <&mcp23017 7 1>; /* STATUS_LED */
-					linux,default-trigger = "heartbeat";
-				};
-			};
-		};
-	};
+	// fragment@4 {
+	// 	target-path = "/";
+	// 	__overlay__ {
+	// 		leds {
+	// 			compatible = "gpio-leds";
+	// 			led0 {
+	// 				label = "pipboy-info";
+	// 				gpios = <&mcp23017 7 1>; /* STATUS_LED */
+	// 				linux,default-trigger = "heartbeat";
+	// 			};
+	// 		};
+	// 	};
+	// };
 	
 	// fragment@5 {
 	// 	target-path = "/";
