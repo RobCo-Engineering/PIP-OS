@@ -84,9 +84,9 @@ C.Page {
     }
 
     Connections {
-        target: App.inputHandler
-        function onItemPressed() {
-            subMenu.goToNext()
+        target: App.hid
+        function onUserActivity(a) {
+            if (a === "TAB_ITEM") subMenu.goToNext()
         }
     }
 }

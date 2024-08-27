@@ -1,37 +1,33 @@
 #include "hid.h"
 #include <QKeyEvent>
 
-bool EventFilter::eventFilter(QObject *object, QEvent *event) {
-    // standard event processing for non key press
-
+namespace PipOS {
+bool HumanInterfaceDevice::eventFilter(QObject *object, QEvent *event)
+{
     switch (event->type()) {
     case QEvent::KeyPress: {
         // Handle key press events
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
 
-        switch (keyEvent->key()) {
-        default:
-            qInfo() << "Key pressed" << keyEvent->text();
+        Qt::Key qtKey = Qt::Key(keyEvent->key());
+        if (keymap.contains(qtKey)) {
+            // qInfo() << qtKey << keymap.value(qtKey);
+            emit userActivity(keymap.value(qtKey));
             return true;
-            // return QObject::eventFilter(object, event);
+        } else {
+            // qInfo() << qtKey << "not mapped";
+            return QObject::eventFilter(object, event);
         }
-
-        return true;
     }
-
-        // Reduce noise
-    case QEvent::MetaCall:
-    case QEvent::Expose:
-    case QEvent::Timer:
-    case QEvent::UpdateRequest:
-    case QEvent::MouseMove:
-    case QEvent::DynamicPropertyChange:
-        return QObject::eventFilter(object, event);
 
     default:
-        qInfo() << "Unknown event" << event->type();
+        // standard event processing for non key press
         return QObject::eventFilter(object, event);
     }
-
-    return true;
 }
+
+void HumanInterfaceDevice::setKeyMap(Qt::Key key, QString activity)
+{
+    keymap.insert(key, activity);
+}
+} // namespace PipOS

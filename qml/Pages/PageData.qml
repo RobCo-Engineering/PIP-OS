@@ -86,9 +86,9 @@ Page {
     }
 
     Connections {
-        target: App.inputHandler
-        function onDataPressed() {
-            subMenu.goToNext()
+        target: App.hid
+        function onUserActivity(a) {
+            if (a === "TAB_DATA") subMenu.goToNext()
         }
     }
 }

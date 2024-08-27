@@ -135,9 +135,9 @@ C.Page {
     ]
 
     Connections {
-        target: App.inputHandler
-        function onStatPressed() {
-            subMenu.goToNext()
+        target: App.hid
+        function onUserActivity(a) {
+            if (a === "TAB_STAT") subMenu.goToNext()
         }
     }
 }

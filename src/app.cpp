@@ -64,6 +64,9 @@ void App::init() {
 
   m_mainWindowEngine = make_unique<QQmlApplicationEngine>();
 
+  // Access root context
+  // QQmlContext *context = m_mainWindowEngine->rootContext();
+
   qmlRegisterType<BootScreen>("BootScreen", 1, 0, "BootScreen");
 
   auto *guiAppInst =
@@ -74,26 +77,17 @@ void App::init() {
   guiAppInst->addLibraryPath(guiAppInst->applicationDirPath() + "/qml");
 
   // Keyboard input handler
-  EventFilter *filter = new EventFilter();
-  guiAppInst->installEventFilter(filter);
+  // HumanInterfaceDevice *hid = new HumanInterfaceDevice();
 
-  // gpioMonitor = new GPIOMonitor(this);
-  // connect(gpioMonitor, &GPIOMonitor::pinStateChanged, this,
-  // &App::handlePinStateChange); gpioMonitor->startMonitoring(18);
+  m_hid = make_shared<HumanInterfaceDevice>();
+  guiAppInst->installEventFilter(m_hid.get());
+  // context->setContextProperty("hid", m_hid.get());
 
   // Load the inventory from JSON
   QJsonArray jsonArray = loadJsonArray(
       QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) +
       ".inventory.json");
   m_dweller->inventory()->addItems(jsonArray);
-
-  // TODO: What does this do actually
-  // QObject::connect(
-  //     &m_mainWindowEngine,
-  //     &QQmlApplicationEngine::objectCreationFailed,
-  //     this,
-  //     []() { QCoreApplication::exit(-1); },
-  //     Qt::QueuedConnection);
 
   m_mainWindowEngine->load(QUrl(QStringLiteral("qrc:/qml/PipOSApp/main.qml")));
 }

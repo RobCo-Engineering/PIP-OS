@@ -106,13 +106,19 @@ Rectangle {
     }
 
     Connections {
-        target: App.inputHandler
-        function onScrollUp() { list.incrementCurrentIndex() }
-        function onScrollDown() { list.decrementCurrentIndex() }
-        function onScrollPress() {
-            // TODO: Is it worth calling a slot?
-            // list.currentItem.inventoryItem.toggleEquippedState()
-            console.log(list.currentItem.inventoryItem.name)
+        target: App.hid
+        function onUserActivity(a) {
+            switch(a) {
+            case "SCROLL_UP":
+                list.decrementCurrentIndex()
+                break
+            case "SCROLL_DOWN":
+                list.incrementCurrentIndex()
+                break
+            case "BUTTON_SELECT":
+                console.log(list.currentItem.inventoryItem.name)
+                break
+            }
         }
     }
 }

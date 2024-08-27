@@ -58,11 +58,9 @@ Item {
     }
 
     Connections {
-        target: App.inputHandler
-        function onStatPressed() { root.activePage = "STAT" }
-        function onItemPressed() { root.activePage = "ITEM" }
-        function onDataPressed() { root.activePage = "DATA" }
-        function onMapPressed()  { root.activePage = "MAP" }
-        function onRadioPressed(){ root.activePage = "RADIO" }
+        target: App.hid
+        function onUserActivity(a) {
+            if (a.startsWith("TAB_")) root.activePage = a.replace("TAB_", "")
+        }
     }
 }
