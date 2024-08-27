@@ -12,8 +12,6 @@ class App : public QObject {
   Q_OBJECT
   Q_PROPERTY(QQmlApplicationEngine *mainWindowEngine READ mainWindowEngine WRITE
                  setMainWindowEngine NOTIFY mainWindowEngineChanged)
-  Q_PROPERTY(InputEventHandler *inputHandler READ inputHandler WRITE
-                 setInputHandler NOTIFY inputHandlerChanged)
   Q_PROPERTY(
       Settings *settings READ settings WRITE setSettings NOTIFY settingsChanged)
   Q_PROPERTY(Dweller *dweller READ dweller WRITE setDweller NOTIFY

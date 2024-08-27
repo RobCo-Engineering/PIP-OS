@@ -1,10 +1,14 @@
+#include <QDebug>
 #include <QDirIterator>
+#include <QEvent>
 #include <QFile>
 #include <QFontDatabase>
 #include <QGuiApplication>
+#include <QInputDevice>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QKeyEvent>
+#include <QObject>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QSettings>
@@ -12,6 +16,7 @@
 
 #include "PipOS/app.h"
 #include "PipOS/bootscreen.h"
+#include "PipOS/hid.h"
 #include "PipOS/inventory.h"
 
 QJsonArray loadJsonArray(const QString &filePath) {
@@ -45,8 +50,7 @@ App::App() : QObject(nullptr) {
 void App::init() {
   qInfo() << "Init PipOS";
 
-  QDirIterator it(":", {"*.ttf", "*.otf"}, QDir::Files,
-                  QDirIterator::Subdirectories);
+  QDirIterator it(":", {"*.ttf", "*.otf"}, QDir::Files, QDirIterator::Subdirectories);
   while (it.hasNext()) {
     QString font = it.next();
     qDebug() << "Loading font" << font;
@@ -70,7 +74,8 @@ void App::init() {
   guiAppInst->addLibraryPath(guiAppInst->applicationDirPath() + "/qml");
 
   // Keyboard input handler
-  // guiAppInst->installEventFilter(m_inputHandler.get());
+  EventFilter *filter = new EventFilter();
+  guiAppInst->installEventFilter(filter);
 
   // gpioMonitor = new GPIOMonitor(this);
   // connect(gpioMonitor, &GPIOMonitor::pinStateChanged, this,

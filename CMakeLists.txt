@@ -8,6 +8,7 @@ project(PipOS LANGUAGES CXX)
 
 set(SOURCES
     src/app.cpp
+    src/hid.cpp
     src/bootscreen.cpp
     src/dweller.cpp
     src/settings.cpp
@@ -17,6 +18,7 @@ set(SOURCES
 
 set(HEADER
     inc/public/PipOS/app.h
+    inc/public/PipOS/hid.h
     inc/public/PipOS/bootscreen.h
     inc/public/PipOS/settings.h
     inc/public/PipOS/dweller.h
