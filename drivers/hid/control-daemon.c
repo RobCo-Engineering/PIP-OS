@@ -53,6 +53,13 @@ u_int8_t previousBankAState;
 #define MCP_ADDR 0x20
 #define I2C_BUS "/dev/i2c-11" // specify which I2C bus to use
 
+#define PIPBOY_KEY_STAT KEY_F1
+#define PIPBOY_KEY_ITEM KEY_F2
+#define PIPBOY_KEY_DATA KEY_F3
+#define PIPBOY_SCROLL_PRESS KEY_SPACE
+#define PIPBOY_SCROLL_UP KEY_UP
+#define PIPBOY_SCROLL_DOWN KEY_DOWN
+
 int MCP_select(int file)
 {
   // initialize the device
@@ -108,26 +115,31 @@ int createGamepad()
   }
 
   // device structure
-  struct uinput_user_dev uidev;
-  memset(&uidev, 0, sizeof(uidev));
+  // struct uinput_user_dev uidev;
+  struct uinput_setup usetup;
+  memset(&usetup, 0, sizeof(usetup));
 
   // init event
   ioctl(fd, UI_SET_EVBIT, EV_KEY);
-  ioctl(fd, UI_SET_EVBIT, EV_REL);
+  // ioctl(fd, UI_SET_EVBIT, EV_REL);
 
-  ioctl(fd, UI_SET_RELBIT, REL_DIAL);    // Dial twist
-  ioctl(fd, UI_SET_KEYBIT, BTN_TRIGGER); // Dial press
+  // ioctl(fd, UI_SET_RELBIT, REL_DIAL);    // Dial twist
+  ioctl(fd, UI_SET_KEYBIT, PIPBOY_SCROLL_PRESS); // Dial press
 
-  ioctl(fd, UI_SET_KEYBIT, BTN_A); // STAT
-  ioctl(fd, UI_SET_KEYBIT, BTN_B); // ITEM
-  ioctl(fd, UI_SET_KEYBIT, BTN_C); // DATA
+  ioctl(fd, UI_SET_KEYBIT, PIPBOY_SCROLL_UP);
+  ioctl(fd, UI_SET_KEYBIT, PIPBOY_SCROLL_DOWN);
 
-  snprintf(uidev.name, UINPUT_MAX_NAME_SIZE, "PipBoy Control Board");
-  uidev.id.bustype = BUS_USB;
-  uidev.id.vendor = 1;
-  uidev.id.product = 5;
-  uidev.id.version = 1;
-  write(fd, &uidev, sizeof(uidev));
+  ioctl(fd, UI_SET_KEYBIT, PIPBOY_KEY_STAT); // STAT
+  ioctl(fd, UI_SET_KEYBIT, PIPBOY_KEY_ITEM); // ITEM
+  ioctl(fd, UI_SET_KEYBIT, PIPBOY_KEY_DATA); // DATA
+
+  snprintf(usetup.name, UINPUT_MAX_NAME_SIZE, "PipBoy Control Board");
+  usetup.id.bustype = BUS_USB;
+  usetup.id.vendor = 0x1234;  /* sample vendor */
+  usetup.id.product = 0x5678; /* sample product */
+  // usetup.id.version = 1;
+
+  ioctl(fd, UI_DEV_SETUP, &usetup);
   if (ioctl(fd, UI_DEV_CREATE))
   {
     fprintf(stderr, "Error while creating uinput device!\n");
@@ -187,18 +199,24 @@ int main(int argc, char *argv[])
     switch (result)
     {
     case DIR_CW:
-      emit(virtualGamepad, EV_REL, REL_DIAL, 1);
+      emit(virtualGamepad, EV_KEY, PIPBOY_SCROLL_UP, 1);
+      // emit(virtualGamepad, EV_REL, REL_DIAL, 1);
       break;
 
     case DIR_CCW:
-      emit(virtualGamepad, EV_REL, REL_DIAL, -1);
+      emit(virtualGamepad, EV_KEY, PIPBOY_SCROLL_DOWN, 1);
+      // emit(virtualGamepad, EV_REL, REL_DIAL, -1);
       break;
+
+    default:
+      emit(virtualGamepad, EV_KEY, PIPBOY_SCROLL_UP, 0);
+      emit(virtualGamepad, EV_KEY, PIPBOY_SCROLL_DOWN, 0);
     }
 
-    emit(virtualGamepad, EV_KEY, BTN_TRIGGER, pinState(bankA, 0));
-    emit(virtualGamepad, EV_KEY, BTN_A, pinState(bankA, 1));
-    emit(virtualGamepad, EV_KEY, BTN_B, pinState(bankA, 2));
-    emit(virtualGamepad, EV_KEY, BTN_C, pinState(bankA, 3));
+    emit(virtualGamepad, EV_KEY, PIPBOY_SCROLL_PRESS, pinState(bankA, 0));
+    emit(virtualGamepad, EV_KEY, PIPBOY_KEY_STAT, pinState(bankA, 1));
+    emit(virtualGamepad, EV_KEY, PIPBOY_KEY_ITEM, pinState(bankA, 2));
+    emit(virtualGamepad, EV_KEY, PIPBOY_KEY_DATA, pinState(bankA, 3));
 
     // Submit report
     if (previousBankAState != bankA)
