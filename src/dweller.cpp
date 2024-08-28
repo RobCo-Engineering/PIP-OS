@@ -3,189 +3,227 @@ namespace PipOS {
 
 Dweller::Dweller(QObject *parent)
     : QObject{parent}
-    , m_name("Albert")
-    , m_level(1)
-    , m_levelProgress(0.0)
-    , m_currentAP(10)
-    , m_maxAP(10)
-    , m_maxHealth(10)
-    , m_currentHealth(10)
-    , m_healthHead(1.0)
-    , m_healthBody(1.0)
-    , m_healthLeftArm(1.0)
-    , m_healthRightArm(1.0)
-    , m_healthLeftLeg(1.0)
-    , m_healthRightLeg(1.0)
 {
     m_inventory = std::make_shared<InventoryModel>(new InventoryModel());
 }
 
+QString Dweller::name() const
+{
+    return m_settings.value("Dweller/name", "Albert").toString();
+}
+void Dweller::setName(const QString &newName)
+{
+    m_settings.setValue("Dweller/name", newName);
+    emit nameChanged();
+}
+
 int Dweller::level() const
 {
-    return m_level;
+    return m_settings.value("Dweller/level", 1).toInt();
 }
 
 void Dweller::setLevel(int newLevel)
 {
-    if (m_level == newLevel)
-        return;
-    m_level = newLevel;
+    m_settings.setValue("Dweller/level", newLevel);
     emit levelChanged();
 }
 
 float Dweller::levelProgress() const
 {
-    return m_levelProgress;
+    return m_settings.value("Dweller/levelProgress", 0.0).toFloat();
 }
 
 void Dweller::setLevelProgress(float newLevelProgress)
 {
-    if (qFuzzyCompare(m_levelProgress, newLevelProgress))
-        return;
-    m_levelProgress = newLevelProgress;
+    m_settings.setValue("Dweller/levelProgress", newLevelProgress);
     emit levelProgressChanged();
+}
+
+int Dweller::specialStrength() const
+{
+    return m_settings.value("Dweller/specialStrength", 1).toInt();
+}
+
+void Dweller::setSpecialStrength(int newSpecialStrength)
+{
+    m_settings.setValue("Dweller/specialStrength", newSpecialStrength);
+    emit specialStrengthChanged();
+}
+
+int Dweller::specialPerception() const
+{
+    return m_settings.value("Dweller/specialPerception", 1).toInt();
+}
+
+void Dweller::setSpecialPerception(int newSpecialPerception)
+{
+    m_settings.setValue("Dweller/specialPerception", newSpecialPerception);
+    emit specialPerceptionChanged();
+}
+
+int Dweller::specialEndurance() const
+{
+    return m_settings.value("Dweller/specialEndurance", 1).toInt();
+}
+
+void Dweller::setSpecialEndurance(int newSpecialEndurance)
+{
+    m_settings.setValue("Dweller/specialEndurance", newSpecialEndurance);
+    emit specialEnduranceChanged();
+}
+
+int Dweller::specialCharisma() const
+{
+    return m_settings.value("Dweller/specialCharisma", 1).toInt();
+}
+
+void Dweller::setSpecialCharisma(int newSpecialCharisma)
+{
+    m_settings.setValue("Dweller/specialCharisma", newSpecialCharisma);
+    emit specialCharismaChanged();
+}
+
+int Dweller::specialIntelligence() const
+{
+    return m_settings.value("Dweller/specialIntelligence", 1).toInt();
+}
+
+void Dweller::setSpecialIntelligence(int newSpecialIntelligence)
+{
+    m_settings.setValue("Dweller/specialIntelligence", newSpecialIntelligence);
+    emit specialIntelligenceChanged();
+}
+
+int Dweller::specialAgility() const
+{
+    return m_settings.value("Dweller/specialAgility", 1).toInt();
+}
+
+void Dweller::setSpecialAgility(int newSpecialAgility)
+{
+    m_settings.setValue("Dweller/specialAgility", newSpecialAgility);
+    emit specialAgilityChanged();
+}
+
+int Dweller::specialLuck() const
+{
+    return m_settings.value("Dweller/specialLuck", 1).toInt();
+}
+
+void Dweller::setSpecialLuck(int newSpecialLuck)
+{
+    m_settings.setValue("Dweller/specialLuck", newSpecialLuck);
+    emit specialLuckChanged();
 }
 
 int Dweller::maxHealth() const
 {
-    return m_maxHealth;
+    return m_settings.value("Dweller/maxHealth", 100).toInt();
 }
 
 void Dweller::setMaxHealth(int newMaxHealth)
 {
-    if (m_maxHealth == newMaxHealth)
-        return;
-    m_maxHealth = newMaxHealth;
+    m_settings.setValue("Dweller/maxHP", newMaxHealth);
     emit maxHealthChanged();
 }
 
 int Dweller::currentHealth() const
 {
-    return m_currentHealth;
+    return m_settings.value("Dweller/currentHP", 100).toInt();
 }
 
 void Dweller::setCurrentHealth(int newCurrentHealth)
 {
-    if (m_currentHealth == newCurrentHealth)
-        return;
-    m_currentHealth = newCurrentHealth;
+    m_settings.setValue("Dweller/currentHP", newCurrentHealth);
     emit currentHealthChanged();
 }
 
 int Dweller::maxAP() const
 {
-    return m_maxAP;
+    return m_settings.value("Dweller/maxAP", 100).toInt();
 }
 
-void Dweller::setMaxAP(int newMapAP)
+void Dweller::setMaxAP(int newMaxAP)
 {
-    if (m_maxAP == newMapAP)
-        return;
-    m_maxAP = newMapAP;
+    m_settings.setValue("Dweller/maxAP", newMaxAP);
     emit maxAPChanged();
 }
 
 int Dweller::currentAP() const
 {
-    return m_currentAP;
+    return m_settings.value("Dweller/currentAP", 100).toInt();
 }
 
 void Dweller::setCurrentAP(int newCurrentAP)
 {
-    if (m_currentAP == newCurrentAP)
-        return;
-    m_currentAP = newCurrentAP;
+    m_settings.setValue("Dweller/currentAP", newCurrentAP);
     emit currentAPChanged();
-}
-
-QString Dweller::name() const
-{
-    return m_name;
-}
-
-void Dweller::setName(const QString &newName)
-{
-    if (m_name == newName)
-        return;
-    m_name = newName;
-    emit nameChanged();
 }
 
 float Dweller::healthHead() const
 {
-    return m_healthHead;
+    return m_settings.value("Dweller/healthHead", 1.0).toFloat();
 }
 
 void Dweller::setHealthHead(float newHealthHead)
 {
-    if (qFuzzyCompare(m_healthHead, newHealthHead))
-        return;
-    m_healthHead = newHealthHead;
+    m_settings.setValue("Dweller/healthHead", newHealthHead);
     emit healthHeadChanged();
 }
 
 float Dweller::healthBody() const
 {
-    return m_healthBody;
+    return m_settings.value("Dweller/healthBody", 1.0).toFloat();
 }
 
 void Dweller::setHealthBody(float newHealthBody)
 {
-    if (qFuzzyCompare(m_healthBody, newHealthBody))
-        return;
-    m_healthBody = newHealthBody;
+    m_settings.setValue("Dweller/healthBody", newHealthBody);
     emit healthBodyChanged();
 }
 
 float Dweller::healthLeftArm() const
 {
-    return m_healthLeftArm;
+    return m_settings.value("Dweller/healthHead", 1.0).toFloat();
 }
 
 void Dweller::setHealthLeftArm(float newHealthLeftArm)
 {
-    if (qFuzzyCompare(m_healthLeftArm, newHealthLeftArm))
-        return;
-    m_healthLeftArm = newHealthLeftArm;
+    m_settings.setValue("Dweller/healthLeftArm", newHealthLeftArm);
     emit healthLeftArmChanged();
 }
 
 float Dweller::healthRightArm() const
 {
-    return m_healthRightArm;
+    return m_settings.value("Dweller/healthRightArm", 1.0).toFloat();
 }
 
 void Dweller::setHealthRightArm(float newHealthRightArm)
 {
-    if (qFuzzyCompare(m_healthRightArm, newHealthRightArm))
-        return;
-    m_healthRightArm = newHealthRightArm;
+    m_settings.setValue("Dweller/healthRightArm", newHealthRightArm);
     emit healthRightArmChanged();
 }
 
 float Dweller::healthLeftLeg() const
 {
-    return m_healthLeftLeg;
+    return m_settings.value("Dweller/healthLeftLeg", 1.0).toFloat();
+    ;
 }
 
 void Dweller::setHealthLeftLeg(float newHealthLeftLeg)
 {
-    if (qFuzzyCompare(m_healthLeftLeg, newHealthLeftLeg))
-        return;
-    m_healthLeftLeg = newHealthLeftLeg;
+    m_settings.setValue("Dweller/healthLeftLeg", newHealthLeftLeg);
     emit healthLeftLegChanged();
 }
 
 float Dweller::healthRightLeg() const
 {
-    return m_healthRightLeg;
+    return m_settings.value("Dweller/healthRightLeg", 1.0).toFloat();
 }
 
 void Dweller::setHealthRightLeg(float newHealthRightLeg)
 {
-    if (qFuzzyCompare(m_healthRightLeg, newHealthRightLeg))
-        return;
-    m_healthRightLeg = newHealthRightLeg;
+    m_settings.setValue("Dweller/healthRightLeg", newHealthRightLeg);
     emit healthRightLegChanged();
 }
 

@@ -85,20 +85,29 @@ Rectangle {
     }
 
     Connections {
-        target: App.inputHandler
-        function onScrollUp() { list.incrementCurrentIndex() }
-        function onScrollDown() { list.decrementCurrentIndex() }
-        function onScrollPress() {
-            if (list.currentIndex === activeStation) {
-                // Turn off the radio if the already playing station is clicked
-                activeStation = -1
-                playRadio.source = ""
-                playRadio.stop()
-            } else {
-                // Play the selected station
-                activeStation = list.currentIndex
-                playRadio.source = sourceFolder.get(list.currentIndex, 'filePath')
-                playRadio.play()
+        target: App.hid
+        function onUserActivity(a) {
+            switch(a) {
+            case "SCROLL_UP":
+                list.decrementCurrentIndex()
+                break
+            case "SCROLL_DOWN":
+                list.incrementCurrentIndex()
+                break
+
+            case "BUTTON_SELECT":
+                if (list.currentIndex === activeStation) {
+                    // Turn off the radio if the already playing station is clicked
+                    activeStation = -1
+                    playRadio.source = ""
+                    playRadio.stop()
+                } else {
+                    // Play the selected station
+                    activeStation = list.currentIndex
+                    playRadio.source = sourceFolder.get(list.currentIndex, 'filePath')
+                    playRadio.play()
+                }
+                break
             }
         }
     }

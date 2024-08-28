@@ -49,7 +49,7 @@ Rectangle {
                         right: parent.right
                         rightMargin: 10
                     }
-                    text: App.settings["special" + stat]
+                    text: App.dweller["special" + stat]
                     color: item.ListView.isCurrentItem ? "black" : "white"
                     font.family: "Roboto Condensed"
                     font.pixelSize: 26

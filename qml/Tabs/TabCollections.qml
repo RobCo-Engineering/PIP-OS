@@ -63,8 +63,16 @@ Rectangle {
     }
 
     Connections {
-        target: App.inputHandler
-        function onScrollUp() { list.incrementCurrentIndex() }
-        function onScrollDown() { list.decrementCurrentIndex() }
+        target: App.hid
+        function onUserActivity(a) {
+            switch(a) {
+            case "SCROLL_UP":
+                list.decrementCurrentIndex()
+                break
+            case "SCROLL_DOWN":
+                list.incrementCurrentIndex()
+                break
+            }
+        }
     }
 }

@@ -139,7 +139,7 @@ Item {
 
     Text {
         id: dwellerName
-        text: App.settings.dwellerName
+        text: App.dweller.name
         anchors {
             horizontalCenter: root.horizontalCenter
             bottom: root.bottom

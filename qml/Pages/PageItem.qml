@@ -12,7 +12,7 @@ C.Page {
 
     header: SubMenu {
         id: subMenu
-        model: ["NEW", "WEAPONS", "ARMOR", "APPAREL", "FOOD/DRINK", "AID", "MISC", "HOLO", "NOTES", "JUNK", "MODS", "AMMO"]
+        model: ["WEAPONS", "ARMOR", "APPAREL", "FOOD/DRINK", "AID", "MISC", "HOLO", "NOTES", "JUNK", "AMMO"]
         horizontalOffset: -80
     }
 
