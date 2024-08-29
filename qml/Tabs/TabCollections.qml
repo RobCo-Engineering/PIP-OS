@@ -5,8 +5,6 @@ Rectangle {
     id: collections
     color: "black"
 
-    state: list.currentItem.stat
-
     Rectangle {
         id: listMain
         color: "black"
@@ -22,10 +20,10 @@ Rectangle {
             id: list
             anchors.fill: parent
             spacing: 5
-            model: ["Caps", "Stamps", "Perk Coins", "Overseer Tickets", "Gold Bullion", "Tadpole Badges", "Possum Badges", "Legendary Scrips"]
+            model: App.dweller.collections
             delegate: Item {
                 id: item
-                property variant stat: modelData
+                property variant ci: modelData
 
                 height: 34
                 width: parent.width
@@ -35,7 +33,7 @@ Rectangle {
                         left: parent.left
                         leftMargin: 10
                     }
-                    text: stat
+                    text: ci.name
                     color: item.ListView.isCurrentItem ? "black" : "white"
                     font.family: "Roboto Condensed"
                     font.pixelSize: 26
@@ -46,7 +44,7 @@ Rectangle {
                         right: parent.right
                         rightMargin: 10
                     }
-                    text: "0"
+                    text: ci.quantity
                     color: item.ListView.isCurrentItem ? "black" : "white"
                     font.family: "Roboto Condensed"
                     font.pixelSize: 26

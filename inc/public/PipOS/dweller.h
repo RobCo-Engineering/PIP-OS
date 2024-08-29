@@ -11,6 +11,28 @@
 
 namespace PipOS {
 
+class CollectionItem : public QObject
+{
+    Q_OBJECT
+    QML_ELEMENT
+
+    Q_PROPERTY(QString name READ name CONSTANT FINAL)
+    Q_PROPERTY(int quantity READ quantity WRITE setQuantity NOTIFY quantityChanged FINAL)
+
+public:
+    explicit CollectionItem(QObject *parent = nullptr, QString name = "-", int quantity = 0);
+    QString name() const;
+    int quantity() const;
+    void setQuantity(int newQuantity);
+
+signals:
+    void quantityChanged();
+
+private:
+    QString m_name;
+    int m_quantity;
+};
+
 class Dweller : public QObject
 {
     Q_OBJECT
@@ -54,8 +76,12 @@ class Dweller : public QObject
     Q_PROPERTY(float healthLeftLeg READ healthLeftLeg WRITE setHealthLeftLeg NOTIFY healthLeftLegChanged FINAL)
     Q_PROPERTY(float healthRightLeg READ healthRightLeg WRITE setHealthRightLeg NOTIFY healthRightLegChanged FINAL)
 
+    // Item inventory
     Q_PROPERTY(
         InventoryModel *inventory READ inventory WRITE setInventory NOTIFY inventoryChanged FINAL)
+
+    // Collections inventory
+    Q_PROPERTY(QVariantList collections READ collections CONSTANT FINAL)
 
 public:
     explicit Dweller(QObject *parent = nullptr);
@@ -85,6 +111,7 @@ public:
     float healthRightLeg() const;
 
     InventoryModel *inventory() const { return m_inventory.get(); }
+    QVariantList collections();
 
 public slots:
     void setName(const QString &newName);
@@ -137,5 +164,7 @@ private:
     std::shared_ptr<InventoryModel> m_inventory;
 };
 } // namespace PipOS
+
+Q_DECLARE_METATYPE(PipOS::CollectionItem *);
 
 #endif // DWELLER_H

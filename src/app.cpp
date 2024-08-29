@@ -50,6 +50,8 @@ App::App() : QObject(nullptr) {
 void App::init() {
   qInfo() << "Init PipOS";
 
+  qRegisterMetaType<CollectionItem *>("CollectionItem*");
+
   QDirIterator it(":", {"*.ttf", "*.otf"}, QDir::Files, QDirIterator::Subdirectories);
   while (it.hasNext()) {
     QString font = it.next();

@@ -208,7 +208,6 @@ void Dweller::setHealthRightArm(float newHealthRightArm)
 float Dweller::healthLeftLeg() const
 {
     return m_settings.value("Dweller/healthLeftLeg", 1.0).toFloat();
-    ;
 }
 
 void Dweller::setHealthLeftLeg(float newHealthLeftLeg)
@@ -236,4 +235,46 @@ void Dweller::setInventory(InventoryModel *newInventory)
     m_inventory.reset(newInventory);
     emit inventoryChanged(m_inventory.get());
 }
+
+QVariantList Dweller::collections()
+{
+    QVariantList c;
+
+    m_settings.beginGroup("Collections");
+
+    QStringList keys = m_settings.childKeys();
+    for (const QString &key : keys) {
+        CollectionItem *ci = new CollectionItem(this, key);
+        ci->setQuantity(m_settings.value(key).toInt());
+        c.append(QVariant::fromValue(ci));
+    }
+
+    m_settings.endGroup();
+    return c;
+}
+
+CollectionItem::CollectionItem(QObject *parent, QString name, int quantity)
+{
+    m_name = name;
+    m_quantity = quantity;
+}
+
+QString CollectionItem::name() const
+{
+    return m_name;
+}
+
+int CollectionItem::quantity() const
+{
+    return m_quantity;
+}
+
+void CollectionItem::setQuantity(int newQuantity)
+{
+    if (m_quantity == newQuantity)
+        return;
+    m_quantity = newQuantity;
+    emit quantityChanged();
+}
+
 } // namespace PipOS
