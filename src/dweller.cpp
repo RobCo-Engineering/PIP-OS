@@ -119,7 +119,7 @@ void Dweller::setSpecialLuck(int newSpecialLuck)
 
 int Dweller::maxHealth() const
 {
-    return m_settings.value("Dweller/maxHealth", 100).toInt();
+    return m_settings.value("Dweller/maxHP", 100).toInt();
 }
 
 void Dweller::setMaxHealth(int newMaxHealth)
