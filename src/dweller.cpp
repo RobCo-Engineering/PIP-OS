@@ -20,6 +20,17 @@ void Dweller::setName(const QString &newName)
 
 int Dweller::level() const
 {
+    if (m_settings.value("Dweller/useBirthdayAsLevel", false).toBool()) {
+        if (!m_settings.contains("Dweller/birthday")) {
+            qWarning() << "useBirthdayAsLevel was set but no 'birthday' value was set, defaulting "
+                          "to using 'level'";
+        } else {
+            QDate dob = m_settings.value("Dweller/birthday").toDate();
+            QDate now = QDate::currentDate();
+
+            return dob.daysTo(now) / 365;
+        }
+    }
     return m_settings.value("Dweller/level", 1).toInt();
 }
 
@@ -29,8 +40,38 @@ void Dweller::setLevel(int newLevel)
     emit levelChanged();
 }
 
+float calculateProgressToNextBirthday(const QDate &birthDate)
+{
+    QDate currentDate = QDate::currentDate();
+    QDate nextBirthday = QDate(currentDate.year(), birthDate.month(), birthDate.day());
+
+    // If the next birthday is in the past, move it to the next year
+    if (nextBirthday < currentDate) {
+        nextBirthday = nextBirthday.addYears(1);
+    }
+
+    int daysInYear = birthDate.daysInYear();
+    int daysSinceLastBirthday = birthDate.daysTo(currentDate) % daysInYear;
+    int daysToNextBirthday = currentDate.daysTo(nextBirthday);
+
+    float progress = static_cast<float>(daysSinceLastBirthday)
+                     / (daysSinceLastBirthday + daysToNextBirthday);
+
+    return progress;
+}
+
 float Dweller::levelProgress() const
 {
+    if (m_settings.value("Dweller/useBirthdayAsLevel", false).toBool()) {
+        if (!m_settings.contains("Dweller/birthday")) {
+            qWarning() << "useBirthdayAsLevel was set but no 'birthday' value was set, defaulting "
+                          "to using 'level'";
+        } else {
+            QDate dob = m_settings.value("Dweller/birthday").toDate();
+
+            return calculateProgressToNextBirthday(dob);
+        }
+    }
     return m_settings.value("Dweller/levelProgress", 0.0).toFloat();
 }
 

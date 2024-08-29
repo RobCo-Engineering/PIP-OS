@@ -74,6 +74,10 @@ level=123
 ; Percentage progress to the next level up, 0.0 - 1.0
 levelProgress=0.2
 
+; Optionally you can set your birthday and the 'level' will be your age and 'levelProgress' will display the progress until your next birthday.
+useBirthdayAsLevel=true
+birthday=2015-11-10
+
 ; Your SPECIAL stats
 specialStrength=1
 specialPerception=2
