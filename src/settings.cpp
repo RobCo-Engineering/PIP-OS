@@ -1,4 +1,5 @@
 #include "PipOS/settings.h"
+#include <QDir>
 
 namespace PipOS {
 Settings::Settings(QObject *parent)
@@ -38,6 +39,11 @@ void Settings::setScanLines(bool newScanLines)
 {
     m_settings.setValue("Interface/scanlines", newScanLines);
     emit scanLinesChanged();
+}
+
+QString Settings::radioStationLocation() const
+{
+    return m_settings.value("Radio/directory", QDir::currentPath()).toString();
 }
 
 } // namespace PipOS

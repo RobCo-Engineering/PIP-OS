@@ -13,7 +13,9 @@ Rectangle {
     FolderListModel {
         id: sourceFolder
         nameFilters: ["*.wav"]
-        folder: "file:///C:/Users/rikku/AppData/Roaming/RobCo"
+        folder: App.settings.radioStationLocation
+        showDirs: false
+        showOnlyReadable: true
     }
 
     Rectangle {
@@ -34,7 +36,8 @@ Rectangle {
             spacing: 10
             delegate: RowLayout {
                 id: item
-                property variant stat: fileName.replace(/\.[^/.]+$/, "")
+                required property string fileName
+                // property variant stat: fileName.replace(/\.[^/.]+$/, "")
                 property int thisIndex: index
 
                 width: ListView.view.width
@@ -48,7 +51,7 @@ Rectangle {
                 }
 
                 Text {
-                    text: stat
+                    text: fileName
                     color: item.ListView.isCurrentItem ? "black" : "white"
                     font.family: "Roboto Condensed"
                     font.pixelSize: 26
@@ -81,7 +84,10 @@ Rectangle {
         id: playRadio
         source: ""
         audioOutput: AudioOutput {}
+    }
 
+    Component.onCompleted: {
+        console.log("Loading wav files from", App.settings.radioStationLocation)
     }
 
     Connections {
