@@ -118,10 +118,14 @@ The JSON file is in the format that matches the PipBoy Companion app protocol as
 If you want to write your own JSON, a minimal example could be as follows:
 
 ```json
-[
-  { "text": "10mm Pistol", "count": 1, "filterFlag": 2, "equipState": 1 },
-  { "text": "Vault 111 Jumpsuit", "count": 1, "filterFlag": 4 }
-]
+{
+  "Inventory": {
+    "1": [
+      { "text": "10mm Pistol", "count": 1, "filterFlag": 2, "equipState": 1 },
+      { "text": "Vault 111 Jumpsuit", "count": 1, "filterFlag": 4 }
+    ]
+  }
+}
 ```
 
 #### Filter Flags
