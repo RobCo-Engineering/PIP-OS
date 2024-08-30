@@ -104,6 +104,43 @@ healthLeftLeg=1.0
 healthRightLeg=1.0
 ```
 
+### Inventory
+
+The player inventory is loaded from a JSON URI that can be configured in the main config ini as follows:
+
+```ini
+[Inventory]
+directory=file:///path/to/file.json
+```
+
+The JSON file is in the format that matches the PipBoy Companion app protocol as in https://github.com/NimVek/pipboy, you can use the `DemoMode.json` from that repo as a basic example.
+
+If you want to write your own JSON, a minimal example could be as follows:
+
+```json
+[
+  { "text": "10mm Pistol", "count": 1, "filterFlag": 2, "equipState": 1 },
+  { "text": "Vault 111 Jumpsuit", "count": 1, "filterFlag": 4 }
+]
+```
+
+#### Filter Flags
+
+The inventory `filterFlag` field is a 32bit bitwise type field and is used to group items into various categories. The max int for this field would be `4294967295` which implies _all_ items. If an item is for example both a weapon and is also favourited, then you would add the `2` for weapon and `1` for favourite, so the `filterFlag` would be `3`.
+
+|        |                  |
+| ------ | ---------------- |
+| `1`    | Favourites       |
+| `2`    | Weapons          |
+| `4`    | Apparel          |
+| `8`    | Aid              |
+| `128`  | Notes, magazines |
+| `512`  | Misc             |
+| `1024` | Junk             |
+| `2048` | Modifications    |
+| `4096` | Ammo             |
+| `8192` | Holotapes        |
+
 ### Item Collections
 
 Counts of items you have listed on the **COLLECTIONS** tab.

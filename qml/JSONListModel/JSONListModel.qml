@@ -5,7 +5,7 @@
  */
 
 import QtQuick
-import "jsonpath.js" as JSONPath
+import "jsonpath-plus.js" as JSONPath
 
 Item {
     property string source: ""
@@ -36,22 +36,28 @@ Item {
             return;
 
         var objectArray = parseJSONString(json, query);
-        if (sortKey !== "")
-        {
+
+        // Optionally sort based on object key
+        if (sortKey !== "") {
             objectArray.sort(function(a, b){
                 return a[sortKey].localeCompare(b[sortKey]);
             })
         }
+
         for ( var key in objectArray ) {
             var jo = objectArray[key];
-            jsonModel.append( jo );
+            if (Object.prototype.toString.call(jo) === '[object Object]') {
+                jsonModel.append( jo );
+            }
         }
     }
 
     function parseJSONString(jsonString, jsonPathQuery) {
-        var objectArray = JSON.parse(jsonString);
-        if ( jsonPathQuery !== "" )
-            objectArray = JSONPath.jsonPath(objectArray, jsonPathQuery);
+        var data = JSON.parse(jsonString);
+        var objectArray = data;
+        if ( jsonPathQuery !== "" ){
+            objectArray = new JSONPath.modules.JSONPath({ json: objectArray, path: jsonPathQuery});
+        }
 
         return objectArray;
     }

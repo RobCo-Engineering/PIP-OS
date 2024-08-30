@@ -96,7 +96,7 @@ Rectangle {
 
         Text {
             color: "white"
-            text: list.currentItem.inventoryItem.text
+            text: (list.currentItem && list.currentItem.inventoryItem) ? list.currentItem.inventoryItem.text : ''
             font.family: "Roboto Condensed"
             font.pixelSize: 26
         }
@@ -122,61 +122,59 @@ Rectangle {
             name: "WEAPONS"
             PropertyChanges {
                 target: inventory
-                query: "$[?(@.filterFlag == 2)]"
+                query: "$.Inventory.[?(@.filterFlag == 2)]"
             }
         },
         State{
             name: "APPAREL"
             PropertyChanges {
                 target: inventory
-                query: "$[?(@.filterFlag == 4)]"
+                query: "$.Inventory.[?(@.filterFlag == 4)]"
             }
         },
         State{
             name: "AID"
             PropertyChanges {
                 target: inventory
-                query: "$[?(@.filterFlag == 8)]"
+                query: "$.Inventory.[?(@.filterFlag == 8)]"
             }
         },
         State{
             name: "MISC"
             PropertyChanges {
                 target: inventory
-                query: "$[?(@.filterFlag == 512)]"
+                query: "$.Inventory.[?(@.filterFlag == 512)]"
             }
         },
         State{
             name: "HOLO"
             PropertyChanges {
                 target: inventory
-                query: "$[?(@.filterFlag == 8192)]"
+                query: "$.Inventory.[?(@.filterFlag == 8192)]"
             }
         },
         State{
             name: "NOTES"
             PropertyChanges {
                 target: inventory
-                query: "$[?(@.filterFlag == 128)]"
+                query: "$.Inventory.[?(@.filterFlag == 128)]"
             }
         },
         State{
             name: "JUNK"
             PropertyChanges {
                 target: inventory
-                query: "$[?(@.filterFlag == 1024)]"
+                query: "$.Inventory.[?(@.filterFlag == 1024)]"
             }
         },
         State{
             name: "AMMO"
             PropertyChanges {
                 target: inventory
-                query: "$[?(@.filterFlag == 4096)]"
+                query: "$.Inventory.[?(@.filterFlag == 4096)]"
             }
         }
     ]
-
-    Component.onCompleted: console.log(state)
 
     Connections {
         target: App.hid
