@@ -5,7 +5,7 @@
 ### Pre-requisites
 
 ```
-sudo apt install libegl-dev libopengl-dev libxkbcommon-dev libharfbuzz-dev libmd4c-dev libpulse0
+sudo apt install libegl-dev libopengl-dev libxkbcommon-dev libharfbuzz-dev libmd4c-dev libpulse0 libfuse2
 ```
 
 ## Building from source
