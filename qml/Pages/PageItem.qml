@@ -62,7 +62,7 @@ C.Page {
                     horizontalAlignment: Text.AlignLeft
                     font.pixelSize: 28
                     font.family: "Roboto Condensed Bold"
-                    text: "± %1".arg(6565)
+                    text: "± %1".arg(App.dweller.collections.find(a => a.name === "Caps").quantity || 0)
                     color: "white"
                 }
             }
