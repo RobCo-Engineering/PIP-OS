@@ -1,3 +1,4 @@
+.pragma library
 var global = {
     XMLHttpRequest: XMLHttpRequest,
     location: {},

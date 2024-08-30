@@ -46,6 +46,8 @@ Item {
 
         for ( var key in objectArray ) {
             var jo = objectArray[key];
+
+            // The Qt list model needs objects, if it's not an object then don't try to append it
             if (Object.prototype.toString.call(jo) === '[object Object]') {
                 jsonModel.append( jo );
             }
@@ -55,6 +57,8 @@ Item {
     function parseJSONString(jsonString, jsonPathQuery) {
         var data = JSON.parse(jsonString);
         var objectArray = data;
+
+        // If a query is specified use JSONPath to filter the data
         if ( jsonPathQuery !== "" ){
             objectArray = new JSONPath.modules.JSONPath({ json: objectArray, path: jsonPathQuery});
         }
