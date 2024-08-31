@@ -13,7 +13,7 @@ appimage-builder:
   image:
     name: "carlonluca/qt-dev:6.7.1"
     entrypoint: [""]
-  rules:
+  rules: &build_rules
     - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH"
       changes:
         - "assets/**/*"
@@ -38,9 +38,7 @@ appimage-builder:
 upload:
   stage: upload
   image: curlimages/curl:latest
-  needs:
-    - job: appimage-builder
-      artifacts: true
+  rules: *build_rules
   before_script:
     - ls -lh
   script:
