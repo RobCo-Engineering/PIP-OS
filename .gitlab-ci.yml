@@ -8,7 +8,7 @@ variables:
   APPIMAGE_NAME: "PIP-OS-${APP_VERSION}-aarch64.AppImage"
   PACKAGE_REGISTRY_URL: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/PIP-OS/${APP_VERSION}"
 
-appimage-builder:
+build appimage:
   stage: build
   image:
     name: "carlonluca/qt-dev:6.7.1"
@@ -41,7 +41,7 @@ upload:
   stage: upload
   image: curlimages/curl:latest
   rules: *build_rules
-  dependencies: [appimage-builder]
+  dependencies: ["build appimage"]
   script:
     - 'curl --fail-with-body --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file build/${APPIMAGE_NAME} "${PACKAGE_REGISTRY_URL}/${APPIMAGE_NAME}"'
 
@@ -58,3 +58,32 @@ release_job:
     - |
       ./release-cli-linux-arm64 create --name "PIP-OS ${APP_VERSION}" --tag-name ${APP_VERSION} \
         --assets-link "{\"name\":\"${APPIMAGE_NAME}\",\"url\":\"${PACKAGE_REGISTRY_URL}/${APPIMAGE_NAME}\"}"
+
+build dev appimage:
+  stage: build
+  image:
+    name: "carlonluca/qt-dev:6.7.1"
+    entrypoint: [""]
+  variables:
+    APP_VERSION: dev
+  rules:
+    - if: "$CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH"
+      changes:
+        - "assets/**/*"
+        - "inc/**/*"
+        - "qml/**/*"
+        - "src/**/*"
+        - "main.qml"
+        - "main.cpp"
+        - "AppImageBuilder.yml"
+        - "CMakeLists.txt"
+  cache:
+    paths: [build/]
+  before_script:
+    - mkdir -p build
+    - cd build
+  script:
+    - appimage-builder --recipe ../AppImageBuilder.yml
+  artifacts:
+    paths:
+      - build/${APPIMAGE_NAME}
