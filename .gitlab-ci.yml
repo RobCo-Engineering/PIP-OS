@@ -10,11 +10,9 @@ appimage-builder:
   rules:
     - if: $CI_COMMIT_TAG
   before_script:
-    - apt update
-    - apt install libgpiod-dev
-  script:
     - mkdir build
     - cd build
+  script:
     - appimage-builder --recipe ../AppImageBuilder.yml
   artifacts:
     paths:
