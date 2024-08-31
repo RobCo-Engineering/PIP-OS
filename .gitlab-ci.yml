@@ -57,8 +57,3 @@ release_job:
     - |
       release-cli create --name "Release ${APP_VERSION}" --tag-name ${APP_VERSION} \
         --assets-link "{\"name\":\"${APPIMAGE_NAME}\",\"url\":\"${PACKAGE_REGISTRY_URL}/${APPIMAGE_NAME}\"}"
-
-  release: # See https://docs.gitlab.com/ee/ci/yaml/#release for available properties
-    tag_name: # The version is incremented per pipeline.
-    description: "v0.$CI_PIPELINE_IID"
-    ref: "$CI_COMMIT_SHA" # The tag is created from the pipeline SHA.
