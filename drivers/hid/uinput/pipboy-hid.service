@@ -3,7 +3,7 @@ Description=PipBoy HID uinput driver
 After=network.target
 
 [Service]
-ExecStart=/usr/local/bin/control-daemon
+ExecStart=/usr/local/bin/pipboy-control
 Restart=always
 User=root
 Group=root
