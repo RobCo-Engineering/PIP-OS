@@ -43,8 +43,6 @@ upload:
   rules:
     - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH"
     - *build_rules
-  before_script:
-    - ls -lh
   script:
     - 'curl --fail-with-body --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file build/${APPIMAGE_NAME} "${PACKAGE_REGISTRY_URL}/${APPIMAGE_NAME}"'
 
