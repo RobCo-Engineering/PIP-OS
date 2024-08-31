@@ -29,7 +29,7 @@ appimage-builder:
   cache:
     paths: [build/]
   before_script:
-    - mkdir build
+    - mkdir -p build
     - cd build
   script:
     - appimage-builder --recipe ../AppImageBuilder.yml
