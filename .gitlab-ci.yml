@@ -2,6 +2,11 @@ stages:
   - build
   - upload
 
+variables:
+  APP_VERSION: "v7.1.0.$CI_PIPELINE_IID"
+  APPIMAGE_NAME: "PIP-OS-${APP_VERSION}-aarch64.AppImage"
+  PACKAGE_REGISTRY_URL: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/PIP-OS/${APP_VERSION}"
+
 appimage-builder:
   stage: build
   image:
@@ -27,7 +32,7 @@ appimage-builder:
     - appimage-builder --recipe ../AppImageBuilder.yml
   artifacts:
     paths:
-      - build/PIP-OS-latest-aarch64.AppImage
+      - build/${APPIMAGE_NAME}
 
 upload:
   stage: upload
@@ -38,4 +43,22 @@ upload:
   before_script:
     - ls -lh
   script:
-    - 'curl --fail-with-body --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file build/PIP-OS-latest-aarch64.AppImage "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/PIP-OS/latest/PIP-OS-latest-aarch64.AppImage"'
+    - 'curl --fail-with-body --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file build/${APPIMAGE_NAME} "${PACKAGE_REGISTRY_URL}/${APPIMAGE_NAME}"'
+
+release_job:
+  stage: release
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never # Do not run this job when a tag is created manually
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH # Run this job when commits are pushed or merged to the default branch
+  script:
+    - echo "running release_job for $TAG"
+    - |
+      release-cli create --name "Release ${APP_VERSION}" --tag-name ${APP_VERSION} \
+        --assets-link "{\"name\":\"${APPIMAGE_NAME}\",\"url\":\"${PACKAGE_REGISTRY_URL}/${APPIMAGE_NAME}\"}"
+
+  release: # See https://docs.gitlab.com/ee/ci/yaml/#release for available properties
+    tag_name: # The version is incremented per pipeline.
+    description: "v0.$CI_PIPELINE_IID"
+    ref: "$CI_COMMIT_SHA" # The tag is created from the pipeline SHA.
