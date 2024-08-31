@@ -20,6 +20,7 @@ appimage-builder:
 
 upload:
   stage: upload
+  image: curlimages/curl:latest
   dependencies: [appimage-builder]
   script:
     - 'curl --fail-with-body --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file build/PIP-OS-latest-aarch64.AppImagee "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/PIP-OS/latest/PIP-OS-latest-aarch64.AppImage"'
