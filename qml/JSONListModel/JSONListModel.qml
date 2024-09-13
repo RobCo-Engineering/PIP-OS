@@ -5,7 +5,7 @@
  */
 
 import QtQuick
-import "jsonpath-plus.js" as JSONPath
+import "json-query.js" as JSONPath
 
 Item {
     property string source: ""
