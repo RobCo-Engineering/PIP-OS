@@ -44,7 +44,6 @@ set(QML
     qml/Tabs/TabRadio.qml
     qml/Tabs/TabSpecial.qml
     qml/JSONListModel/JSONListModel.qml
-    qml/JSONListModel/jsonpath-plus.js
     qml/JSONListModel/json-query.js
 )
 
