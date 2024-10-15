@@ -155,6 +155,15 @@ Caps = 1234
 Stamps = 3
 ```
 
+### Radio
+
+Radio stations should be `.wav` files that are placed into a directory together. The name of the file will have the `.wav` extension stripped and that will be used for the station name. ie. naming a file `Classical Radio.wav` will create a radio station named `Classical Radio`. By default the directory used will be the directory the app is running in, but you can configure the path to look for radio stations as follows:
+
+```ini
+[Radio]
+directory = "file:///path/to/radio"
+```
+
 ## Extracting Vault Boy Sprites
 
 SWF files are extracted from the game using BSA Browser, condition clips exist in `interfaces/components/conditionclips`, for F76 the archive is `SeventySix - Interface.ba2`. From the files in Fallout 76 there are both full colour and monochromatic versions, the latter have the `_mono` postfix. The `.swf` files are opened with JPEXS, ~~each shape is exported as SVG and arranged in a sprite sheet with fixed width frames (120px), sprite sheets are then exported as transparent PNG and rendered using an `AnimatedSprite` in QML. When inspecting the body frames in JPEXS you can find the anchor point which is used for aligning the head elements, each body is a seperate SWF and then all of the heads are in the same SWF, each head needs alignment with the alignment points on the body frames.~~
