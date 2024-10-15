@@ -8,7 +8,7 @@ Rectangle {
     id: radio
     color: "black"
 
-    property int activeStation: -1
+    property string activeStation
 
     FolderListModel {
         id: sourceFolder
@@ -37,21 +37,20 @@ Rectangle {
             delegate: RowLayout {
                 id: item
                 required property string fileName
-                // property variant stat: fileName.replace(/\.[^/.]+$/, "")
-                property int thisIndex: index
+                property string station: fileName.replace(/\.[^/.]+$/, "")
 
                 width: ListView.view.width
 
                 Rectangle {
                     color: item.ListView.isCurrentItem ? "black" : "white"
-                    opacity: (thisIndex === activeStation) ? 1 : 0
+                    opacity: (station === activeStation) ? 1 : 0
                     width: 12
                     height: 12
                     Layout.leftMargin: 4
                 }
 
                 Text {
-                    text: fileName
+                    text: station
                     color: item.ListView.isCurrentItem ? "black" : "white"
                     font.family: "Roboto Condensed"
                     font.pixelSize: 26
@@ -102,14 +101,14 @@ Rectangle {
                 break
 
             case "BUTTON_SELECT":
-                if (list.currentIndex === activeStation) {
+                if (list.currentItem.station === activeStation) {
                     // Turn off the radio if the already playing station is clicked
                     activeStation = -1
                     playRadio.source = ""
                     playRadio.stop()
                 } else {
                     // Play the selected station
-                    activeStation = list.currentIndex
+                    activeStation = list.currentItem.station
                     playRadio.source = sourceFolder.get(list.currentIndex, 'filePath')
                     playRadio.play()
                 }
