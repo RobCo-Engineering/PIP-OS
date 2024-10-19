@@ -1,22 +1,18 @@
 #include <QDebug>
 #include <QDirIterator>
-#include <QEvent>
-#include <QFile>
 #include <QFontDatabase>
 #include <QGuiApplication>
-#include <QInputDevice>
-#include <QKeyEvent>
 #include <QObject>
 #include <QQmlApplicationEngine>
-#include <QQmlContext>
 #include <QSettings>
-#include <QStandardPaths>
+#include <QUrl>
 
 #include "PipOS/app.h"
 #include "PipOS/bootscreen.h"
 #include "PipOS/hid.h"
 
 namespace PipOS {
+
 App::App() : QObject(nullptr) {
   QGuiApplication::setOrganizationName("RobCo-Industries");
   QGuiApplication::setOrganizationDomain("robco-industries.org");
@@ -30,17 +26,24 @@ void App::init() {
 
   qRegisterMetaType<CollectionItem *>("CollectionItem*");
 
-  QDirIterator it(":", {"*.ttf", "*.otf"}, QDir::Files, QDirIterator::Subdirectories);
+  QDirIterator it(":", {"*.ttf", "*.otf"}, QDir::Files,
+                  QDirIterator::Subdirectories);
   while (it.hasNext()) {
     QString font = it.next();
     qDebug() << "Loading font" << font;
     QFontDatabase::addApplicationFont(font);
   }
 
+  // QDirIterator its(":", QDirIterator::Subdirectories);
+  // while (its.hasNext()) {
+  //     qDebug() << its.next();
+  // }
+
   using std::make_shared, std::make_unique;
 
   m_settings = make_shared<Settings>();
   m_dweller = make_shared<Dweller>();
+  m_radio = make_shared<Radio>();
 
   m_mainWindowEngine = make_unique<QQmlApplicationEngine>();
 

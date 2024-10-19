@@ -12,6 +12,7 @@ set(SOURCES
     src/bootscreen.cpp
     src/dweller.cpp
     src/settings.cpp
+    src/radio.cpp
 )
 
 set(HEADER
@@ -20,6 +21,7 @@ set(HEADER
     inc/public/PipOS/bootscreen.h
     inc/public/PipOS/settings.h
     inc/public/PipOS/dweller.h
+    inc/public/PipOS/radio.h
 )
 
 set(QML
@@ -43,6 +45,7 @@ set(QML
     qml/Tabs/TabInventory.qml
     qml/Tabs/TabRadio.qml
     qml/Tabs/TabSpecial.qml
+    qml/Tabs/FrequencyGraph.qml
     qml/JSONListModel/JSONListModel.qml
     qml/JSONListModel/json-query.js
 )
@@ -53,7 +56,7 @@ set(QML
 #     "${QML_DIRS}"
 #     CACHE STRING "Qt Creator extra qml import paths")
 
-find_package(Qt6 REQUIRED COMPONENTS Core Quick)
+find_package(Qt6 REQUIRED COMPONENTS Core Quick Multimedia Graphs)
 # qt_standard_project_setup()
 
 add_library(PipOSApp STATIC)
@@ -80,7 +83,10 @@ target_link_libraries(
     PUBLIC
     Qt6::Quick
     Qt6::Gui
-    Qt6::Core)
+    Qt6::Core
+    Qt6::Multimedia
+    Qt6::Graphs
+)
 
 qt_add_executable(PipOS  main.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE PipOSApp PipOSAppplugin Qt6::Gui)
@@ -115,6 +121,15 @@ qt_add_resources(PipOSApp "images"
         assets/images/Intelligence.gif
         assets/images/Agility.gif
         assets/images/Luck.gif
+)
+
+qt_add_resources(PipOSApp "sounds"
+    PREFIX "/"
+    FILES
+        assets/sounds/item_focus.wav
+        assets/sounds/radio_on.wav
+        assets/sounds/radio_off.wav
+        assets/sounds/horizontal_tab.wav
 )
 
 # fonts

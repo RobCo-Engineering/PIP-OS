@@ -1,21 +1,20 @@
-import QtQuick 2.15
+import QtQuick
 import QtQuick.Layouts
 import QtMultimedia
-import Qt.labs.folderlistmodel 2.7
+
 import PipOS 1.0
 
 Rectangle {
     id: radio
     color: "black"
 
-    property string activeStation
-
-    FolderListModel {
-        id: sourceFolder
-        nameFilters: ["*.wav"]
-        folder: App.settings.radioStationLocation
-        showDirs: false
-        showOnlyReadable: true
+    property var radioStations: {
+        "Appalachia Radio": "https://fallout.fm:8444/falloutfm10.ogg",
+        "Classical Radio": "https://fallout.fm:8444/falloutfm9.ogg",
+        "Diamond City Radio": "https://fallout.fm:8444/falloutfm6.ogg",
+        "More Where That Came From": "https://fallout.fm:8444/falloutfm8.ogg",
+        "Galaxy News Radio": "https://fallout.fm:8444/falloutfm2.ogg",
+        "Radio New Vegas": "https://fallout.fm:8444/falloutfm3.ogg"
     }
 
     Rectangle {
@@ -32,25 +31,26 @@ Rectangle {
         ListView {
             id: list
             anchors.fill: parent
-            model: sourceFolder
+            model: Object.keys(radio.radioStations)
             spacing: 10
             delegate: RowLayout {
                 id: item
-                required property string fileName
-                property string station: fileName.replace(/\.[^/.]+$/, "")
+
+                property string station: modelData
+                property bool active: radio.radioStations[station] == App.radio.source
 
                 width: ListView.view.width
 
                 Rectangle {
                     color: item.ListView.isCurrentItem ? "black" : "white"
-                    opacity: (station === activeStation) ? 1 : 0
+                    opacity: item.active ? 1 : 0
                     width: 12
                     height: 12
                     Layout.leftMargin: 4
                 }
 
                 Text {
-                    text: station
+                    text: item.station
                     color: item.ListView.isCurrentItem ? "black" : "white"
                     font.family: "Roboto Condensed"
                     font.pixelSize: 26
@@ -77,16 +77,17 @@ Rectangle {
         source: "/assets/images/radio_axis.svg"
         fillMode: Image.PreserveAspectFit
         width: 220
+
+        FrequencyGraph {
+            id: graph
+            active: App.radio.playing
+            anchors.fill: radioAxis
+        }
     }
 
-    MediaPlayer {
-        id: playRadio
-        source: ""
-        audioOutput: AudioOutput {}
-    }
-
-    Component.onCompleted: {
-        console.log("Loading wav files from", App.settings.radioStationLocation)
+    SoundEffect {
+        id: sfxFocus
+        source: "/assets/sounds/item_focus.wav"
     }
 
     Connections {
@@ -95,22 +96,23 @@ Rectangle {
             switch(a) {
             case "SCROLL_UP":
                 list.decrementCurrentIndex()
+                sfxFocus.play()
                 break
+
             case "SCROLL_DOWN":
                 list.incrementCurrentIndex()
+                sfxFocus.play()
                 break
 
             case "BUTTON_SELECT":
-                if (list.currentItem.station === activeStation) {
+                if (radio.radioStations[list.currentItem.station] == App.radio.source) {
                     // Turn off the radio if the already playing station is clicked
-                    activeStation = -1
-                    playRadio.source = ""
-                    playRadio.stop()
+                    App.radio.setSource("")
+                    App.radio.stop()
                 } else {
                     // Play the selected station
-                    activeStation = list.currentItem.station
-                    playRadio.source = sourceFolder.get(list.currentIndex, 'filePath')
-                    playRadio.play()
+                    App.radio.setSource(radioStations[list.currentItem.station])
+                    App.radio.play()
                 }
                 break
             }

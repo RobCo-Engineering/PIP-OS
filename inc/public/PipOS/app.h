@@ -6,6 +6,7 @@
 
 #include "PipOS/dweller.h"
 #include "PipOS/hid.h"
+#include "PipOS/radio.h"
 #include "PipOS/settings.h"
 
 namespace PipOS {
@@ -14,9 +15,11 @@ class App : public QObject {
   Q_PROPERTY(QQmlApplicationEngine *mainWindowEngine READ mainWindowEngine WRITE
                  setMainWindowEngine NOTIFY mainWindowEngineChanged)
   Q_PROPERTY(HumanInterfaceDevice *hid READ hid CONSTANT)
-  Q_PROPERTY(Settings *settings READ settings WRITE setSettings NOTIFY settingsChanged)
+  Q_PROPERTY(
+      Settings *settings READ settings WRITE setSettings NOTIFY settingsChanged)
   Q_PROPERTY(Dweller *dweller READ dweller WRITE setDweller NOTIFY
                  dwellerChanged FINAL)
+  Q_PROPERTY(Radio *radio READ radio CONSTANT)
 
 public:
   explicit App();
@@ -29,6 +32,7 @@ public:
   Settings *settings() const { return m_settings.get(); }
   Dweller *dweller() const { return m_dweller.get(); };
   HumanInterfaceDevice *hid() const { return m_hid.get(); };
+  Radio *radio() const { return m_radio.get(); };
 
   signals:
   void mainWindowEngineChanged(QQmlApplicationEngine *mainWindowEngine);
@@ -45,5 +49,6 @@ private:
   std::shared_ptr<Settings> m_settings;
   std::shared_ptr<Dweller> m_dweller;
   std::shared_ptr<HumanInterfaceDevice> m_hid;
+  std::shared_ptr<Radio> m_radio;
 };
 } // namespace PipOS
