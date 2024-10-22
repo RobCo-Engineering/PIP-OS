@@ -35,7 +35,7 @@ build appimage:
     - mkdir -p build
     - cd build
   script:
-    - . /venv/bin/activate
+    # - . /venv/bin/activate
     - appimage-builder --recipe ../AppImageBuilder.yml
   artifacts:
     paths:
