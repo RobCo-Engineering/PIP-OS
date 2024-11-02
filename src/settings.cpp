@@ -51,4 +51,32 @@ QString Settings::inventoryFileLocation() const
     return m_settings.value("Inventory/directory", QDir::currentPath()).toString();
 }
 
+float Settings::scale() const
+{
+    return m_settings.value("Interface/scale", 1.0).toFloat();
+}
+void Settings::setScale(float newScale)
+{
+    m_settings.setValue("Interface/scale", newScale);
+    emit scaleChanged();
+}
+int Settings::xOffset() const
+{
+    return m_settings.value("Interface/xOffset", 0).toInt();
+}
+void Settings::setXOffset(int newOffset)
+{
+    m_settings.setValue("Interface/xOffset", newOffset);
+    emit xOffsetChanged();
+}
+int Settings::yOffset() const
+{
+    return m_settings.value("Interface/yOffset", 0).toInt();
+}
+void Settings::setYOffset(int newOffset)
+{
+    m_settings.setValue("Interface/yOffset", newOffset);
+    emit yOffsetChanged();
+}
+
 } // namespace PipOS
