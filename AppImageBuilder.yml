@@ -12,7 +12,9 @@ script:
   - cp -r ${QT_PATH}/qml/QtCore AppDir${QT_PATH}/qml/
   - cp -r ${QT_PATH}/qml/QtQml AppDir${QT_PATH}/qml/
   - cp -r ${QT_PATH}/qml/QtQuick AppDir${QT_PATH}/qml/
-  - cp -r ${QT_PATH}/qml/QtMultimedia AppDir${QT_PATH}/qml/
+  - cp -r ${QT_PATH}/qml/QtLocation AppDir${QT_PATH}/qml/
+  - cp -r ${QT_PATH}/qml/QtPositioning AppDir${QT_PATH}/qml/
+  - cp -r ${QT_PATH}/qml/QtGraphs AppDir${QT_PATH}/qml/
 
 AppDir:
   path: ./AppDir
