@@ -57,6 +57,9 @@ skipBoot=true
 
 ; Enable/disable the scanline post-processing effect
 scanlines=true
+
+; Scale the interface, 1.0 is full scale, 0.5 is half scale etc.
+scale=1.0
 ```
 
 ### Vault Dweller Settings
@@ -126,6 +129,15 @@ If you want to write your own JSON, a minimal example could be as follows:
     ]
   }
 }
+```
+
+### Map
+
+The map is implemented using the Stadia Maps tile server for OpenStreetMap, you'll need an API key to use it but it should be free usage once you've made an account. Create an account over at https://stadiamaps.com and in your account create a new "property" and then generate an API key for it. Once you've got an API key add it to your app settings ini like below.
+
+```ini
+[Map]
+apyKey="<your API key>"
 ```
 
 #### Filter Flags
