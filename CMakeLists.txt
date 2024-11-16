@@ -6,6 +6,10 @@ set(CMAKE_AUTORCC ON)
 
 project(PipOS LANGUAGES CXX)
 
+# Set the output directory for build artifacts
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(PIPOS_QML_MODULES_PATH "${CMAKE_BINARY_DIR}/qml/PipOSApp")
+
 set(SOURCES
     src/app.cpp
     src/hid.cpp
@@ -52,11 +56,11 @@ set(QML
     qml/JSONListModel/json-query.js
 )
 
-# set(PIPOS_QML_MODULES_PATH "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/qml")
-# list(APPEND QML_DIRS "${PIPOS_QML_MODULES_PATH}")
-# set(QML_IMPORT_PATH
-#     "${QML_DIRS}"
-#     CACHE STRING "Qt Creator extra qml import paths")
+# Set QML import path for Qt Creator
+list(APPEND QML_DIRS "${CMAKE_BINARY_DIR}/qml")  # Changed to point to the parent qml directory
+set(QML_IMPORT_PATH
+    "${QML_DIRS}"
+    CACHE STRING "Qt Creator extra qml import paths")
 
 find_package(Qt6 REQUIRED COMPONENTS Core Quick Multimedia Graphs)
 # qt_standard_project_setup()
@@ -73,8 +77,7 @@ target_include_directories(PipOSApp PUBLIC src/ inc/public/PipOS)
 
 qt_add_qml_module(PipOSApp
     URI PipOSApp
-    OUTPUT_DIRECTORY
-    ${PIPOS_QML_MODULES_PATH}/${PROJECT_NAME}App
+    OUTPUT_DIRECTORY ${PIPOS_QML_MODULES_PATH}
     RESOURCE_PREFIX /qml
     VERSION 1.0
     QML_FILES ${QML}
