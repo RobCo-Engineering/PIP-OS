@@ -80,6 +80,8 @@ AppDir:
       - ${QT_PATH}/plugins/generic/*.so
       - ${QT_PATH}/plugins/platforminputcontexts/*.so
       - ${QT_PATH}/plugins/platformthemes/*.so
+      - ${QT_PATH}/plugins/geoservices/*.so
+
     exclude:
       - lib/aarch64-linux-gnu/lib*.so*
       - usr/share/doc/*/README.*
