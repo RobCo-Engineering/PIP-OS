@@ -1,42 +1,23 @@
-/* JSONListModel - a QML ListModel with JSON and JSONPath support
- *
- * Copyright (c) 2012 Romain Pokrzywka (KDAB) (romain@kdab.com)
- * Licensed under the MIT licence (http://opensource.org/licenses/mit-license.php)
- */
-
 import QtQuick
 import "json-query.js" as JsonQuery
 
 Item {
-    property string source: ""
-    property string json: ""
-    property string query: ""
-    property string sortKey: ""
+    property string query: "[*]"
     property var sortFunction
+    property var data
 
     property ListModel model : ListModel { id: jsonModel }
     property alias count: jsonModel.count
 
-    onSourceChanged: {
-        var xhr = new XMLHttpRequest;
-        xhr.open("GET", source);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE)
-                json = xhr.responseText;
-        }
-        xhr.send();
-    }
 
-    onJsonChanged: updateJSONModel()
     onQueryChanged: updateJSONModel()
 
     function updateJSONModel() {
         jsonModel.clear();
 
-        if ( json === "" )
-            return;
+        if (!data) return;
 
-        var objectArray = parseJSONString(json, query);
+        var objectArray = JsonQuery.modules(query, { data: data }).value || [];
 
         // Optionally sort based on object key
         if (sortFunction) {
@@ -51,17 +32,5 @@ Item {
                 jsonModel.append( jo );
             }
         }
-    }
-
-    function parseJSONString(jsonString, jsonPathQuery) {
-        var data = JSON.parse(jsonString);
-        var objectArray = data;
-
-        // If a query is specified use JSONPath to filter the data
-        if ( jsonPathQuery !== "" ){
-            objectArray = JsonQuery.modules(jsonPathQuery, { data: objectArray }).value || [];
-        }
-
-        return objectArray;
     }
 }

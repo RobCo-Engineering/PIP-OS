@@ -2,10 +2,10 @@ import QtQuick
 import QtQuick.Layouts
 import QtMultimedia
 
-import PipOS 1.0
+
 
 Rectangle {
-    id: radio
+    id: root
     color: "black"
 
     property var radioStations: {
@@ -21,31 +21,31 @@ Rectangle {
         id: listMain
         color: "black"
         anchors {
-            top: radio.top
+            top: root.top
             topMargin: 40
-            left: radio.left
-            bottom: radio.bottom
+            left: root.left
+            bottom: root.bottom
         }
-        width: radio.width / 2
+        width: root.width / 2
 
         ListView {
             id: list
             anchors.fill: parent
-            model: Object.keys(radio.radioStations)
+            model: Object.keys(root.radioStations)
             spacing: 10
             delegate: RowLayout {
                 id: item
 
                 property string station: modelData
-                property bool active: radio.radioStations[station] == App.radio.source
+                property bool active: root.radioStations[station] == radio.source
 
                 width: ListView.view.width
 
                 Rectangle {
                     color: item.ListView.isCurrentItem ? "black" : "white"
                     opacity: item.active ? 1 : 0
-                    width: 12
-                    height: 12
+                    Layout.preferredWidth: 12
+                    Layout.preferredHeight: 12
                     Layout.leftMargin: 4
                 }
 
@@ -71,7 +71,7 @@ Rectangle {
         id: radioAxis
         anchors {
             top: listMain.top
-            right: radio.right
+            right: root.right
             rightMargin: 20
         }
         source: "/assets/images/radio_axis.svg"
@@ -80,7 +80,7 @@ Rectangle {
 
         FrequencyGraph {
             id: graph
-            active: App.radio.playing
+            active: radio.playing
             anchors.fill: radioAxis
         }
     }
@@ -91,7 +91,7 @@ Rectangle {
     }
 
     Connections {
-        target: App.hid
+        target: hid
         function onUserActivity(a) {
             switch(a) {
             case "SCROLL_UP":
@@ -105,14 +105,14 @@ Rectangle {
                 break
 
             case "BUTTON_SELECT":
-                if (radio.radioStations[list.currentItem.station] == App.radio.source) {
+                if (root.radioStations[list.currentItem.station] == radio.source) {
                     // Turn off the radio if the already playing station is clicked
-                    App.radio.setSource("")
-                    App.radio.stop()
+                    radio.setSource("")
+                    radio.stop()
                 } else {
                     // Play the selected station
-                    App.radio.setSource(radioStations[list.currentItem.station])
-                    App.radio.play()
+                    radio.setSource(radioStations[list.currentItem.station])
+                    radio.play()
                 }
                 break
             }

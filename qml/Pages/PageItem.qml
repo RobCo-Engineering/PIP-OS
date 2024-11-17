@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Layouts
 import QtQuick.Controls as C
-import PipOS 1.0
+
 import "../Layout"
 import "../Tabs"
 
@@ -65,7 +65,7 @@ C.Page {
                     horizontalAlignment: Text.AlignLeft
                     font.pixelSize: 28
                     font.family: "Roboto Condensed Bold"
-                    text: "± %1".arg(App.dweller.collections.find(a => a.name === "Caps").quantity || 0)
+                    text: "± %1".arg(dweller.collections.find(a => a.name === "Caps").quantity || 0)
                     color: "white"
                 }
             }
@@ -90,7 +90,7 @@ C.Page {
     }
 
     Connections {
-        target: App.hid
+        target: hid
         function onUserActivity(a) {
             if (a === "TAB_ITEM") subMenu.goToNext()
         }

@@ -1,8 +1,6 @@
 import QtQuick 2.15
 import QtMultimedia
 
-import PipOS
-
 ListView {
     id: list
 
@@ -42,6 +40,8 @@ ListView {
 
     delegate: Text {
         required property string modelData
+        required property int index
+
         text: modelData
         color: "white"
         font.family: "Roboto Condensed"
@@ -65,7 +65,7 @@ ListView {
     // }
 
     Connections {
-        target: App.hid
+        target: hid
         function onUserActivity(a) {
             if (a.startsWith("SUB_TAB_")) {
                 switch (a) {

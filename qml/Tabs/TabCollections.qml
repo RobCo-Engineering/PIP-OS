@@ -1,6 +1,6 @@
 import QtQuick 2.15
 import QtMultimedia
-import PipOS 1.0
+
 
 Rectangle {
     id: collections
@@ -21,7 +21,7 @@ Rectangle {
             id: list
             anchors.fill: parent
             spacing: 5
-            model: App.dweller.collections
+            model: dweller.collections
             delegate: Item {
                 id: item
                 property variant ci: modelData
@@ -67,7 +67,7 @@ Rectangle {
     }
 
     Connections {
-        target: App.hid
+        target: hid
         function onUserActivity(a) {
             switch(a) {
             case "SCROLL_UP":

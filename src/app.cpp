@@ -4,35 +4,40 @@
 #include <QGuiApplication>
 #include <QObject>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 #include <QSettings>
 #include <QUrl>
 
 #include "PipOS/app.h"
 #include "PipOS/bootscreen.h"
-#include "PipOS/hid.h"
 
 namespace PipOS {
-
-App::App() : QObject(nullptr) {
-  QGuiApplication::setOrganizationName("RobCo-Industries");
-  QGuiApplication::setOrganizationDomain("robco-industries.org");
-  QGuiApplication::setApplicationName("PipOS");
-
-  QSettings::setDefaultFormat(QSettings::IniFormat);
-}
 
 void App::init() {
   qInfo() << "Init PipOS";
 
   qRegisterMetaType<CollectionItem *>("CollectionItem*");
 
-  QDirIterator it(":", {"*.ttf", "*.otf"}, QDir::Files,
-                  QDirIterator::Subdirectories);
+  QDirIterator it(":", {"*.ttf", "*.otf"}, QDir::Files, QDirIterator::Subdirectories);
   while (it.hasNext()) {
     QString font = it.next();
     qDebug() << "Loading font" << font;
     QFontDatabase::addApplicationFont(font);
   }
+
+  // Load the JSON data file
+  m_dataProvider->loadData(m_settings->inventoryFileLocation());
+
+  QQmlContext *context = m_mainWindowEngine->rootContext();
+
+  context->setContextProperty("hid", m_hid);
+  context->setContextProperty("dataProvider", m_dataProvider);
+  context->setContextProperty("settings", m_settings);
+  context->setContextProperty("dweller", m_dweller);
+  context->setContextProperty("radio", m_radio);
+
+  // auto *context = static_cast<QQmlEngine *>(m_mainWindowEngine)->rootContext();
+  // context->setContextProperty("app", this);
 
   // List all contents of QRC
   // QDirIterator its(":", QDirIterator::Subdirectories);
@@ -40,55 +45,29 @@ void App::init() {
   //     qDebug() << its.next();
   // }
 
-  using std::make_shared, std::make_unique;
-
-  m_settings = make_shared<Settings>();
-  m_dweller = make_shared<Dweller>();
-  m_radio = make_shared<Radio>();
-
-  m_mainWindowEngine = make_unique<QQmlApplicationEngine>();
-
+  // qmlRegisterSingletonInstance("PipOS", 1, 0, "App", this);
   qmlRegisterType<BootScreen>("BootScreen", 1, 0, "BootScreen");
 
-  auto *guiAppInst =
-      dynamic_cast<QGuiApplication *>(QGuiApplication::instance());
+  auto *guiAppInst = dynamic_cast<QGuiApplication *>(QGuiApplication::instance());
 
   // Set a default app wide font
   QFont defaultFont = QFont("Roboto Condensed", 20);
   guiAppInst->setFont(defaultFont);
 
-  qmlRegisterSingletonInstance("PipOS", 1, 0, "App", this);
+  // Where's all the QML
   m_mainWindowEngine->addImportPath(guiAppInst->applicationDirPath() + "/qml");
   guiAppInst->addLibraryPath(guiAppInst->applicationDirPath() + "/qml");
 
-  m_hid = make_shared<HumanInterfaceDevice>();
-  guiAppInst->installEventFilter(m_hid.get());
+  // Human interface device filter for capturing user events
+  guiAppInst->installEventFilter(m_hid);
 
+  // Load the main QML entrypoint
+  qInfo() << "Loading main.qml";
   m_mainWindowEngine->load(QUrl(QStringLiteral("qrc:/qml/PipOSApp/main.qml")));
-}
 
-void App::setMainWindowEngine(QQmlApplicationEngine *mainWindowEngine) {
-  if (m_mainWindowEngine.get() == mainWindowEngine)
-    return;
-
-  m_mainWindowEngine.reset(mainWindowEngine);
-  emit mainWindowEngineChanged(m_mainWindowEngine.get());
-}
-
-void App::setSettings(Settings *settings) {
-  if (m_settings.get() == settings)
-    return;
-
-  m_settings.reset(settings);
-  emit settingsChanged(m_settings.get());
-}
-
-void App::setDweller(Dweller *dweller) {
-  if (m_dweller.get() == dweller)
-    return;
-
-  m_dweller.reset(dweller);
-  emit dwellerChanged(m_dweller.get());
+  if (m_mainWindowEngine->rootObjects().isEmpty()) {
+      qFatal("Failed to load main.qml");
+  }
 }
 
 } // namespace PipOS

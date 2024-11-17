@@ -1,12 +1,13 @@
 import QtQuick 2.15
 import QtQuick.Layouts
 import QtQuick.Controls as C
-import PipOS 1.0
+
 import ".."
 import "../Layout"
 
 C.Page {
     id: root
+
     property alias subMenuIndex: subMenu.currentIndex
     property int subMenuCenter
     property variant tabNames: ["STATUS", "EFFECTS", "SPECIAL", "COLLECTIONS"]
@@ -15,8 +16,8 @@ C.Page {
 
     header: SubMenu {
         id: subMenu
-        model: tabNames
-        centerPoint: subMenuCenter
+        model: root.tabNames
+        centerPoint: root.subMenuCenter
     }
 
     state: tabNames[subMenu.currentIndex]
@@ -48,7 +49,7 @@ C.Page {
                     horizontalAlignment: Text.AlignLeft
                     font.pixelSize: 28
                     font.family: "Roboto Condensed Bold"
-                    text: "HP  %1/%2".arg(App.dweller.currentHealth).arg(App.dweller.maxHealth)
+                    text: "HP  %1/%2".arg(dweller.currentHealth).arg(dweller.maxHealth)
                     color: "white"
                 }
             }
@@ -66,7 +67,7 @@ C.Page {
                     horizontalAlignment: Text.AlignLeft
                     font.pixelSize: 28
                     font.family: "Roboto Condensed Bold"
-                    text: "LEVEL %1".arg(App.dweller.level)
+                    text: "LEVEL %1".arg(dweller.level)
                     color: "white"
                 }
 
@@ -80,7 +81,7 @@ C.Page {
                         bottomMargin: 10
                     }
                     width: parent.width - levelText.implicitWidth - 30
-                    progress: App.dweller.levelProgress
+                    progress: dweller.levelProgress
                 }
             }
 
@@ -96,7 +97,7 @@ C.Page {
                     horizontalAlignment: Text.AlignRight
                     font.pixelSize: 28
                     font.family: "Roboto Condensed Bold"
-                    text: "AP  %1/%2".arg(App.dweller.currentAP).arg(App.dweller.maxAP)
+                    text: "AP  %1/%2".arg(dweller.currentAP).arg(dweller.maxAP)
                     color: "white"
                 }
             }
@@ -135,7 +136,7 @@ C.Page {
     ]
 
     Connections {
-        target: App.hid
+        target: hid
         function onUserActivity(a) {
             if (a === "TAB_STAT") subMenu.goToNext()
         }

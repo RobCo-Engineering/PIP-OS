@@ -2,7 +2,7 @@ import QtQuick 2.15
 import QtQuick.Layouts
 import QtMultimedia
 
-import PipOS 1.0
+
 import "../JSONListModel"
 
 Rectangle {
@@ -23,7 +23,8 @@ Rectangle {
 
         JSONListModel{
             id: inventory
-            source: App.settings.inventoryFileLocation
+            data: dataProvider.data
+            query: ""
             sortFunction: (a, b) => {
               // First, sort by enabled and active status
               const aStatus = (a.enabled && a.active) ? 2 : (a.enabled ? 1 : 0);
@@ -36,7 +37,6 @@ Rectangle {
               // If status is the same, sort alphabetically by text
               return a.text.localeCompare(b.text);
             }
-            query: ""
         }
 
         ListView {
@@ -109,7 +109,7 @@ Rectangle {
 
         ListView {
             anchors.fill: parent
-            model: list.currentItem.modelData.objectives
+            model: list.currentItem ? list.currentItem.modelData.objectives : []
             delegate: Rectangle {
                 id: objective
                 color: "#333"
@@ -127,9 +127,10 @@ Rectangle {
                     }
 
                     Text {
-                        anchors.right: objective.right
+                        // anchors.right: parent.right
+                        // Layout.alignment:
                         id: questText
-                        width: parent.width
+                        Layout.preferredWidth: parent.width
                         color: "white"
                         text: model.text || ''
                         wrapMode: Text.WordWrap
@@ -158,7 +159,7 @@ Rectangle {
     }
 
     Connections {
-        target: App.hid
+        target: hid
         function onUserActivity(a) {
             switch(a) {
             case "SCROLL_UP":

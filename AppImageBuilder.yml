@@ -70,6 +70,7 @@ AppDir:
       - ${QT_PATH}/lib/libQt6PositioningQuick.so.6
       - ${QT_PATH}/lib/libQt6Positioning.so.6
       - ${QT_PATH}/lib/libQt6Location.so.6
+      - ${QT_PATH}/lib/libQt6LabsAnimation.so.6
       - ${QT_PATH}/plugins/egldeviceintegrations/*.so
       - ${QT_PATH}/plugins/xcbglintegrations/*.so
       - ${QT_PATH}/plugins/imageformats/*.so

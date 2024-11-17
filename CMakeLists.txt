@@ -13,6 +13,7 @@ set(PIPOS_QML_MODULES_PATH "${CMAKE_BINARY_DIR}/qml/PipOSApp")
 set(SOURCES
     src/app.cpp
     src/hid.cpp
+    src/dataprovider.cpp
     src/bootscreen.cpp
     src/dweller.cpp
     src/settings.cpp
@@ -22,6 +23,7 @@ set(SOURCES
 set(HEADER
     inc/public/PipOS/app.h
     inc/public/PipOS/hid.h
+    inc/public/PipOS/dataprovider.h
     inc/public/PipOS/bootscreen.h
     inc/public/PipOS/settings.h
     inc/public/PipOS/dweller.h
@@ -118,7 +120,7 @@ qt_add_resources(PipOSApp "images"
         assets/images/status_ok.gif
         assets/images/initiating.gif
         assets/images/radio_axis.svg
-
+        assets/images/map_marker.svg
         assets/images/Strength.gif
         assets/images/Perception.gif
         assets/images/Endurance.gif

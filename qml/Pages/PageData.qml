@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls
 import QtQuick.Layouts
-import PipOS 1.0
+
 import "../Layout"
 import "../Tabs"
 
@@ -97,7 +97,7 @@ Page {
     }
 
     Connections {
-        target: App.hid
+        target: hid
         function onUserActivity(a) {
             if (a === "TAB_DATA") subMenu.goToNext()
         }

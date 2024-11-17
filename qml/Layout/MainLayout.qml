@@ -2,8 +2,6 @@ import QtQuick 2.15
 import QtQuick.Window
 import QtMultimedia
 
-import PipOS
-
 Item {
     id: root
 
@@ -69,7 +67,7 @@ Item {
     }
 
     Connections {
-        target: App.hid
+        target: hid
         function onUserActivity(a) {
             if (a.startsWith("TAB_")) {
                 var tab = a.replace("TAB_", "")

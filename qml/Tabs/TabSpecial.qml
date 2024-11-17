@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Layouts
 import QtMultimedia
-import PipOS 1.0
+
 
 Rectangle {
     id: root
@@ -50,7 +50,7 @@ Rectangle {
                         right: parent.right
                         rightMargin: 10
                     }
-                    text: App.dweller["special" + stat]
+                    text: dweller["special" + stat]
                     color: item.ListView.isCurrentItem ? "black" : "white"
                     font.family: "Roboto Condensed"
                     font.pixelSize: 26
@@ -190,7 +190,7 @@ Rectangle {
     }
 
     Connections {
-        target: App.hid
+        target: hid
         function onUserActivity(a) {
             switch(a) {
             case "SCROLL_UP":

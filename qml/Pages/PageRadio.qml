@@ -1,10 +1,12 @@
 import QtQuick 2.15
 import QtQuick.Controls
 import QtQuick.Layouts
-import PipOS 1.0
+
 import "../Tabs"
 
 Page {
+    property int subMenuCenter
+
     background: Rectangle { color: "black" }
 
     header: Rectangle { height: 42; color: "#000000000" }

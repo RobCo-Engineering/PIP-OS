@@ -4,9 +4,9 @@ import QtQuick.Layouts
 import QtLocation
 import QtPositioning
 
-import PipOS
-
 Page {
+    property int subMenuCenter
+
     background: Rectangle { color: "black" }
 
     MapView {
@@ -17,7 +17,7 @@ Page {
             name: "osm"
             PluginParameter {
                 name: "osm.mapping.custom.host";
-                value: "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/%z/%x/%y.png?api_key=" + App.settings.mapApiKey
+                value: "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/%z/%x/%y.png?api_key=" + settings.mapApiKey
             }
         }
         map.onSupportedMapTypesChanged: {
@@ -25,6 +25,10 @@ Page {
         }
         map.zoomLevel: 15
         map.center: QtPositioning.coordinate(42.463744, -71.359555) // Oslo
+    }
+
+    Image {
+        source: "/images/map_marker.svg"
     }
 
     footer: Rectangle {

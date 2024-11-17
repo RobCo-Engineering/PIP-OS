@@ -4,8 +4,8 @@
 namespace PipOS {
 Settings::Settings(QObject *parent)
     : QObject(parent), defaultSettings(createDefaultSettings()) {
-  qInfo() << "Interface settings being loaded from" << m_settings.fileName();
-  initializeDefaults();
+    qInfo() << "Interface settings being loaded from" << m_settings.fileName();
+    initializeDefaults();
 }
 
 QMap<QString, QVariant> Settings::createDefaultSettings() {

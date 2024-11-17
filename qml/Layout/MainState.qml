@@ -3,12 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Effects
 
-import PipOS 1.0
-
 Item {
     id: root
 
-    state: App.settings.skipBoot ? "booted" : "booting"
+    state: settings.skipBoot ? "booted" : "booting"
 
     layer.enabled: true
     layer.effect: screenOverlay
@@ -27,7 +25,7 @@ Item {
             anchors.fill: root
 
             colorization: 1
-            colorizationColor: App.settings.interfaceColor
+            colorizationColor: settings.interfaceColor
 
             blurEnabled: true
             blur: 0.05

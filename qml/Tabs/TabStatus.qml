@@ -1,14 +1,14 @@
 import QtQuick 6.5
 import QtQuick.Layouts
 import QtMultimedia
-import PipOS
+
 import "../"
 
 Item {
     id: root
 
     HealthBar {
-        progress: App.dweller.healthHead
+        progress: dweller.healthHead
         width: 40
         height: 10
         anchors{
@@ -19,7 +19,7 @@ Item {
     }
 
     HealthBar {
-        progress: App.dweller.healthBody
+        progress: dweller.healthBody
         width: 40
         height: 10
         anchors{
@@ -30,7 +30,7 @@ Item {
     }
 
     HealthBar {
-        progress: App.dweller.healthLeftArm
+        progress: dweller.healthLeftArm
         width: 40
         height: 10
         anchors{
@@ -42,7 +42,7 @@ Item {
     }
 
     HealthBar {
-        progress: App.dweller.healthRightArm
+        progress: dweller.healthRightArm
         width: 40
         height: 10
         anchors{
@@ -54,7 +54,7 @@ Item {
     }
 
     HealthBar {
-        progress: App.dweller.healthLeftLeg
+        progress: dweller.healthLeftLeg
         width: 40
         height: 10
         anchors{
@@ -66,7 +66,7 @@ Item {
     }
 
     HealthBar {
-        progress: App.dweller.healthRightLeg
+        progress: dweller.healthRightLeg
         width: 40
         height: 10
         anchors{
@@ -139,7 +139,7 @@ Item {
 
     Text {
         id: dwellerName
-        text: App.dweller.name
+        text: dweller.name
         anchors {
             horizontalCenter: root.horizontalCenter
             bottom: root.bottom
