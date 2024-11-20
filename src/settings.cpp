@@ -9,17 +9,18 @@ Settings::Settings(QObject *parent)
 }
 
 QMap<QString, QVariant> Settings::createDefaultSettings() {
-  return QMap<QString, QVariant>{
-      {"Interface/color", "#00ff66"},
-      {"Interface/scale", 1.0},
-      {"Interface/xOffset", 0},
-      {"Interface/yOffset", 0},
-      {"Interface/skipBoot", false},
-      {"Interface/scanlines", true},
-      {"Radio/directory", QDir::currentPath()},
-      {"Inventory/directory", QDir::currentPath()},
-      {"Map/apiKey", ""},
-  };
+    return QMap<QString, QVariant>{
+        {"Interface/color", "#00ff66"},
+        {"Interface/scale", 1.0},
+        {"Interface/xOffset", 0},
+        {"Interface/yOffset", 0},
+        {"Interface/skipBoot", false},
+        {"Interface/scanlines", true},
+        {"Radio/directory", QDir::currentPath()},
+        {"Inventory/directory", QDir::currentPath()},
+        {"Map/apiKey", ""},
+        {"Map/positionSource", ""},
+    };
 }
 
 void Settings::initializeDefaults() {
@@ -119,6 +120,11 @@ void Settings::setYOffset(int newOffset) {
 
 QString Settings::mapApiKey() const {
   return m_settings.value("Map/apiKey").toString();
+}
+
+QString Settings::mapPositionSource() const
+{
+    return m_settings.value("Map/positionSource").toString();
 }
 
 } // namespace PipOS
