@@ -82,6 +82,7 @@ AppDir:
       - ${QT_PATH}/plugins/platformthemes/*.so
       - ${QT_PATH}/plugins/geoservices/*.so
       - ${QT_PATH}/plugins/tls/*.so
+      - ${QT_PATH}/plugins/position/*.so
 
     exclude:
       - lib/aarch64-linux-gnu/lib*.so*
