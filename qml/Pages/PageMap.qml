@@ -20,12 +20,28 @@ Page {
         name: "nmea"
         PluginParameter { name: "nmea.source"; value: settings.mapPositionSource }
 
-        updateInterval: 1000
         active: true
+        updateInterval: 1000
+
         onPositionChanged: {
             // send the geocode request
             geocodeModel.query = position.coordinate
             geocodeModel.update()
+        }
+    }
+
+    SatelliteSource {
+        name: "nmea"
+        PluginParameter { name: "nmea.source"; value: settings.mapPositionSource }
+
+        active: true
+        updateInterval: 1000
+
+        onSatellitesInUseChanged: {
+            console.log("GPS: satellites in use:", satellitesInUse.length)
+        }
+        onSatellitesInViewChanged: {
+            console.log("GPS: satellites in view:", satellitesInView.length)
         }
     }
 
