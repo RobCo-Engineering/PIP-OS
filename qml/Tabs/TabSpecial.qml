@@ -84,7 +84,7 @@ Rectangle {
             id: specialAnimation
             anchors.horizontalCenter: parent.horizontalCenter
             fillMode: Image.PreserveAspectFit
-            // source: "/assets/images/%1.gif".arg(list.currentItem.stat)
+            // source: "/assets/images/SPECIAL/%1.gif".arg(list.currentItem.stat)
             sourceSize.width: 550
             sourceSize.height: 400
             sourceClipRect: Qt.rect(125,50,280,280)
@@ -113,7 +113,7 @@ Rectangle {
             }
             PropertyChanges {
                 target: specialAnimation
-                source: "/assets/images/Strength"
+                source: "/assets/images/SPECIAL/Strength"
             }
         },
         State {
@@ -124,7 +124,7 @@ Rectangle {
             }
             PropertyChanges {
                 target: specialAnimation
-                source: "/assets/images/Perception"
+                source: "/assets/images/SPECIAL/Perception"
             }
         },
         State {
@@ -135,7 +135,7 @@ Rectangle {
             }
             PropertyChanges {
                 target: specialAnimation
-                source: "/assets/images/Endurance"
+                source: "/assets/images/SPECIAL/Endurance"
             }
         },
         State {
@@ -146,7 +146,7 @@ Rectangle {
             }
             PropertyChanges {
                 target: specialAnimation
-                source: "/assets/images/Charisma"
+                source: "/assets/images/SPECIAL/Charisma"
             }
         },
         State {
@@ -157,7 +157,7 @@ Rectangle {
             }
             PropertyChanges {
                 target: specialAnimation
-                source: "/assets/images/Intelligence"
+                source: "/assets/images/SPECIAL/Intelligence"
             }
         },
         State {
@@ -168,7 +168,7 @@ Rectangle {
             }
             PropertyChanges {
                 target: specialAnimation
-                source: "/assets/images/Agility"
+                source: "/assets/images/SPECIAL/Agility"
             }
         },
         State {
@@ -179,7 +179,7 @@ Rectangle {
             }
             PropertyChanges {
                 target: specialAnimation
-                source: "/assets/images/Luck"
+                source: "/assets/images/SPECIAL/Luck"
             }
         }
     ]
