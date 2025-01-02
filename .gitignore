@@ -84,3 +84,4 @@ build/
 drivers/hid/uinput/pipboy-hid/
 
 assets/images/reference/
+.qmlls.ini

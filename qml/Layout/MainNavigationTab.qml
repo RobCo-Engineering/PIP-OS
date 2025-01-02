@@ -1,4 +1,4 @@
-import QtQuick 2.15
+import QtQuick
 
 Rectangle {
     id: root
@@ -11,7 +11,7 @@ Rectangle {
         visible: root.active
         anchors {
             horizontalCenter: tabText.horizontalCenter
-            top:  tabText.top
+            top: tabText.top
             topMargin: 20
         }
 

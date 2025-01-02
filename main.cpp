@@ -1,7 +1,7 @@
 #include <QGuiApplication>
+#include <QSettings>
 
 #include "PipOS/app.h"
-
 
 int main(int argc, char *argv[])
 {

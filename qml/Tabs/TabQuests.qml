@@ -1,7 +1,7 @@
-import QtQuick 2.15
+import QtQuick
 import QtQuick.Layouts
 import QtMultimedia
-
+import PipOS
 
 import "../JSONListModel"
 
@@ -21,21 +21,23 @@ Rectangle {
         }
         width: 400
 
-        JSONListModel{
+        JSONListModel {
             id: inventory
-            data: dataProvider.data
+            data: DataProvider.data
             query: ""
             sortFunction: (a, b) => {
                               // First, sort by enabled and active status
-                              const aStatus = (a.enabled && a.active) ? 2 : (a.enabled ? 1 : 0);
-                              const bStatus = (b.enabled && b.active) ? 2 : (b.enabled ? 1 : 0);
+                              const aStatus = (a.enabled
+                                               && a.active) ? 2 : (a.enabled ? 1 : 0)
+                              const bStatus = (b.enabled
+                                               && b.active) ? 2 : (b.enabled ? 1 : 0)
 
                               if (aStatus !== bStatus) {
-                                  return bStatus - aStatus; // Higher status numbers come first
+                                  return bStatus - aStatus // Higher status numbers come first
                               }
 
                               // If status is the same, sort alphabetically by text
-                              return a.text.localeCompare(b.text);
+                              return a.text.localeCompare(b.text)
                           }
         }
 
@@ -56,7 +58,7 @@ Rectangle {
                     Layout.preferredHeight: item.height
                     Text {
                         color: item.ListView.isCurrentItem ? "black" : "white"
-                        text:  item.modelData.active ? "": ""
+                        text: item.modelData.active ? "" : ""
                     }
                 }
 
@@ -64,7 +66,7 @@ Rectangle {
                 Text {
                     color: item.ListView.isCurrentItem ? "black" : "white"
                     // item.modelData.enabled
-                    text:  item.modelData.text
+                    text: item.modelData.text
                     font.strikeout: !item.modelData.enabled
                 }
 
@@ -83,9 +85,13 @@ Rectangle {
                 }
 
                 // Fill all remaining space in the RowLayout
-                Rectangle { Layout.fillWidth: true }
+                Rectangle {
+                    Layout.fillWidth: true
+                }
             }
-            highlight: Rectangle { color: "white" }
+            highlight: Rectangle {
+                color: "white"
+            }
             highlightRangeMode: ListView.StrictlyEnforceRange
             highlightFollowsCurrentItem: true
             preferredHighlightBegin: 0
@@ -104,11 +110,10 @@ Rectangle {
             right: root.right
             rightMargin: 20
         }
-        source: "/assets/images/quest_default.gif"
+        source: "/images/quest_default.gif"
         fillMode: Image.PreserveAspectFit
         Layout.preferredHeight: 200
     }
-
 
     ColumnLayout {
         anchors {
@@ -138,7 +143,6 @@ Rectangle {
                 //         text:  model.enabled ? "": ""
                 //     }
                 // }
-
                 Text {
                     id: questText
                     anchors.top: parent.top
@@ -158,7 +162,7 @@ Rectangle {
     }
 
     states: [
-        State{
+        State {
             name: "MAIN"
             PropertyChanges {
                 target: inventory
@@ -170,26 +174,33 @@ Rectangle {
 
     SoundEffect {
         id: sfxFocus
-        source: "/assets/sounds/item_focus.wav"
+        source: "/sounds/item_focus.wav"
     }
 
-    Connections {
-        target: hid
-        function onUserActivity(a) {
-            switch(a) {
-            case "SCROLL_UP":
-                list.decrementCurrentIndex()
-                sfxFocus.play()
-                break
-            case "SCROLL_DOWN":
-                list.incrementCurrentIndex()
-                sfxFocus.play()
-                break
-            case "BUTTON_SELECT":
-                const item = list.currentItem.inventoryItem
-                console.log(item.HandleID, item.text)
-                break
-            }
+    Shortcut {
+        sequence: Settings.getKeySequence(Events.SCROLL_UP)
+        autoRepeat: false
+        onActivated: {
+            list.decrementCurrentIndex()
+            sfxFocus.play()
+        }
+    }
+
+    Shortcut {
+        sequence: Settings.getKeySequence(Events.SCROLL_DOWN)
+        autoRepeat: false
+        onActivated: {
+            list.incrementCurrentIndex()
+            sfxFocus.play()
+        }
+    }
+
+    Shortcut {
+        sequence: Settings.getKeySequence(Events.BUTTON_SELECT)
+        autoRepeat: false
+        onActivated: {
+            const item = list.currentItem.inventoryItem
+            console.log(item.HandleID, item.text)
         }
     }
 }

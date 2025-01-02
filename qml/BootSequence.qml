@@ -1,17 +1,13 @@
-import QtQuick 2.15
-import BootScreen
+import QtQuick
+import PipOS
 
 Rectangle {
     id: root
     color: "black"
 
-    signal complete()
+    signal complete
 
     state: ""
-
-    BootScreen {
-        id: constants
-    }
 
     // Only start boot once component has loaded
     Component.onCompleted: root.state = "boot"
@@ -28,7 +24,7 @@ Rectangle {
         }
 
         color: "white"
-        text: constants.bootingText
+        text: BootScreen.bootingText
         font.pixelSize: 16
         font.family: "Share-TechMono Regular"
     }
@@ -57,8 +53,9 @@ Rectangle {
             running: false
             repeat: true
             onTriggered: {
-                if (systemText.currentIndex < constants.systemText.length) {
-                    systemText.text += constants.systemText.charAt(systemText.currentIndex)
+                if (systemText.currentIndex < BootScreen.systemText.length) {
+                    systemText.text += BootScreen.systemText.charAt(
+                                systemText.currentIndex)
                     systemText.currentIndex++
                 } else {
                     systemTextTimer.running = false
@@ -77,15 +74,15 @@ Rectangle {
             verticalCenterOffset: -20
         }
 
-        source: "/assets/images/initiating.gif"
+        source: "/images/initiating.gif"
         visible: false
         paused: true
 
-        onFrameChanged: if(currentFrame === frameCount -1) {
-            playing = false
-            root.state = "booted"
-            complete()
-        }
+        onFrameChanged: if (currentFrame === frameCount - 1) {
+                            playing = false
+                            root.state = "booted"
+                            complete()
+                        }
     }
 
     states: [
@@ -126,7 +123,6 @@ Rectangle {
         },
         State {
             name: "booted"
-
         }
     ]
 
@@ -140,7 +136,8 @@ Rectangle {
                 duration: 3500
                 easing.type: Easing.InQuad
             }
-            onRunningChanged: if (root.state === "boot" && !running) root.state = "sysinfo"
+            onRunningChanged: if (root.state === "boot" && !running)
+                                  root.state = "sysinfo"
         },
         Transition {
             to: "initiating"
@@ -149,7 +146,8 @@ Rectangle {
                 duration: 600
                 easing.type: Easing.Linear
             }
-            onRunningChanged: if (root.state === "initiating" && !running) root.state = "initiating_vaultboy"
+            onRunningChanged: if (root.state === "initiating" && !running)
+                                  root.state = "initiating_vaultboy"
         }
     ]
 }

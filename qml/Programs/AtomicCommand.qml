@@ -18,7 +18,7 @@ Page {
             topMargin: -10
         }
 
-        source: "/assets/images/AtomicCommandStart.gif"
+        source: "/images/AtomicCommandStart.gif"
         fillMode: Image.PreserveAspectCrop
         verticalAlignment: Image.AlignTop
     }

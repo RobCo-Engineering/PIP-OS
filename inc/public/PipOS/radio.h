@@ -2,12 +2,15 @@
 
 #include <QMediaPlayer>
 #include <QObject>
+#include <QQmlEngine>
 #include <QSoundEffect>
 #include <QTimer>
 
 namespace PipOS {
 class Radio : public QObject {
   Q_OBJECT
+  QML_ELEMENT
+  QML_SINGLETON
   Q_PROPERTY(QUrl source READ source WRITE setSource NOTIFY sourceChanged FINAL)
   Q_PROPERTY(bool playing READ playing NOTIFY playingChanged FINAL)
 

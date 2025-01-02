@@ -1,4 +1,7 @@
-import QtQuick 2.15
+pragma ComponentBehavior
+
+// https://forum.qt.io/topic/160261/qtcreator-qtquick-qml-js-editing-auto-format-on-save-removes-pragma-value
+import QtQuick
 import QtQuick.Layouts
 
 Rectangle {
@@ -13,9 +16,11 @@ Rectangle {
 
     function findItemPosition(itemToFind) {
         for (var i = 0; i < tabs.length; ++i) {
-            if (tabs[i] === itemToFind) { return i; }
+            if (tabs[i] === itemToFind) {
+                return i
+            }
         }
-        return -1; // Item not found
+        return -1 // Item not found
     }
 
     function setActiveTab(tab) {
@@ -46,7 +51,7 @@ Rectangle {
 
         Repeater {
             id: repeater
-            state: root.tabs[root.activeTabIndex]
+            state: root.tabs[root.activeTabIndex] || ''
             model: root.tabs
 
             MainNavigationTab {

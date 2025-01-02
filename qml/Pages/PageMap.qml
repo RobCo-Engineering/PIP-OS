@@ -1,16 +1,19 @@
-import QtQuick 2.15
+import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtMultimedia
 import QtLocation
 import QtPositioning
+import PipOS
 
 Page {
     id: root
 
     property int subMenuCenter
 
-    background: Rectangle { color: "black" }
+    background: Rectangle {
+        color: "black"
+    }
 
     // GPS positioning, source is defined in settings file
     PositionSource {
@@ -18,7 +21,10 @@ Page {
 
         // https://doc.qt.io/qt-6/position-plugin-nmea.html
         name: "nmea"
-        PluginParameter { name: "nmea.source"; value: settings.mapPositionSource }
+        PluginParameter {
+            name: "nmea.source"
+            value: Settings.mapPositionSource
+        }
 
         active: true
         updateInterval: 1000
@@ -34,7 +40,10 @@ Page {
         id: satSource
 
         name: "nmea"
-        PluginParameter { name: "nmea.source"; value: settings.mapPositionSource }
+        PluginParameter {
+            name: "nmea.source"
+            value: Settings.mapPositionSource
+        }
 
         active: true
         updateInterval: 1000
@@ -47,8 +56,8 @@ Page {
         map.plugin: Plugin {
             name: "osm"
             PluginParameter {
-                name: "osm.mapping.custom.host";
-                value: "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/%z/%x/%y.png?api_key=" + settings.mapApiKey
+                name: "osm.mapping.custom.host"
+                value: "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/%z/%x/%y.png?api_key=" + Settings.mapApiKey
             }
         }
         map.onSupportedMapTypesChanged: {
@@ -67,8 +76,7 @@ Page {
     GeocodeModel {
         id: geocodeModel
         plugin: view.map.plugin
-        onLocationsChanged:
-        {
+        onLocationsChanged: {
             if (count == 1) {
                 var addr = get(0).address
                 currentLocation.text = addr.district !== "" ? addr.district : addr.city
@@ -82,9 +90,8 @@ Page {
         model: geocodeModel
         delegate: pointDelegate
     }
-    
-    // TODO: Add optional config items for other icons, so you can add a home icon for example
 
+    // TODO: Add optional config items for other icons, so you can add a home icon for example
     Component {
         id: pointDelegate
 
@@ -92,18 +99,20 @@ Page {
             id: point
             parent: view.map
             coordinate: posSource.position.coordinate
-            anchorPoint.x: pointMarker.width/2
-            anchorPoint.y: pointMarker.height/2
+            anchorPoint.x: pointMarker.width / 2
+            anchorPoint.y: pointMarker.height / 2
             sourceItem: Image {
                 id: pointMarker
-                source: "/assets/images/map_marker.svg"
+                source: "/images/map_marker.svg"
                 fillMode: Image.PreserveAspectFit
-                height: 50; width: 50
+                height: 50
+                width: 50
             }
         }
     }
 
     // Grey out the screen if there's no signal, GPS requires at least 4 sats
+    // TODO: If using false data, there will be no sats in use either
     Rectangle {
         visible: !posSource.valid || satSource.satellitesInUse.length < 4
         anchors.fill: parent
@@ -144,7 +153,8 @@ Page {
 
                 Text {
                     function getCurrentDate() {
-                        return new Date().toLocaleDateString(Qt.locale("en_US"), "M.dd.yyyy")
+                        return new Date().toLocaleDateString(
+                                    Qt.locale("en_US"), "M.dd.yyyy")
                     }
 
                     anchors.fill: parent
@@ -157,7 +167,9 @@ Page {
                     color: "white"
 
                     Timer {
-                        interval: 1000; running: true; repeat: true
+                        interval: 1000
+                        running: true
+                        repeat: true
                         onTriggered: parent.text = parent.getCurrentDate()
                     }
                 }
@@ -170,7 +182,8 @@ Page {
 
                 Text {
                     function getCurrentTime() {
-                        return new Date().toLocaleTimeString(Qt.locale("en_US"), Locale.ShortFormat)
+                        return new Date().toLocaleTimeString(
+                                    Qt.locale("en_US"), Locale.ShortFormat)
                     }
 
                     anchors.fill: parent
@@ -183,7 +196,9 @@ Page {
                     color: "white"
 
                     Timer {
-                        interval: 1000; running: true; repeat: true
+                        interval: 1000
+                        running: true
+                        repeat: true
                         onTriggered: parent.text = parent.getCurrentTime()
                     }
                 }
@@ -211,22 +226,24 @@ Page {
 
     SoundEffect {
         id: sfxFocus
-        source: "/assets/sounds/item_focus.wav"
+        source: "/sounds/item_focus.wav"
     }
 
-    Connections {
-        target: hid
-        function onUserActivity(a) {
-            switch(a) {
-            case "SCROLL_UP":
-                view.map.zoomLevel++
-                sfxFocus.play()
-                break
-            case "SCROLL_DOWN":
-                view.map.zoomLevel--
-                sfxFocus.play()
-                break
-            }
+    Shortcut {
+        sequence: Settings.getKeySequence(Events.SCROLL_UP)
+        autoRepeat: false
+        onActivated: {
+            view.map.zoomLevel++
+            sfxFocus.play()
+        }
+    }
+
+    Shortcut {
+        sequence: Settings.getKeySequence(Events.SCROLL_DOWN)
+        autoRepeat: false
+        onActivated: {
+            view.map.zoomLevel--
+            sfxFocus.play()
         }
     }
 }

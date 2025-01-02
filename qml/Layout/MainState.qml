@@ -1,12 +1,11 @@
-import QtQuick 2.15
-import QtQuick.Layouts
-import QtQuick.Controls
+import QtQuick
 import QtQuick.Effects
+import PipOS
 
 Item {
     id: root
 
-    state: settings.skipBoot ? "booted" : "booting"
+    state: Settings.skipBoot ? "booted" : "booting"
 
     layer.enabled: true
     layer.effect: screenOverlay
@@ -25,7 +24,7 @@ Item {
             anchors.fill: root
 
             colorization: 1
-            colorizationColor: settings.interfaceColor
+            colorizationColor: Settings.interfaceColor
 
             blurEnabled: true
             blur: 0.05
@@ -68,7 +67,7 @@ Item {
             name: "booting"
             PropertyChanges {
                 target: page
-                source: "qrc:/qml/PipOSApp/qml/BootSequence.qml"
+                source: "qrc:/robco-industries.org/PipOS/qml/BootSequence.qml"
             }
         },
 
@@ -76,28 +75,36 @@ Item {
             name: "booted"
             PropertyChanges {
                 target: page
-                source: "qrc:/qml/PipOSApp/qml/Layout/MainLayout.qml"
+                source: "qrc:/robco-industries.org/PipOS/qml/Layout/MainLayout.qml"
             }
         },
 
         State {
-          name: "holotape:AtomicCommand"
-          PropertyChanges {
-              target: page
-              source: "qrc:/qml/PipOSApp/qml/Programs/AtomicCommand.qml"
-          }
+            name: "holotape:AtomicCommand"
+            PropertyChanges {
+                target: page
+                source: "qrc:/robco-industries.org/PipOS/qml/Programs/AtomicCommand.qml"
+            }
         }
     ]
 
     // Each loaded screen can have a 'complete' signal to notify it's okay to change state, or something
     Connections {
         target: page.item
-        function onComplete() { root.state = "booted" }
+        function onComplete() {
+            root.state = "booted"
+        }
     }
 
     // When a holotape is loaded we can change the main state to that, for games and such
     Connections {
-        target: holotape
-        function onHolotapeLoaded(tape) { root.state = "holotape:"+tape }
+        target: HolotapeProvider
+        function onHolotapeLoaded(tape) {
+            root.state = "holotape:" + tape
+        }
+    }
+
+    Component.onCompleted: {
+        DataProvider.loadData(Settings.inventoryFileLocation)
     }
 }

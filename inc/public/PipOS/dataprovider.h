@@ -5,18 +5,21 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QObject>
+#include <QQmlEngine>
 
 namespace PipOS {
 class DataProvider : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_SINGLETON
     Q_PROPERTY(QJsonObject data READ data WRITE setData NOTIFY dataChanged FINAL)
 
 public:
     explicit DataProvider(QObject *parent = nullptr);
 
     // Method to load JSON from file
-    bool loadData(const QString &filename);
+    Q_INVOKABLE bool loadData(const QString &filename);
 
     // Getter/setter for the JSON data
     QJsonObject data() const { return m_data; }

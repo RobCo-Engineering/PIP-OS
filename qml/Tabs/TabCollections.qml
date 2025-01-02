@@ -1,6 +1,6 @@
-import QtQuick 2.15
+import QtQuick
 import QtMultimedia
-
+import PipOS
 
 Rectangle {
     id: collections
@@ -21,7 +21,7 @@ Rectangle {
             id: list
             anchors.fill: parent
             spacing: 5
-            model: dweller.collections
+            model: Dweller.collections
             delegate: Item {
                 id: item
                 property variant ci: modelData
@@ -52,7 +52,9 @@ Rectangle {
                     horizontalAlignment: Text.AlignRight
                 }
             }
-            highlight: Rectangle { color: "white" }
+            highlight: Rectangle {
+                color: "white"
+            }
             highlightRangeMode: ListView.StrictlyEnforceRange
             highlightFollowsCurrentItem: true
             preferredHighlightBegin: 0
@@ -63,22 +65,24 @@ Rectangle {
 
     SoundEffect {
         id: sfxFocus
-        source: "/assets/sounds/item_focus.wav"
+        source: "/sounds/item_focus.wav"
     }
 
-    Connections {
-        target: hid
-        function onUserActivity(a) {
-            switch(a) {
-            case "SCROLL_UP":
-                list.decrementCurrentIndex()
-                sfxFocus.play()
-                break
-            case "SCROLL_DOWN":
-                list.incrementCurrentIndex()
-                sfxFocus.play()
-                break
-            }
+    Shortcut {
+        sequence: Settings.getKeySequence(Events.SCROLL_UP)
+        autoRepeat: false
+        onActivated: {
+            list.decrementCurrentIndex()
+            sfxFocus.play()
+        }
+    }
+
+    Shortcut {
+        sequence: Settings.getKeySequence(Events.SCROLL_DOWN)
+        autoRepeat: false
+        onActivated: {
+            list.incrementCurrentIndex()
+            sfxFocus.play()
         }
     }
 }

@@ -8,6 +8,8 @@ namespace PipOS {
 class BootScreen : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_SINGLETON
     Q_PROPERTY(QString bootingText READ bootingText CONSTANT FINAL)
     Q_PROPERTY(QString systemText READ systemText CONSTANT FINAL)
     QML_ELEMENT

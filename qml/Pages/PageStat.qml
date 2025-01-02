@@ -1,6 +1,7 @@
-import QtQuick 2.15
+import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls as C
+import PipOS
 
 import ".."
 import "../Layout"
@@ -12,7 +13,9 @@ C.Page {
     property int subMenuCenter
     property variant tabNames: ["STATUS", "EFFECTS", "SPECIAL", "COLLECTIONS"]
 
-    background: Rectangle { color: "black" }
+    background: Rectangle {
+        color: "black"
+    }
 
     header: SubMenu {
         id: subMenu
@@ -49,7 +52,8 @@ C.Page {
                     horizontalAlignment: Text.AlignLeft
                     font.pixelSize: 28
                     font.family: "Roboto Condensed Bold"
-                    text: "HP  %1/%2".arg(dweller.currentHealth).arg(dweller.maxHealth)
+                    text: "HP  %1/%2".arg(Dweller.currentHealth).arg(
+                              Dweller.maxHealth)
                     color: "white"
                 }
             }
@@ -67,7 +71,7 @@ C.Page {
                     horizontalAlignment: Text.AlignLeft
                     font.pixelSize: 28
                     font.family: "Roboto Condensed Bold"
-                    text: "LEVEL %1".arg(dweller.level)
+                    text: "LEVEL %1".arg(Dweller.level)
                     color: "white"
                 }
 
@@ -81,7 +85,7 @@ C.Page {
                         bottomMargin: 10
                     }
                     width: parent.width - levelText.implicitWidth - 30
-                    progress: dweller.levelProgress
+                    progress: Dweller.levelProgress
                 }
             }
 
@@ -97,7 +101,7 @@ C.Page {
                     horizontalAlignment: Text.AlignRight
                     font.pixelSize: 28
                     font.family: "Roboto Condensed Bold"
-                    text: "AP  %1/%2".arg(dweller.currentAP).arg(dweller.maxAP)
+                    text: "AP  %1/%2".arg(Dweller.currentAP).arg(Dweller.maxAP)
                     color: "white"
                 }
             }
@@ -109,36 +113,35 @@ C.Page {
             name: "STATUS"
             PropertyChanges {
                 target: tab
-                source: "qrc:/qml/PipOSApp/qml/Tabs/TabStatus.qml"
+                source: "qrc:/robco-industries.org/PipOS/qml/Tabs/TabStatus.qml"
             }
         },
         State {
             name: "EFFECTS"
             PropertyChanges {
                 target: tab
-                source: "qrc:/qml/PipOSApp/qml/Tabs/TabEffects.qml"
+                source: "qrc:/robco-industries.org/PipOS/qml/Tabs/TabEffects.qml"
             }
         },
         State {
             name: "SPECIAL"
             PropertyChanges {
                 target: tab
-                source: "qrc:/qml/PipOSApp/qml/Tabs/TabSpecial.qml"
+                source: "qrc:/robco-industries.org/PipOS/qml/Tabs/TabSpecial.qml"
             }
         },
         State {
             name: "COLLECTIONS"
             PropertyChanges {
                 target: tab
-                source: "qrc:/qml/PipOSApp/qml/Tabs/TabCollections.qml"
+                source: "qrc:/robco-industries.org/PipOS/qml/Tabs/TabCollections.qml"
             }
         }
     ]
 
-    Connections {
-        target: hid
-        function onUserActivity(a) {
-            if (a === "TAB_STAT") subMenu.goToNext()
-        }
+    Shortcut {
+        sequence: Settings.getKeySequence(Events.TAB_STAT)
+        autoRepeat: false
+        onActivated: subMenu.goToNext()
     }
 }

@@ -1,6 +1,7 @@
-import QtQuick 2.15
+import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls as C
+import PipOS
 
 import "../Layout"
 import "../Tabs"
@@ -12,7 +13,9 @@ C.Page {
     property int subMenuCenter
     property variant tabNames: ["WEAPONS", "APPAREL", "AID", "MISC", "HOLO", "NOTES", "JUNK", "AMMO"]
 
-    background: Rectangle { color: "black" }
+    background: Rectangle {
+        color: "black"
+    }
 
     header: SubMenu {
         id: subMenu
@@ -65,7 +68,8 @@ C.Page {
                     horizontalAlignment: Text.AlignLeft
                     font.pixelSize: 28
                     font.family: "Roboto Condensed Bold"
-                    text: "± %1".arg(dweller.collections.find(a => a.name === "Caps").quantity || 0)
+                    text: "± %1".arg(Dweller.collections.find(
+                                         a => a.name === "Caps").quantity || 0)
                     color: "white"
                 }
             }
@@ -89,10 +93,9 @@ C.Page {
         }
     }
 
-    Connections {
-        target: hid
-        function onUserActivity(a) {
-            if (a === "TAB_ITEM") subMenu.goToNext()
-        }
+    Shortcut {
+        sequence: Settings.getKeySequence(Events.TAB_ITEM)
+        autoRepeat: false
+        onActivated: subMenu.goToNext()
     }
 }

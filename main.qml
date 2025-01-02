@@ -1,7 +1,5 @@
 import QtQuick
-import QtQuick.Layouts
-import QtQuick.Controls
-import QtQuick.Effects
+import PipOS
 
 import "qml/Layout" as Layout
 
@@ -14,29 +12,21 @@ Window {
     color: "black"
 
     // property alias appContext: app
-
     Layout.MainState {
         id: main
         width: 730
         height: 600
         transform: [
             Scale {
-                id: scale;
-                xScale: yScale;
-                yScale: Math.min(root.width/main.width, root.height/main.height) * settings.scale
+                id: scale
+                xScale: yScale
+                yScale: Math.min(root.width / main.width,
+                                 root.height / main.height) * Settings.scale
             },
             Translate {
-                x: settings.xOffset
-                y: settings.yOffset
+                x: Settings.xOffset
+                y: Settings.yOffset
             }
         ]
-    }
-
-    Shortcut {
-        sequence: "Ctrl+R"
-        onActivated: {
-            root.close()
-            app.loadQml()
-        }
     }
 }

@@ -1,13 +1,12 @@
-import QtQuick 2.15
-import QtQuick.Layouts
+import QtQuick
 import QtMultimedia
-
+import PipOS
 
 Rectangle {
     id: root
     color: "black"
 
-    state: specialList.currentItem.stat
+    state: list.currentItem.stat
 
     Rectangle {
         id: listMain
@@ -20,10 +19,10 @@ Rectangle {
             bottom: root.bottom
             // bottomMargin: 60
         }
-        width: root.width/2
+        width: root.width / 2
 
         ListView {
-            id: specialList
+            id: list
             anchors.fill: parent
             spacing: 5
             model: ["Strength", "Perception", "Endurance", "Charisma", "Intelligence", "Agility", "Luck"]
@@ -50,18 +49,20 @@ Rectangle {
                         right: parent.right
                         rightMargin: 10
                     }
-                    text: dweller["special" + stat]
+                    text: Dweller["special" + stat]
                     color: item.ListView.isCurrentItem ? "black" : "white"
                     font.family: "Roboto Condensed"
                     font.pixelSize: 26
                     horizontalAlignment: Text.AlignRight
                 }
             }
-            highlight: Rectangle { color: "white" }
+            highlight: Rectangle {
+                color: "white"
+            }
             highlightRangeMode: ListView.StrictlyEnforceRange
             highlightFollowsCurrentItem: true
             preferredHighlightBegin: 0
-            preferredHighlightEnd: specialList.bottom
+            preferredHighlightEnd: list.bottom
             clip: true
         }
     }
@@ -84,10 +85,10 @@ Rectangle {
             id: specialAnimation
             anchors.horizontalCenter: parent.horizontalCenter
             fillMode: Image.PreserveAspectFit
-            // source: "/assets/images/SPECIAL/%1.gif".arg(list.currentItem.stat)
+            // source: "/images/SPECIAL/%1.gif".arg(list.currentItem.stat)
             sourceSize.width: 550
             sourceSize.height: 400
-            sourceClipRect: Qt.rect(125,50,280,280)
+            sourceClipRect: Qt.rect(125, 50, 280, 280)
             height: 350
         }
 
@@ -113,7 +114,7 @@ Rectangle {
             }
             PropertyChanges {
                 target: specialAnimation
-                source: "/assets/images/SPECIAL/Strength"
+                source: "/images/SPECIAL/Strength"
             }
         },
         State {
@@ -124,7 +125,7 @@ Rectangle {
             }
             PropertyChanges {
                 target: specialAnimation
-                source: "/assets/images/SPECIAL/Perception"
+                source: "/images/SPECIAL/Perception"
             }
         },
         State {
@@ -135,7 +136,7 @@ Rectangle {
             }
             PropertyChanges {
                 target: specialAnimation
-                source: "/assets/images/SPECIAL/Endurance"
+                source: "/images/SPECIAL/Endurance"
             }
         },
         State {
@@ -146,7 +147,7 @@ Rectangle {
             }
             PropertyChanges {
                 target: specialAnimation
-                source: "/assets/images/SPECIAL/Charisma"
+                source: "/images/SPECIAL/Charisma"
             }
         },
         State {
@@ -157,7 +158,7 @@ Rectangle {
             }
             PropertyChanges {
                 target: specialAnimation
-                source: "/assets/images/SPECIAL/Intelligence"
+                source: "/images/SPECIAL/Intelligence"
             }
         },
         State {
@@ -168,7 +169,7 @@ Rectangle {
             }
             PropertyChanges {
                 target: specialAnimation
-                source: "/assets/images/SPECIAL/Agility"
+                source: "/images/SPECIAL/Agility"
             }
         },
         State {
@@ -179,29 +180,31 @@ Rectangle {
             }
             PropertyChanges {
                 target: specialAnimation
-                source: "/assets/images/SPECIAL/Luck"
+                source: "/images/SPECIAL/Luck"
             }
         }
     ]
 
     SoundEffect {
         id: sfxFocus
-        source: "/assets/sounds/item_focus.wav"
+        source: "/sounds/item_focus.wav"
     }
 
-    Connections {
-        target: hid
-        function onUserActivity(a) {
-            switch(a) {
-            case "SCROLL_UP":
-                specialList.decrementCurrentIndex()
-                sfxFocus.play()
-                break
-            case "SCROLL_DOWN":
-                specialList.incrementCurrentIndex()
-                sfxFocus.play()
-                break
-            }
+    Shortcut {
+        sequence: Settings.getKeySequence(Events.SCROLL_UP)
+        autoRepeat: false
+        onActivated: {
+            list.decrementCurrentIndex()
+            sfxFocus.play()
+        }
+    }
+
+    Shortcut {
+        sequence: Settings.getKeySequence(Events.SCROLL_DOWN)
+        autoRepeat: false
+        onActivated: {
+            list.incrementCurrentIndex()
+            sfxFocus.play()
         }
     }
 }

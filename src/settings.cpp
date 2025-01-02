@@ -139,4 +139,8 @@ void Settings::setHideMapTab(bool newHideMapTab)
     emit hideMapTabChanged();
 }
 
+QKeySequence Settings::getKeySequence(Events::UserEvent userEvent) const
+{
+    return m_keymap[userEvent];
+}
 } // namespace PipOS

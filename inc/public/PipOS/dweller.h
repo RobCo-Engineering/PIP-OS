@@ -6,7 +6,6 @@
 #include <QObject>
 #include <QQmlEngine>
 #include <QSettings>
-#include <QtQml/qqmlregistration.h>
 
 namespace PipOS {
 
@@ -14,7 +13,7 @@ class CollectionItem : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
-
+    QML_SINGLETON
     Q_PROPERTY(QString name READ name CONSTANT FINAL)
     Q_PROPERTY(int quantity READ quantity WRITE setQuantity NOTIFY quantityChanged FINAL)
 

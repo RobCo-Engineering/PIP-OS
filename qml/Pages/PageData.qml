@@ -1,6 +1,7 @@
-import QtQuick 2.15
+import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import PipOS
 
 import "../Layout"
 import "../Tabs"
@@ -12,7 +13,9 @@ Page {
     property int subMenuCenter
     property variant tabNames: ["MAIN", "SIDE", "DAILY", "EVENT"]
 
-    background: Rectangle { color: "black" }
+    background: Rectangle {
+        color: "black"
+    }
 
     header: SubMenu {
         id: subMenu
@@ -43,7 +46,8 @@ Page {
 
                 Text {
                     function getCurrentDate() {
-                        return new Date().toLocaleDateString(Qt.locale("en_US"), "M.dd.yyyy")
+                        return new Date().toLocaleDateString(
+                                    Qt.locale("en_US"), "M.dd.yyyy")
                     }
 
                     anchors.fill: parent
@@ -56,7 +60,9 @@ Page {
                     color: "white"
 
                     Timer {
-                        interval: 1000; running: true; repeat: true
+                        interval: 1000
+                        running: true
+                        repeat: true
                         onTriggered: parent.text = parent.getCurrentDate()
                     }
                 }
@@ -69,7 +75,8 @@ Page {
 
                 Text {
                     function getCurrentTime() {
-                        return new Date().toLocaleTimeString(Qt.locale("en_US"), Locale.ShortFormat)
+                        return new Date().toLocaleTimeString(
+                                    Qt.locale("en_US"), Locale.ShortFormat)
                     }
 
                     anchors.fill: parent
@@ -82,7 +89,9 @@ Page {
                     color: "white"
 
                     Timer {
-                        interval: 1000; running: true; repeat: true
+                        interval: 1000
+                        running: true
+                        repeat: true
                         onTriggered: parent.text = parent.getCurrentTime()
                     }
                 }
@@ -96,10 +105,9 @@ Page {
         }
     }
 
-    Connections {
-        target: hid
-        function onUserActivity(a) {
-            if (a === "TAB_DATA") subMenu.goToNext()
-        }
+    Shortcut {
+        sequence: Settings.getKeySequence(Events.TAB_DATA)
+        autoRepeat: false
+        onActivated: subMenu.goToNext()
     }
 }

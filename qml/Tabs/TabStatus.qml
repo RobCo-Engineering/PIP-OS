@@ -1,6 +1,5 @@
-import QtQuick 6.5
-import QtQuick.Layouts
-import QtMultimedia
+import QtQuick
+import PipOS 1.0
 
 import "../"
 
@@ -8,10 +7,10 @@ Item {
     id: root
 
     HealthBar {
-        progress: dweller.healthHead
+        progress: Dweller.healthHead
         width: 40
         height: 10
-        anchors{
+        anchors {
             horizontalCenter: root.horizontalCenter
             verticalCenter: root.verticalCenter
             verticalCenterOffset: -210
@@ -19,10 +18,10 @@ Item {
     }
 
     HealthBar {
-        progress: dweller.healthBody
+        progress: Dweller.healthBody
         width: 40
         height: 10
-        anchors{
+        anchors {
             horizontalCenter: root.horizontalCenter
             verticalCenter: root.verticalCenter
             verticalCenterOffset: 76
@@ -30,10 +29,10 @@ Item {
     }
 
     HealthBar {
-        progress: dweller.healthLeftArm
+        progress: Dweller.healthLeftArm
         width: 40
         height: 10
-        anchors{
+        anchors {
             horizontalCenter: root.horizontalCenter
             horizontalCenterOffset: -130
             verticalCenter: root.verticalCenter
@@ -42,10 +41,10 @@ Item {
     }
 
     HealthBar {
-        progress: dweller.healthRightArm
+        progress: Dweller.healthRightArm
         width: 40
         height: 10
-        anchors{
+        anchors {
             horizontalCenter: root.horizontalCenter
             horizontalCenterOffset: 120
             verticalCenter: root.verticalCenter
@@ -54,10 +53,10 @@ Item {
     }
 
     HealthBar {
-        progress: dweller.healthLeftLeg
+        progress: Dweller.healthLeftLeg
         width: 40
         height: 10
-        anchors{
+        anchors {
             horizontalCenter: root.horizontalCenter
             horizontalCenterOffset: -130
             verticalCenter: root.verticalCenter
@@ -66,10 +65,10 @@ Item {
     }
 
     HealthBar {
-        progress: dweller.healthRightLeg
+        progress: Dweller.healthRightLeg
         width: 40
         height: 10
-        anchors{
+        anchors {
             horizontalCenter: root.horizontalCenter
             horizontalCenterOffset: 120
             verticalCenter: root.verticalCenter
@@ -83,24 +82,9 @@ Item {
             horizontalCenter: root.horizontalCenter
             verticalCenter: root.verticalCenter
             verticalCenterOffset: -55
-         }
-         source: "/assets/images/status_ok.gif"
+        }
+        source: "/images/status_ok.gif"
     }
-
-    // AnimatedSprite {
-    //     id: vaultboy
-    //     anchors {
-    //         horizontalCenter: root.horizontalCenter
-    //         verticalCenter: root.verticalCenter
-    //         verticalCenterOffset: -55
-    //     }
-    //     source: "/assets/images/status_normal.png"
-    //     frameRate: 4
-    //     interpolate: false
-    //     frameWidth: 120
-    //     frameHeight: 250
-    //     frameCount: 8
-    // }
 
     Row {
         anchors {
@@ -115,11 +99,21 @@ Item {
         // Weapon stats
         ItemStat {
             id: weapon_stats
-            itemIcon: "/assets/images/weapon.svg"
+            itemIcon: "/images/status/weapon.svg"
             itemStats: ListModel {
                 ListElement {
-                    icon: "/assets/images/defence.svg"
-                    value: 18
+                    icon: "/images/status/damage.svg"
+                    value: 88
+                }
+
+                ListElement {
+                    icon: "/images/status/energy.svg"
+                    value: 88
+                }
+
+                ListElement {
+                    icon: "/images/status/radiation.svg"
+                    value: 75
                 }
             }
         }
@@ -127,11 +121,21 @@ Item {
         // Armor stats
         ItemStat {
             id: armor_stats
-            itemIcon: "/assets/images/armor.svg"
+            itemIcon: "/images/status/armor.svg"
             itemStats: ListModel {
                 ListElement {
-                    icon: "/assets/images/defence.svg"
-                    value: 10
+                    icon: "/images/status/defence.svg"
+                    value: 145
+                }
+
+                ListElement {
+                    icon: "/images/status/poison.svg"
+                    value: 5
+                }
+
+                ListElement {
+                    icon: "/images/status/energy.svg"
+                    value: 116
                 }
             }
         }
@@ -139,7 +143,7 @@ Item {
 
     Text {
         id: dwellerName
-        text: dweller.name
+        text: Dweller.name
         anchors {
             horizontalCenter: root.horizontalCenter
             bottom: root.bottom

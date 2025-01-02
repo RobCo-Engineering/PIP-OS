@@ -1,4 +1,6 @@
-import QtQuick 2.15
+pragma ComponentBehavior
+
+import QtQuick
 
 Item {
     id: root
@@ -9,12 +11,14 @@ Item {
 
     Row {
         spacing: 5
+
+        // Weapon or armour
         Rectangle {
             width: 64
             height: root.height
             color: "#333"
             Image {
-                source: itemIcon
+                source: root.itemIcon
                 fillMode: Image.PreserveAspectFit
                 width: parent.width - 12
                 height: parent.height - 12
@@ -24,7 +28,7 @@ Item {
         }
 
         Repeater {
-            model: itemStats
+            model: root.itemStats
             Rectangle {
                 required property string icon
                 required property int value
@@ -34,7 +38,7 @@ Item {
                 color: "#333"
 
                 Image {
-                    source: icon
+                    source: parent.icon
                     width: parent.width
                     anchors.top: parent.top
                     anchors.topMargin: 4
@@ -43,7 +47,7 @@ Item {
                 }
 
                 Text {
-                    text: value
+                    text: parent.value
                     anchors.bottom: parent.bottom
                     anchors.horizontalCenter: parent.horizontalCenter
                     font.family: "Roboto Condensed Bold"

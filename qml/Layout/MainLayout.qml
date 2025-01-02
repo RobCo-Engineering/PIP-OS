@@ -1,18 +1,30 @@
-import QtQuick 2.15
+import QtQuick
 import QtQuick.Window
 import QtMultimedia
+import PipOS
 
 Item {
     id: root
 
-    signal complete()
+    signal complete
 
     property var pageSources: {
-        "STAT":  "qrc:/qml/PipOSApp/qml/Pages/PageStat.qml",
-        "ITEM":  "qrc:/qml/PipOSApp/qml/Pages/PageItem.qml",
-        "DATA":  "qrc:/qml/PipOSApp/qml/Pages/PageData.qml",
-        "MAP":   "qrc:/qml/PipOSApp/qml/Pages/PageMap.qml",
-        "RADIO": "qrc:/qml/PipOSApp/qml/Pages/PageRadio.qml",
+        "STAT": "qrc:/robco-industries.org/PipOS/qml/Pages/PageStat.qml",
+        "ITEM": "qrc:/robco-industries.org/PipOS/qml/Pages/PageItem.qml",
+        "DATA": "qrc:/robco-industries.org/PipOS/qml/Pages/PageData.qml",
+        "MAP": "qrc:/robco-industries.org/PipOS/qml/Pages/PageMap.qml",
+        "RADIO": "qrc:/robco-industries.org/PipOS/qml/Pages/PageRadio.qml"
+    }
+
+    function changeTab(tab) {
+        var tabSource = pageSources[tab]
+        if (!tabSource)
+            return
+
+        if (page.source != tabSource) {
+            mainNav.setActiveTab(tab)
+            sfxRotary.play()
+        }
     }
 
     Rectangle {
@@ -28,12 +40,13 @@ Item {
                 right: main.right
             }
             onActiveTabChanged: {
-                if (!mainNav.activeTab) return
+                if (!mainNav.activeTab)
+                    return
                 page.setSource(root.pageSources[mainNav.activeTab.text], {
-                    subMenuCenter: mainNav.activeTab ? mainNav.activeTab.x + mainNav.activeTab.width + 8 : 0
-                })
+                                   "subMenuCenter": mainNav.activeTab ? mainNav.activeTab.x + mainNav.activeTab.width + 8 : 0
+                               })
             }
-            tabs: settings.hideMapTab ? ["STAT", "ITEM", "DATA",  "RADIO"] : ["STAT", "ITEM", "DATA", "MAP", "RADIO"]
+            tabs: Settings.hideMapTab ? ["STAT", "ITEM", "DATA", "RADIO"] : ["STAT", "ITEM", "DATA", "MAP", "RADIO"]
         }
 
         Loader {
@@ -54,7 +67,7 @@ Item {
         //     height: 600
         //     anchors.bottom: main.bottom
         //     anchors.horizontalCenter: main.horizontalCenter
-        //     source: "/assets/images/ripped_ref_inv.png"
+        //     source: "/images/ripped_ref_inv.png"
         //     // anchors.horizontalCenterOffset: -8
         //     z: 1
         //     opacity: 0.2
@@ -64,21 +77,41 @@ Item {
 
     SoundEffect {
         id: sfxRotary
-        source: "/assets/sounds/horizontal_tab.wav"
+        source: "/sounds/horizontal_tab.wav"
     }
 
-    Connections {
-        target: hid
-        function onUserActivity(a) {
-            if (a.startsWith("TAB_")) {
-                var tab = a.replace("TAB_", "")
-                var requestedPageSource = root.pageSources[tab]
+    Shortcut {
+        sequence: Settings.getKeySequence(Events.TAB_STAT)
+        onActivated: root.changeTab("STAT")
+        autoRepeat: false
+        enabled: page.source != root.pageSources["STAT"]
+    }
 
-                if (page.source != requestedPageSource) {
-                    mainNav.setActiveTab(tab)
-                    sfxRotary.play()
-                }
-            }
-        }
+    Shortcut {
+        sequence: Settings.getKeySequence(Events.TAB_ITEM)
+        onActivated: root.changeTab("ITEM")
+        autoRepeat: false
+        enabled: page.source != root.pageSources["ITEM"]
+    }
+
+    Shortcut {
+        sequence: Settings.getKeySequence(Events.TAB_DATA)
+        onActivated: root.changeTab("DATA")
+        autoRepeat: false
+        enabled: page.source != root.pageSources["DATA"]
+    }
+
+    Shortcut {
+        sequence: Settings.getKeySequence(Events.TAB_MAP)
+        onActivated: root.changeTab("MAP")
+        autoRepeat: false
+        enabled: page.source != root.pageSources["MAP"]
+    }
+
+    Shortcut {
+        sequence: Settings.getKeySequence(Events.TAB_RADIO)
+        onActivated: root.changeTab("RADIO")
+        autoRepeat: false
+        enabled: page.source != root.pageSources["RADIO"]
     }
 }

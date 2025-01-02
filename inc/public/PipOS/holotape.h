@@ -7,8 +7,10 @@
 namespace PipOS {
 class HolotapeProvider : public QObject {
   Q_OBJECT
+  QML_ELEMENT
+  QML_SINGLETON
 
-public:
+  public:
   explicit HolotapeProvider(QObject *parent = nullptr);
 
   signals:

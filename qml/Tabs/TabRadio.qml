@@ -1,8 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtMultimedia
-
-
+import PipOS
 
 Rectangle {
     id: root
@@ -37,7 +36,7 @@ Rectangle {
                 id: item
 
                 property string station: modelData
-                property bool active: root.radioStations[station] == radio.source
+                property bool active: root.radioStations[station] == Radio.source
 
                 width: ListView.view.width
 
@@ -56,9 +55,13 @@ Rectangle {
                     font.pixelSize: 26
                 }
 
-                Rectangle { Layout.fillWidth: true }
+                Rectangle {
+                    Layout.fillWidth: true
+                }
             }
-            highlight: Rectangle { color: "white" }
+            highlight: Rectangle {
+                color: "white"
+            }
             highlightRangeMode: ListView.StrictlyEnforceRange
             highlightFollowsCurrentItem: true
             preferredHighlightBegin: 0
@@ -74,47 +77,52 @@ Rectangle {
             right: root.right
             rightMargin: 20
         }
-        source: "/assets/images/radio_axis.svg"
+        source: "/images/radio_axis.svg"
         fillMode: Image.PreserveAspectFit
         width: 220
 
         FrequencyGraph {
             id: graph
-            active: radio.playing
+            active: Radio.playing
             anchors.fill: radioAxis
         }
     }
 
     SoundEffect {
         id: sfxFocus
-        source: "/assets/sounds/item_focus.wav"
+        source: "/sounds/item_focus.wav"
     }
 
-    Connections {
-        target: hid
-        function onUserActivity(a) {
-            switch(a) {
-            case "SCROLL_UP":
-                list.decrementCurrentIndex()
-                sfxFocus.play()
-                break
+    Shortcut {
+        sequence: Settings.getKeySequence(Events.SCROLL_UP)
+        autoRepeat: false
+        onActivated: {
+            list.decrementCurrentIndex()
+            sfxFocus.play()
+        }
+    }
 
-            case "SCROLL_DOWN":
-                list.incrementCurrentIndex()
-                sfxFocus.play()
-                break
+    Shortcut {
+        sequence: Settings.getKeySequence(Events.SCROLL_DOWN)
+        autoRepeat: false
+        onActivated: {
+            list.incrementCurrentIndex()
+            sfxFocus.play()
+        }
+    }
 
-            case "BUTTON_SELECT":
-                if (root.radioStations[list.currentItem.station] == radio.source) {
-                    // Turn off the radio if the already playing station is clicked
-                    radio.setSource("")
-                    radio.stop()
-                } else {
-                    // Play the selected station
-                    radio.setSource(radioStations[list.currentItem.station])
-                    radio.play()
-                }
-                break
+    Shortcut {
+        sequence: Settings.getKeySequence(Events.BUTTON_SELECT)
+        autoRepeat: false
+        onActivated: {
+            if (root.radioStations[list.currentItem.station] == Radio.source) {
+                // Turn off the radio if the already playing station is clicked
+                Radio.setSource("")
+                Radio.stop()
+            } else {
+                // Play the selected station
+                Radio.setSource(radioStations[list.currentItem.station])
+                Radio.play()
             }
         }
     }

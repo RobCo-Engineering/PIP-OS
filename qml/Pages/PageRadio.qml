@@ -1,4 +1,4 @@
-import QtQuick 2.15
+import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
@@ -7,9 +7,14 @@ import "../Tabs"
 Page {
     property int subMenuCenter
 
-    background: Rectangle { color: "black" }
+    background: Rectangle {
+        color: "black"
+    }
 
-    header: Rectangle { height: 42; color: "#000000000" }
+    header: Rectangle {
+        height: 42
+        color: "#000000000"
+    }
 
     TabRadio {
         anchors.fill: parent
@@ -32,7 +37,8 @@ Page {
 
                 Text {
                     function getCurrentDate() {
-                        return new Date().toLocaleDateString(Qt.locale("en_US"), "M.dd.yyyy")
+                        return new Date().toLocaleDateString(
+                                    Qt.locale("en_US"), "M.dd.yyyy")
                     }
 
                     anchors.fill: parent
@@ -45,7 +51,9 @@ Page {
                     color: "white"
 
                     Timer {
-                        interval: 1000; running: true; repeat: true
+                        interval: 1000
+                        running: true
+                        repeat: true
                         onTriggered: parent.text = parent.getCurrentDate()
                     }
                 }
@@ -58,7 +66,8 @@ Page {
 
                 Text {
                     function getCurrentTime() {
-                        return new Date().toLocaleTimeString(Qt.locale("en_US"), Locale.ShortFormat)
+                        return new Date().toLocaleTimeString(
+                                    Qt.locale("en_US"), Locale.ShortFormat)
                     }
 
                     anchors.fill: parent
@@ -71,7 +80,9 @@ Page {
                     color: "white"
 
                     Timer {
-                        interval: 1000; running: true; repeat: true
+                        interval: 1000
+                        running: true
+                        repeat: true
                         onTriggered: parent.text = parent.getCurrentTime()
                     }
                 }

@@ -1,7 +1,7 @@
-import QtQuick 2.15
+import QtQuick
 import QtQuick.Layouts
 import QtMultimedia
-
+import PipOS
 
 import "../JSONListModel"
 
@@ -21,13 +21,13 @@ Rectangle {
         }
         width: 400
 
-        JSONListModel{
+        JSONListModel {
             id: inventory
-            data: dataProvider.data
+            data: DataProvider.data
             query: ""
-            sortFunction: function(a, b){
-                return a.text.localeCompare(b.text);
-            } 
+            sortFunction: function (a, b) {
+                return a.text.localeCompare(b.text)
+            }
         }
 
         ListView {
@@ -43,7 +43,6 @@ Rectangle {
                 width: ListView.view.width
 
                 // visible: (inventoryItem.filterFlag === 1024)
-
                 Rectangle {
                     color: item.ListView.isCurrentItem ? "black" : "white"
                     opacity: item.modelData.equipState
@@ -53,7 +52,9 @@ Rectangle {
 
                 Text {
                     color: item.ListView.isCurrentItem ? "black" : "white"
-                    text: (item.modelData.count === 1) ? item.modelData.text : "%1 (%2)".arg(item.modelData.text).arg(item.modelData.count)
+                    text: (item.modelData.count === 1) ? item.modelData.text : "%1 (%2)".arg(
+                                                             item.modelData.text).arg(
+                                                             item.modelData.count)
                     font.family: "Roboto Condensed"
                     font.pixelSize: 26
                 }
@@ -74,9 +75,13 @@ Rectangle {
                     font.pixelSize: 26
                 }
 
-                Rectangle { Layout.fillWidth: true }
+                Rectangle {
+                    Layout.fillWidth: true
+                }
             }
-            highlight: Rectangle { color: "white" }
+            highlight: Rectangle {
+                color: "white"
+            }
             highlightRangeMode: ListView.StrictlyEnforceRange
             highlightFollowsCurrentItem: true
             preferredHighlightBegin: 0
@@ -100,13 +105,13 @@ Rectangle {
 
         ListView {
             anchors.fill: parent
-            model: list.currentItem ? list.currentItem.modelData.itemCardInfoList: []
+            model: list.currentItem ? list.currentItem.modelData.itemCardInfoList : []
             delegate: RowLayout {
-                Text{
+                Text {
                     color: "white"
                     text: model.text || ''
                 }
-                Text{
+                Text {
                     color: "white"
                     text: model.Value || ''
                 }
@@ -115,56 +120,56 @@ Rectangle {
     }
 
     states: [
-        State{
+        State {
             name: "WEAPONS"
             PropertyChanges {
                 target: inventory
                 query: "Inventory[**][*filterFlag=2]"
             }
         },
-        State{
+        State {
             name: "APPAREL"
             PropertyChanges {
                 target: inventory
                 query: "Inventory[**][*filterFlag=4]"
             }
         },
-        State{
+        State {
             name: "AID"
             PropertyChanges {
                 target: inventory
                 query: "Inventory[**][*filterFlag=8]"
             }
         },
-        State{
+        State {
             name: "MISC"
             PropertyChanges {
                 target: inventory
                 query: "Inventory[**][*filterFlag=512]"
             }
         },
-        State{
+        State {
             name: "HOLO"
             PropertyChanges {
                 target: inventory
                 query: "Inventory[**][*filterFlag=8192]"
             }
         },
-        State{
+        State {
             name: "NOTES"
             PropertyChanges {
                 target: inventory
                 query: "Inventory[**][*filterFlag=128]"
             }
         },
-        State{
+        State {
             name: "JUNK"
             PropertyChanges {
                 target: inventory
                 query: "Inventory[**][*filterFlag=1024]"
             }
         },
-        State{
+        State {
             name: "AMMO"
             PropertyChanges {
                 target: inventory
@@ -175,26 +180,33 @@ Rectangle {
 
     SoundEffect {
         id: sfxFocus
-        source: "/assets/sounds/item_focus.wav"
+        source: "/sounds/item_focus.wav"
     }
 
-    Connections {
-        target: hid
-        function onUserActivity(a) {
-            switch(a) {
-            case "SCROLL_UP":
-                list.decrementCurrentIndex()
-                sfxFocus.play()
-                break
-            case "SCROLL_DOWN":
-                list.incrementCurrentIndex()
-                sfxFocus.play()
-                break
-            case "BUTTON_SELECT":
-                const item = list.currentItem.inventoryItem
-                console.log(item.HandleID, item.text)
-                break
-            }
+    Shortcut {
+        sequence: Settings.getKeySequence(Events.SCROLL_UP)
+        autoRepeat: false
+        onActivated: {
+            list.decrementCurrentIndex()
+            sfxFocus.play()
+        }
+    }
+
+    Shortcut {
+        sequence: Settings.getKeySequence(Events.SCROLL_DOWN)
+        autoRepeat: false
+        onActivated: {
+            list.incrementCurrentIndex()
+            sfxFocus.play()
+        }
+    }
+
+    Shortcut {
+        sequence: Settings.getKeySequence(Events.BUTTON_SELECT)
+        autoRepeat: false
+        onActivated: {
+            const item = list.currentItem.inventoryItem
+            console.log(item.HandleID, item.text)
         }
     }
 }

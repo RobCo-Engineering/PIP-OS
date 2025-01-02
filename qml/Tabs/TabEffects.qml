@@ -1,4 +1,4 @@
-import QtQuick 2.15
+import QtQuick
 import QtQuick.Layouts
 
 Rectangle {
@@ -6,7 +6,6 @@ Rectangle {
     color: "black"
 
     // TODO: Vertical centered instead of top aligned
-
     ColumnLayout {
         anchors {
             top: root.top
@@ -22,7 +21,7 @@ Rectangle {
                 height: 50
                 Image {
                     anchors.horizontalCenter: parent.horizontalCenter
-                    source: "/assets/images/hydration.svg"
+                    source: "/images/hydration.svg"
                     fillMode: Image.PreserveAspectFit
                     height: 25
                 }
@@ -67,4 +66,3 @@ Rectangle {
         }
     }
 }
-
