@@ -165,9 +165,7 @@ Rectangle {
         State {
             name: "MAIN"
             PropertyChanges {
-                target: inventory
-                // query: "Quests[*enabled=true]"
-                query: "Quests"
+                inventory.query: "Quests"
             }
         }
     ]

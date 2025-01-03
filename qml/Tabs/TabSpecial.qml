@@ -6,7 +6,7 @@ Rectangle {
     id: root
     color: "black"
 
-    state: list.currentItem.stat
+    state: list.currentItem.modelData
 
     Rectangle {
         id: listMain
@@ -28,7 +28,7 @@ Rectangle {
             model: ["Strength", "Perception", "Endurance", "Charisma", "Intelligence", "Agility", "Luck"]
             delegate: Item {
                 id: item
-                property variant stat: modelData
+                required property variant modelData
 
                 height: 34
                 width: parent.width
@@ -38,7 +38,7 @@ Rectangle {
                         left: parent.left
                         leftMargin: 10
                     }
-                    text: stat
+                    text: item.modelData
                     color: item.ListView.isCurrentItem ? "black" : "white"
                     font.family: "Roboto Condensed"
                     font.pixelSize: 26
@@ -49,7 +49,7 @@ Rectangle {
                         right: parent.right
                         rightMargin: 10
                     }
-                    text: Dweller["special" + stat]
+                    text: Dweller["special" + item.modelData]
                     color: item.ListView.isCurrentItem ? "black" : "white"
                     font.family: "Roboto Condensed"
                     font.pixelSize: 26
@@ -85,7 +85,6 @@ Rectangle {
             id: specialAnimation
             anchors.horizontalCenter: parent.horizontalCenter
             fillMode: Image.PreserveAspectFit
-            // source: "/images/SPECIAL/%1.gif".arg(list.currentItem.stat)
             sourceSize.width: 550
             sourceSize.height: 400
             sourceClipRect: Qt.rect(125, 50, 280, 280)
@@ -109,78 +108,50 @@ Rectangle {
         State {
             name: "Strength"
             PropertyChanges {
-                target: specialDescription
-                text: "Strength is a measure of your raw physical power. It affects how much you can carry, and the damage of all melee attacks."
-            }
-            PropertyChanges {
-                target: specialAnimation
-                source: "/images/SPECIAL/Strength"
+                specialDescription.text: "Strength is a measure of your raw physical power. It affects how much you can carry, and the damage of all melee attacks."
+                specialAnimation.source: "/images/SPECIAL/Strength"
             }
         },
         State {
             name: "Perception"
             PropertyChanges {
-                target: specialDescription
-                text: "Perception affects your awareness of nearby enemies, your ability to detect stealthy movement, and your weapon accuracy in V.A.T.S."
-            }
-            PropertyChanges {
-                target: specialAnimation
-                source: "/images/SPECIAL/Perception"
+                specialDescription.text: "Perception affects your awareness of nearby enemies, your ability to detect stealthy movement, and your weapon accuracy in V.A.T.S."
+                specialAnimation.source: "/images/SPECIAL/Perception"
             }
         },
         State {
             name: "Endurance"
             PropertyChanges {
-                target: specialDescription
-                text: "Endurance is a measure of your overall physical fitness. It affects your total Health, the Action Point drain from sprinting, and your resistance to disease."
-            }
-            PropertyChanges {
-                target: specialAnimation
-                source: "/images/SPECIAL/Endurance"
+                specialDescription.text: "Endurance is a measure of your overall physical fitness. It affects your total Health, the Action Point drain from sprinting, and your resistance to disease."
+                specialAnimation.source: "/images/SPECIAL/Endurance"
             }
         },
         State {
             name: "Charisma"
             PropertyChanges {
-                target: specialDescription
-                text: "Charisma is your ability to lead and help others. It allows you to share higher point perk cards and prices when you barter."
-            }
-            PropertyChanges {
-                target: specialAnimation
-                source: "/images/SPECIAL/Charisma"
+                specialDescription.text: "Charisma is your ability to lead and help others. It allows you to share higher point perk cards and prices when you barter."
+                specialAnimation.source: "/images/SPECIAL/Charisma"
             }
         },
         State {
             name: "Intelligence"
             PropertyChanges {
-                target: specialDescription
-                text: "Intelligence is a measure of your overall mental acuity, and affects your ability to hack terminals, the condition and durability of items that you craft (Fusion/Plasma Core) and experience when you kill creatures."
-            }
-            PropertyChanges {
-                target: specialAnimation
-                source: "/images/SPECIAL/Intelligence"
+                specialDescription.text: "Intelligence is a measure of your overall mental acuity, and affects your ability to hack terminals, the condition and durability of items that you craft (Fusion/Plasma Core) and experience when you kill creatures."
+                specialAnimation.source: "/images/SPECIAL/Intelligence"
             }
         },
         State {
             name: "Agility"
             PropertyChanges {
-                target: specialDescription
-                text: "Agility is a measure of your overall finesse and reflexes. It affects the number of Action Points in V.A.T.S. and your ability to sneak."
-            }
-            PropertyChanges {
-                target: specialAnimation
-                source: "/images/SPECIAL/Agility"
+                specialDescription.text: "Agility is a measure of your overall finesse and reflexes. It affects the number of Action Points in V.A.T.S. and your ability to sneak."
+                specialAnimation.source: "/images/SPECIAL/Agility"
             }
         },
         State {
             name: "Luck"
             PropertyChanges {
-                target: specialDescription
-                text: "Luck is a measure of your general good fortune, and affects the recharge rate of Critical Hits as well as the condition and durability of items that you loot."
-            }
-            PropertyChanges {
-                target: specialAnimation
-                source: "/images/SPECIAL/Luck"
+                specialDescription.text: "Luck is a measure of your general good fortune, and affects the recharge rate of Critical Hits as well as the condition and durability of items that you loot."
+                specialAnimation.source: "/images/SPECIAL/Luck"
             }
         }
     ]

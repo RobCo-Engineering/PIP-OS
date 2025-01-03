@@ -47,8 +47,7 @@ Item {
         anchors.fill: root
         opacity: 0.1
         color: "black"
-        // visible: Settings.scanlines
-        visible: true
+        visible: Settings.scanLines
         Column {
             spacing: 2
             Repeater {
@@ -66,24 +65,21 @@ Item {
         State {
             name: "booting"
             PropertyChanges {
-                target: page
-                source: "qrc:/robco-industries.org/PipOS/qml/BootSequence.qml"
+                page.source: "qrc:/robco-industries.org/PipOS/qml/BootSequence.qml"
             }
         },
 
         State {
             name: "booted"
             PropertyChanges {
-                target: page
-                source: "qrc:/robco-industries.org/PipOS/qml/Layout/MainLayout.qml"
+                page.source: "qrc:/robco-industries.org/PipOS/qml/Layout/MainLayout.qml"
             }
         },
 
         State {
             name: "holotape:AtomicCommand"
             PropertyChanges {
-                target: page
-                source: "qrc:/robco-industries.org/PipOS/qml/Programs/AtomicCommand.qml"
+                page.source: "qrc:/robco-industries.org/PipOS/qml/Programs/AtomicCommand.qml"
             }
         }
     ]

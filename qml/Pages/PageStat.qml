@@ -112,29 +112,25 @@ C.Page {
         State {
             name: "STATUS"
             PropertyChanges {
-                target: tab
-                source: "qrc:/robco-industries.org/PipOS/qml/Tabs/TabStatus.qml"
+                tab.source: "qrc:/robco-industries.org/PipOS/qml/Tabs/TabStatus.qml"
             }
         },
         State {
             name: "EFFECTS"
             PropertyChanges {
-                target: tab
-                source: "qrc:/robco-industries.org/PipOS/qml/Tabs/TabEffects.qml"
+                tab.source: "qrc:/robco-industries.org/PipOS/qml/Tabs/TabEffects.qml"
             }
         },
         State {
             name: "SPECIAL"
             PropertyChanges {
-                target: tab
-                source: "qrc:/robco-industries.org/PipOS/qml/Tabs/TabSpecial.qml"
+                tab.source: "qrc:/robco-industries.org/PipOS/qml/Tabs/TabSpecial.qml"
             }
         },
         State {
             name: "COLLECTIONS"
             PropertyChanges {
-                target: tab
-                source: "qrc:/robco-industries.org/PipOS/qml/Tabs/TabCollections.qml"
+                tab.source: "qrc:/robco-industries.org/PipOS/qml/Tabs/TabCollections.qml"
             }
         }
     ]
