@@ -1,7 +1,7 @@
 #include <QGuiApplication>
 #include <QSettings>
 
-#include "PipOS/app.h"
+#include "app.h"
 
 int main(int argc, char *argv[])
 {
@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     PipOS::App app;
 
     app.init();
-    const int status = qtGuiApp.exec();
 
+    const int status = qtGuiApp.exec();
     return status;
 }

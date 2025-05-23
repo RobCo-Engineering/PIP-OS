@@ -3,7 +3,7 @@
 #include <QMediaPlayer>
 #include <QTimer>
 
-#include "PipOS/radio.h"
+#include "radio.h"
 
 namespace PipOS {
 Radio::Radio(QObject *parent)

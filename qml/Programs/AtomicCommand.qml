@@ -8,7 +8,9 @@ import "../Tabs"
 Page {
     id: root
 
-    background: Rectangle { color: "black" }
+    background: Rectangle {
+        color: "black"
+    }
 
     AnimatedImage {
         anchors {

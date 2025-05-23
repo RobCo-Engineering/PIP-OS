@@ -2,27 +2,15 @@
 
 ##### Copyright 2075 RobCo
 
-### Pre-requisites
-
-```
-sudo apt install libegl-dev libopengl-dev libxkbcommon-dev libharfbuzz-dev libmd4c-dev libpulse0 libfuse2
-```
-
-## Building from source
-
-The most straightforward way to simply _build_ this code is using a Docker container that already has all of the Qt install inside it.
+## Basic Installation
 
 ```sh
-docker run -it -v ${PWD}:/src --name qt-build --entrypoint=bash carlonluca/qt-dev:6.7.1
-
-# Inside the container create a build folder and build the app into an AppImage
-cd /src
-mkdir build; cd build
-appimage-builder --recipe ../AppImageBuilder.yml
-
-# Make the AppImage executable
-chmod 755 PIP-OS-latest-aarch64.AppImage
+wget https://gitlab.com/robco-industries/pip-os/-/package_files/166831732/download -O PIP-OS-v7.1.0.45-aarch64.AppImage
+chmod +x PIP-OS-v7.1.0.45-aarch64.AppImage
+./PIP-OS-v7.1.0.45-aarch64.AppImage
 ```
+
+TODO: Add note about platforms, wayland etc.
 
 ## Configuration
 
@@ -192,6 +180,28 @@ If you don't have a valid GPS source, you can also use static data, go to https:
 ```ini
 [Map]
 positionSource=file:///path/to/location_data.txt
+```
+
+## Building from source
+
+### Build Pre-requisites
+
+```
+sudo apt install libegl-dev libopengl-dev libxkbcommon-dev libharfbuzz-dev libmd4c-dev libpulse0 libfuse2
+```
+
+The most straightforward way to simply _build_ this code is using a Docker container that already has all of the Qt install inside it.
+
+```sh
+docker run -it -v ${PWD}:/src --name qt-build --entrypoint=bash carlonluca/qt-dev:6.7.1
+
+# Inside the container create a build folder and build the app into an AppImage
+cd /src
+mkdir build; cd build
+appimage-builder --recipe ../AppImageBuilder.yml
+
+# Make the AppImage executable
+chmod 755 PIP-OS-latest-aarch64.AppImage
 ```
 
 ## Extracting Vault Boy Sprites

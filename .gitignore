@@ -39,6 +39,8 @@ Thumbs.db
 *.pro.user*
 CMakeLists.txt.user*
 build/
+.qt
+.rcc
 
 # xemacs temporary files
 *.flc
@@ -85,3 +87,6 @@ drivers/hid/uinput/pipboy-hid/
 
 assets/images/reference/
 .qmlls.ini
+
+# Visual Studio stuff
+.vs/

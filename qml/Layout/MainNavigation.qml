@@ -7,25 +7,20 @@ import QtQuick.Layouts
 Rectangle {
     id: root
 
-    property int activeTabIndex: 0
+    property int activeTabIndex
     property list<string> tabs: ["STAT", "ITEM", "DATA", "MAP", "RADIO"]
     property MainNavigationTab activeTab
+    property int activeTabCenter: 0
 
     color: "#000000000"
     height: 32
 
-    function findItemPosition(itemToFind) {
-        for (var i = 0; i < tabs.length; ++i) {
-            if (tabs[i] === itemToFind) {
-                return i
-            }
-        }
-        return -1 // Item not found
-    }
-
-    function setActiveTab(tab) {
-        activeTabIndex = findItemPosition(tab)
-        activeTab = repeater.itemAt(root.activeTabIndex)
+    onActiveTabIndexChanged: {
+        var activeTab = repeater.itemAt(root.activeTabIndex)
+        if (!activeTab)
+        return
+        root.activeTab = activeTab
+        root.activeTabCenter = activeTab.x + activeTab.width + 8
     }
 
     Rectangle {

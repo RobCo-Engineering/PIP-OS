@@ -8,8 +8,10 @@
 #include <QQmlContext>
 #include <QSettings>
 #include <QUrl>
+#include <fstream>
+#include <jsoncons/json.hpp>
 
-#include "PipOS/app.h"
+#include "app.h"
 
 namespace PipOS {
 
@@ -37,6 +39,18 @@ void App::init() {
   QFont defaultFont = QFont("Roboto Condensed", 20);
   guiAppInst->setFont(defaultFont);
 
+  try {
+      qInfo() << "Loading player inventory from" << m_settings->inventoryFileLocation().toStdString();
+      std::ifstream is( m_settings->inventoryFileLocation().toStdString() );
+      m_externalData = jsoncons::json::parse( is );
+  }
+  catch( ... )
+  {
+      qWarning() << "Error loading player inventory";
+  }
+
+  m_mainWindowEngine->rootContext()->setContextProperty("app", this);
+
   // Where's all the QML
   m_mainWindowEngine->addImportPath(guiAppInst->applicationDirPath() + "/qml");
   guiAppInst->addLibraryPath(guiAppInst->applicationDirPath() + "/qml");
@@ -47,7 +61,7 @@ void App::init() {
       QUrl(QStringLiteral("qrc:/robco-industries.org/PipOS/main.qml")));
 
   if (m_mainWindowEngine->rootObjects().isEmpty()) {
-    qFatal("Failed to load main.qml");
+      qFatal( "Failed to load main.qml" );
   }
 }
 

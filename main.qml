@@ -1,7 +1,9 @@
+pragma ComponentBehavior
+
 import QtQuick
 import PipOS
 
-import "qml/Layout" as Layout
+import "qml/Layout"
 
 Window {
     id: root
@@ -12,28 +14,83 @@ Window {
     color: "black"
 
     // property alias appContext: app
-    Layout.MainState {
-        id: main
+    Loader {
+        id: bootLoader
+
+        visible: true
+        asynchronous: false
+
         width: 730
         height: 600
         transform: [
             Scale {
-                id: scale
+                id: bootLoaderScale
                 xScale: yScale
-                yScale: Math.min(root.width / main.width,
-                                 root.height / main.height) * Settings.scale
+                yScale: Math.min(
+                            root.width / bootLoader.width,
+                            root.height / bootLoader.height) * Settings.scale
             },
             Translate {
                 x: Settings.xOffset
                 y: Settings.yOffset
             }
         ]
+
+        sourceComponent: BootSequence {
+            appIsReady: appLoader.status === Loader.Ready
+            bootIsComplete: Settings.skipBoot
+            onSystemReadyChanged: {
+                console.log("bootloader ready", systemReady)
+                if (systemReady) {
+                    appLoader.visible = true
+                    bootLoader.visible = false
+                    bootLoader.active = false
+                }
+            }
+
+            // onComplete: {
+            //     property bool bootIsComplete: false
+            //     property bool appIsReady: false
+            //     property bool systemReady: bootIsComplete && appIsReady
+            // }
+        }
+
+        onStatusChanged: {
+            console.log("booatloader status", status)
+            if (status === Loader.Ready)
+            appLoader.active = true
+        }
+    }
+
+    Loader {
+        id: appLoader
+
+        visible: false
+        active: false
+        asynchronous: true
+
+        width: 730
+        height: 600
+        transform: [
+            Scale {
+                id: appLoaderScale
+                xScale: yScale
+                yScale: Math.min(
+                            root.width / appLoader.width,
+                            root.height / appLoader.height) * Settings.scale
+            },
+            Translate {
+                x: Settings.xOffset
+                y: Settings.yOffset
+            }
+        ]
+
+        sourceComponent: MainState {}
     }
 
     Shortcut {
         sequence: Settings.getKeySequence(Events.APP_QUIT)
-        onActivated: {
-            Qt.quit()
-        }
+        context: Qt.ApplicationShortcut
+        onActivated: Qt.quit()
     }
 }

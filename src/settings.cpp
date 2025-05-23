@@ -1,4 +1,4 @@
-#include "PipOS/settings.h"
+#include "settings.h"
 #include <QDir>
 
 namespace PipOS {
@@ -10,17 +10,17 @@ Settings::Settings(QObject *parent)
 
 QMap<QString, QVariant> Settings::createDefaultSettings() {
     return QMap<QString, QVariant>{
-        {"Interface/color", "#00ff66"},
-        {"Interface/scale", 1.0},
-        {"Interface/xOffset", 0},
-        {"Interface/yOffset", 0},
-        {"Interface/skipBoot", false},
-        {"Interface/scanlines", true},
-        {"Interface/hideMapTab", false},
-        {"Radio/directory", QDir::currentPath()},
-        {"Inventory/directory", QDir::currentPath()},
-        {"Map/apiKey", ""},
-        {"Map/positionSource", ""},
+        { "Interface/color", "#00ff66" },
+        { "Interface/scale", 1.0 },
+        { "Interface/xOffset", 0 },
+        { "Interface/yOffset", 0 },
+        { "Interface/skipBoot", false },
+        { "Interface/scanlines", true },
+        { "Interface/hideMapTab", false },
+        { "Radio/directory", QDir::currentPath() },
+        { "Inventory/path", QDir::cleanPath( QDir::currentPath() + "/DemoMode.json" ) },
+        { "Map/apiKey", "" },
+        { "Map/positionSource", "" },
     };
 }
 
@@ -94,7 +94,7 @@ QString Settings::radioStationLocation() const {
 }
 
 QString Settings::inventoryFileLocation() const {
-  return m_settings.value("Inventory/directory").toString();
+    return m_settings.value( "Inventory/path" ).toString();
 }
 
 float Settings::scale() const {
