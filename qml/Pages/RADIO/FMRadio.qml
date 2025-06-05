@@ -38,7 +38,7 @@ Rectangle {
                 id: item
 
                 property string station: modelData
-                property bool active: root.radioStations[station] == Radio.source
+                property bool active: root.radioStations[station] === Radio.source
 
                 width: ListView.view.width
 
@@ -120,7 +120,7 @@ Rectangle {
         enabled: root.enabled
         autoRepeat: false
         onActivated: {
-            if (root.radioStations[list.currentItem.station] == Radio.source) {
+            if (root.radioStations[list.currentItem.station] === Radio.source) {
                 // Turn off the radio if the already playing station is clicked
                 Radio.setSource("")
                 Radio.stop()

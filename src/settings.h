@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QQmlEngine>
 #include <QSettings>
+#include <QtQmlIntegration/qqmlintegration.h>
 
 #include "events.h"
 

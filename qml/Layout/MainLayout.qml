@@ -21,7 +21,7 @@ Item {
         if (!tabSource)
             return
 
-        if (page.source != tabSource) {
+        if (page.source !== tabSource) {
             mainNav.setActiveTab(tab)
             sfxRotary.play()
         }
@@ -84,34 +84,34 @@ Item {
         sequence: Settings.getKeySequence(Events.TAB_STAT)
         onActivated: root.changeTab("STAT")
         autoRepeat: false
-        enabled: page.source != root.pageSources["STAT"]
+        enabled: page.source !== root.pageSources["STAT"]
     }
 
     Shortcut {
         sequence: Settings.getKeySequence(Events.TAB_ITEM)
         onActivated: root.changeTab("ITEM")
         autoRepeat: false
-        enabled: page.source != root.pageSources["ITEM"]
+        enabled: page.source !== root.pageSources["ITEM"]
     }
 
     Shortcut {
         sequence: Settings.getKeySequence(Events.TAB_DATA)
         onActivated: root.changeTab("DATA")
         autoRepeat: false
-        enabled: page.source != root.pageSources["DATA"]
+        enabled: page.source !== root.pageSources["DATA"]
     }
 
     Shortcut {
         sequence: Settings.getKeySequence(Events.TAB_MAP)
         onActivated: root.changeTab("MAP")
         autoRepeat: false
-        enabled: page.source != root.pageSources["MAP"]
+        enabled: page.source !== root.pageSources["MAP"]
     }
 
     Shortcut {
         sequence: Settings.getKeySequence(Events.TAB_RADIO)
         onActivated: root.changeTab("RADIO")
         autoRepeat: false
-        enabled: page.source != root.pageSources["RADIO"]
+        enabled: page.source !== root.pageSources["RADIO"]
     }
 }

@@ -3,8 +3,6 @@ pragma ComponentBehavior
 import QtQuick
 import PipOS
 
-import "qml/Layout"
-
 Window {
     id: root
     width: 730

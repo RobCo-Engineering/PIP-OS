@@ -4,6 +4,14 @@
 
 ## Basic Installation
 
+### Pre-requisites
+
+```
+sudo apt install libegl-dev libopengl-dev libxkbcommon-dev libharfbuzz-dev libmd4c-dev libpulse0 libfuse2
+```
+
+### Install
+
 ```sh
 wget https://gitlab.com/robco-industries/pip-os/-/package_files/166831732/download -O PIP-OS-v7.1.0.45-aarch64.AppImage
 chmod +x PIP-OS-v7.1.0.45-aarch64.AppImage
@@ -182,27 +190,15 @@ If you don't have a valid GPS source, you can also use static data, go to https:
 positionSource=file:///path/to/location_data.txt
 ```
 
+## Debugging Startup Issues
+
 ## Building from source
-
-### Build Pre-requisites
-
-```
-sudo apt install libegl-dev libopengl-dev libxkbcommon-dev libharfbuzz-dev libmd4c-dev libpulse0 libfuse2
-```
 
 The most straightforward way to simply _build_ this code is using a Docker container that already has all of the Qt install inside it.
 
-```sh
-docker run -it -v ${PWD}:/src --name qt-build --entrypoint=bash carlonluca/qt-dev:6.7.1
+There are some helper scripts inside `hack/`, you _should_ be able to run `./hack/cross_compile.sh` to build an aarch64 AppImage.
 
-# Inside the container create a build folder and build the app into an AppImage
-cd /src
-mkdir build; cd build
-appimage-builder --recipe ../AppImageBuilder.yml
-
-# Make the AppImage executable
-chmod 755 PIP-OS-latest-aarch64.AppImage
-```
+If you're running from a non ARM linux box, you need to first make sure you're running Docker with QEMU enabled as per https://docs.docker.com/build/building/multi-platform/#qemu
 
 ## Extracting Vault Boy Sprites
 

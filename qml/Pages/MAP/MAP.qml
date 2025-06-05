@@ -80,7 +80,7 @@ Page {
         id: geocodeModel
         plugin: view.map.plugin
         onLocationsChanged: {
-            if (count == 1) {
+            if (count === 1) {
                 var addr = get(0).address
                 currentLocation.text = addr.district !== "" ? addr.district : addr.city
             }

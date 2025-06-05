@@ -36,7 +36,7 @@ void DataProvider::doQuery()
 
         // Convert the result to a string, then a byte array and then parse it again using Qt parser
         std::string jsonString = result.to_string();
-        QByteArray ba(jsonString.c_str(), static_cast<int>(jsonString.length()));
+        // QByteArray ba(jsonString.c_str(), static_cast<int>(jsonString.length()));
         // m_data = QJsonDocument::fromJson( ba );
 
         //emit dataChanged();
