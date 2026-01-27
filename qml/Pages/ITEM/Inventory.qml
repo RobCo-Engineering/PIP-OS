@@ -138,7 +138,7 @@ Rectangle {
                 }
                 Text {
                     color: "white"
-                    text: model.Value
+                    text: model.Value || ''
                 }
             }
         }

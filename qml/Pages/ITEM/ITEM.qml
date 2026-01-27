@@ -42,7 +42,7 @@ C.Page {
             Rectangle {
                 Layout.preferredWidth: 180
                 Layout.preferredHeight: parent.height
-                color: "#333"
+                color: "#333333"
 
                 Text {
                     anchors.fill: parent
@@ -59,7 +59,7 @@ C.Page {
             Rectangle {
                 Layout.preferredWidth: 180
                 Layout.preferredHeight: parent.height
-                color: "#333"
+                color: "#333333"
 
                 Text {
                     anchors.fill: parent
@@ -69,7 +69,7 @@ C.Page {
                     font.pixelSize: 28
                     font.family: "Roboto Condensed Bold"
                     text: "± %1".arg(Dweller.collections.find(
-                                         a => a.name === "Caps").quantity || 0)
+                                         a => a.name === "Caps")?.quantity ?? 0)
                     color: "white"
                 }
             }
@@ -77,7 +77,7 @@ C.Page {
             Rectangle {
                 Layout.fillWidth: true
                 Layout.preferredHeight: parent.height
-                color: "#333"
+                color: "#333333"
 
                 Text {
                     anchors.fill: parent

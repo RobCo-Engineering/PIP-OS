@@ -1,4 +1,4 @@
-pragma ComponentBehavior
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Effects
@@ -18,7 +18,6 @@ Window {
 
         layer.enabled: true
         layer.effect: MultiEffect {
-            // source: contentRoot
             anchors.fill: parent
 
             colorization: 1
@@ -85,8 +84,9 @@ Window {
 
                 onStatusChanged: {
                     console.log("bootloader status", status)
-                    if (status === Loader.Ready)
-                    appLoader.active = true
+                    if (status === Loader.Ready) {
+                        appLoader.active = true
+                    }
                 }
             }
 
